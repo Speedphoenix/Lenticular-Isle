@@ -112,4 +112,10 @@ import h2d.col.Point;
         [{v: 16},   {v: 4}, {v: 17}],                       // 10
         [{v: 16},   {v: 0, off: {x: 1, y: 1}}, {v: 15}],    // 11
     ];
+    static final UNDERFLOWING_TRIANGLES: Array<Int> = [
+        0, 1, 8,
+    ];
+    static final OVERFLOWING_TRIANGLES: Array<Int> = [
+        2, 6, 7,
+    ];
 }

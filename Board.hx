@@ -57,6 +57,113 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 	}
 }
 
+class ShapeEnt {
+    var kind: Data.ShapeKind;
+    var inf: Data.Shape;
+    var offset: {x: Int, y: Int};
+
+    var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: {x: Int, y: Int}}> = [];
+
+    public function new(kind: Data.ShapeKind, offset) {
+        this.kind = kind;
+        this.offset = {
+            x: offset.x,
+            y: offset.y,
+        };
+        if ((offset.x & 1) != (offset.y & 1))
+            throw 'Invalid offset ${offset.x},${offset.y}';
+        this.inf = Data.shape.get(kind);
+
+        var start = inf.triangles[0];
+        triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: {x: offset.x, y: offset.y}});
+
+        for (i in 1...inf.triangles.length) {
+            var t = inf.triangles[i];
+            var touch = triangles.find(e -> e.id == t.edge1Id || e.id == t.edge2Id || e.id == t.edge3Id);
+            if (touch == null)
+                throw 'Missing previous touching triangle on ${t.id} (wrong triangle order?)';
+            var prevTriangle = Const.BASE_TRIANGLES[touch.triIndex];
+            var sharedPrev = if (touch.id == t.edge1Id) prevTriangle[0];
+                        else if (touch.id == t.edge2Id) prevTriangle[1];
+                        else prevTriangle[2];
+            var newTriangleIdx = Const.BASE_TRIANGLES.findIndex(e -> e != prevTriangle && e.any(edge -> edge.v == sharedPrev.v));
+            var newTriangle = Const.BASE_TRIANGLES[newTriangleIdx];
+            var sharedNew = if (touch.id == t.edge1Id) newTriangle[0];
+                        else if (touch.id == t.edge2Id) newTriangle[1];
+                        else newTriangle[2];
+            var touchOffset = Board.addOffsets(touch.offset, sharedPrev.off);
+            if (sharedNew.off != null) {
+                touchOffset.x -= sharedNew.off.x;
+                touchOffset.y -= sharedNew.off.y;
+            }
+
+            triangles.push({id: t.id, triIndex: newTriangleIdx, offset: touchOffset});
+        }
+    }
+
+    public function draw(g: h2d.Graphics) {
+        for (t in triangles) {
+            var inf = inf.triangles.find(e -> e.id == t.id);
+            var tri = Const.BASE_TRIANGLES[t.triIndex];
+            for (i in 0...3) {
+                var needed = switch (i) {
+                    case 0: inf.edge1Id == null;
+                    case 1: inf.edge2Id == null;
+                    case 2: inf.edge3Id == null;
+                    default: true;
+                }
+                if (needed) {
+                    var offset = t.offset;
+                    if (tri[i].off != null) {
+                        offset = Board.addOffsets(offset, tri[i].off);
+                    }
+                    var edge = Const.BASE_EDGES[tri[i].v];
+                    var a = Const.BASE_VERTICES[edge[0].v].clone();
+                    a.x += edge[0].off.x + offset.x;
+                    a.y += edge[0].off.y + offset.y;
+                    var b = Const.BASE_VERTICES[edge[1].v].clone();
+                    b.x += edge[1].off.x + offset.x;
+                    b.y += edge[1].off.y + offset.y;
+                    Board.drawEdgeRaw(a, b, g);
+                }
+            }
+        }
+    }
+}
+
+class Triangle {
+    var idx: Int;
+    var offset: {x: Int, y: Int};
+
+    public function new(idx, offset) {
+        this.idx = idx;
+        this.offset = {
+            x: offset.x,
+            y: offset.y,
+        };
+        if ((offset.x & 1) != (offset.y & 1))
+            throw 'Invalid offset ${offset.x},${offset.y}';
+    }
+
+    public function draw(g: h2d.Graphics) {
+        var tri = Const.BASE_TRIANGLES[idx];
+        for (i in 0...3) {
+            var offset2 = this.offset;
+            if (tri[i].off != null) {
+                offset2 = Board.addOffsets(offset2, tri[i].off);
+            }
+            var edge = Const.BASE_EDGES[tri[i].v];
+            var a = Const.BASE_VERTICES[edge[0].v].clone();
+            a.x += edge[0].off.x + offset2.x;
+            a.y += edge[0].off.y + offset2.y;
+            var b = Const.BASE_VERTICES[edge[1].v].clone();
+            b.x += edge[1].off.x + offset2.x;
+            b.y += edge[1].off.y + offset2.y;
+            Board.drawEdgeRaw(a, b, g);
+        }
+    }
+}
+
 class Board {
 	public static var inst: Board;
 
@@ -66,6 +173,8 @@ class Board {
 	var gridGraphics : h2d.Graphics;
     var boardObj : SceneObject;
     var boardRoot : h2d.Flow;
+
+    var grid = [];
 
 	public function new() {}
 
@@ -81,78 +190,38 @@ class Board {
 		gridCont = new SceneObject(boardRoot);
 
 		gridGraphics = new h2d.Graphics(gridCont);
+        createGrid();
 		drawGrid(gridGraphics);
 
-        drawShape(2, 4, Data.shape.get(Rectangle12), gridGraphics);
-        drawShape(4, 4, Data.shape.get(Hexagone12), gridGraphics);
-        drawShape(7, 4, Data.shape.get(Star24), gridGraphics);
-        drawShape(12, 4, Data.shape.get(Hexagone36), gridGraphics);
+        drawShape(2, 4, Rectangle12, gridGraphics);
+        drawShape(4, 4, Hexagone12, gridGraphics);
+        drawShape(8, 4, Star24, gridGraphics);
+        drawShape(12, 4, Hexagone36, gridGraphics);
 
 		boardObj = new SceneObject(gridCont);
 		boardObj.dom.addClass("board");
 	}
 
-    inline function addOffsets(a: {x: Int, y: Int}, b: {x: Int, y: Int}) {
+    function createGrid() {
+        for (j in 0...Const.BOARD_HEIGHT) {
+            for (i in 0...Const.BOARD_WIDTH + 1) {
+                var offset = {x: i * 2 - (j & 1), y: j};
+                for (idx in 0...Const.BASE_TRIANGLES.length) {
+                    if (offset.x >= 0 || !Const.UNDERFLOWING_TRIANGLES.has(idx) || Const.OVERFLOWING_TRIANGLES.has(idx))
+                        grid.push(new Triangle(idx, offset));
+                }
+            }
+        }
+    }
+
+    public inline static function addOffsets(a: {x: Int, y: Int}, b: {x: Int, y: Int}) {
         return {x: a.x + b?.x, y: a.y + b?.y};
     }
 
-    function drawShape(x: Int, y: Int, shape: Data.Shape, g: h2d.Graphics) {
-        var arr: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: {x: Int, y: Int}}> = [];
-
-        var start = shape.triangles[0];
-        arr.push({id: start.id, triIndex: shape.firstTriangle, offset: {x: x, y: y}});
-
+    function drawShape(x: Int, y: Int, kind: Data.ShapeKind, g: h2d.Graphics) {
+        var s = new ShapeEnt(kind, {x: x, y: y});
         g.lineStyle(3, 0x00AACC);
-
-        for (i in 1...shape.triangles.length) {
-            var t = shape.triangles[i];
-            var touch = arr.find(e -> e.id == t.edge1Id || e.id == t.edge2Id || e.id == t.edge3Id);
-            if (touch == null)
-                throw 'Missing previous touching triangle on ${t.id} (wrong triangle order?)';
-            var prevTriangle = Const.BASE_TRIANGLES[touch.triIndex];
-            var sharedPrev = if (touch.id == t.edge1Id) prevTriangle[0];
-                        else if (touch.id == t.edge2Id) prevTriangle[1];
-                        else prevTriangle[2];
-            var newTriangleIdx = Const.BASE_TRIANGLES.findIndex(e -> e != prevTriangle && e.any(edge -> edge.v == sharedPrev.v));
-            var newTriangle = Const.BASE_TRIANGLES[newTriangleIdx];
-            var sharedNew = if (touch.id == t.edge1Id) newTriangle[0];
-                        else if (touch.id == t.edge2Id) newTriangle[1];
-                        else newTriangle[2];
-            var touchOffset = addOffsets(touch.offset, sharedPrev.off);
-            if (sharedNew.off != null) {
-                touchOffset.x -= sharedNew.off.x;
-                touchOffset.y -= sharedNew.off.y;
-            }
-
-            arr.push({id: t.id, triIndex: newTriangleIdx, offset: touchOffset});
-        }
-
-        for (t in arr) {
-            var inf = shape.triangles.find(e -> e.id == t.id);
-            var tri = Const.BASE_TRIANGLES[t.triIndex];
-            for (i in 0...3) {
-                var needed = switch (i) {
-                    case 0: inf.edge1Id == null;
-                    case 1: inf.edge2Id == null;
-                    case 2: inf.edge3Id == null;
-                    default: true;
-                }
-                if (needed) {
-                    var offset = t.offset;
-                    if (tri[i].off != null) {
-                        offset = addOffsets(offset, tri[i].off);
-                    }
-                    var edge = Const.BASE_EDGES[tri[i].v];
-                    var a = Const.BASE_VERTICES[edge[0].v].clone();
-                    a.x += edge[0].off.x + offset.x;
-                    a.y += edge[0].off.y + offset.y;
-                    var b = Const.BASE_VERTICES[edge[1].v].clone();
-                    b.x += edge[1].off.x + offset.x;
-                    b.y += edge[1].off.y + offset.y;
-                    drawEdgeRaw(a, b, g);
-                }
-            }
-        }
+        s.draw(g);
         g.lineStyle();
     }
 
@@ -166,16 +235,12 @@ class Board {
 		g.lineTo(Const.BOARD_FULL_WIDTH, 0);
 		g.lineTo(0, 0);
 
-		g.lineStyle(1, 0x222222);
-        for (j in 0...Const.BOARD_HEIGHT) {
-            for (i in 0...Const.BOARD_WIDTH) {
-                var num = j * Const.BOARD_WIDTH + i;
-                var offset = {x: i * 2 + (j & 1), y: j};
-                drawLargeTriangle(offset.x, offset.y, g);
-                drawLargeTriangleRev(offset.x, offset.y, g);
+		g.lineStyle(1, 0x000000);
 
-            }
+        for (t in grid) {
+            t.draw(g);
         }
+
         #if debug
         for (j in 0...Const.BOARD_HEIGHT) {
             for (i in 0...Const.BOARD_WIDTH) {
@@ -224,17 +289,17 @@ class Board {
         drawLargeTriangleRaw(a, b, c, g);
     }
 
-    inline function drawTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
+    public inline static function drawTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
         drawEdgeRaw(a, b, g);
         drawEdgeRaw(b, c, g);
         drawEdgeRaw(c, a, g);
     }
-    inline function drawEdgeRaw(a: Point, b: Point, g: h2d.Graphics) {
+    public inline static function drawEdgeRaw(a: Point, b: Point, g: h2d.Graphics) {
         g.moveTo(a.x * Const.HEX_SIDE, a.y * Const.HEX_HEIGHT);
         g.lineTo(b.x * Const.HEX_SIDE, b.y * Const.HEX_HEIGHT);
     }
 
-    inline function drawLargeTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
+    public inline static function drawLargeTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
         drawTriangleRaw(a, b, c, g);
 
         g.lineStyle(1, 0xCC0000);
