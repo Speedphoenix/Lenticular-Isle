@@ -62,10 +62,18 @@ class EntityEnt {
     public var kind(default, set): Data.EntityKind;
     public var inf: Data.Entity;
     public var shape: ShapeEnt;
+    public var shapePreview: ShapeEnt = null;
     public var x(default, set): Int;
     public var y(default, set): Int;
 
     var hoverGraphic: h2d.Graphics;
+    var previewGraphic: h2d.Graphics;
+    var debGraphic: h2d.Graphics;
+
+    public var isSelected(get, never): Bool;
+    function get_isSelected() {
+        return Board.inst.currentSelect == this;
+    }
 
     function set_kind(k) {
         inf = Data.entity.get(k);
@@ -88,6 +96,8 @@ class EntityEnt {
         this.kind = kind;
         shape = new ShapeEnt(inf.shapes[0].refId, x, y);
         hoverGraphic = new h2d.Graphics(Board.inst.gridCont);
+        previewGraphic = new h2d.Graphics(Board.inst.gridCont);
+        debGraphic = new h2d.Graphics(Board.inst.gridCont);
     }
 
     public function update(dt: Float) {
@@ -98,17 +108,109 @@ class EntityEnt {
 
         if (shape.contains(mousePos)) {
             shape.draw(hoverGraphic);
+            // shape.drawColliders(hoverGraphic);
             if (K.isPressed(K.MOUSE_LEFT)) {
                 Board.inst.onSelect(this);
+                return;
             }
         }
         hoverGraphic.lineStyle();
+
+        function dontinline(a: Dynamic) {}
+
+        previewGraphic.clear();
+        debGraphic.clear();
+        if (isSelected) {
+            if (shapePreview == null)
+                shapePreview = new ShapeEnt(inf.shapes[0].refId, x, y);
+
+            var verts = Const.getVertexOffsets(shape.inf.firstTriangle);
+            var center = verts[0].add(verts[1]).add(verts[2]).multiply(1 / 3);
+            center.x *= Const.HEX_SIDE;
+            center.y *= Const.HEX_HEIGHT;
+
+            var offsetToOffset = center.add(mousePos);
+            var mouseOffset = new IPoint(Math.round(offsetToOffset.x / Const.HEX_SIDE), Math.round(offsetToOffset.y / Const.HEX_HEIGHT));
+            if ((mouseOffset.x & 1) != (mouseOffset.y & 1)) {
+                mouseOffset.x--;
+            }
+            dontinline(mouseOffset);
+            dontinline(center);
+            dontinline(offsetToOffset);
+
+            var nearOffsets = [
+                new IPoint(mouseOffset.x, mouseOffset.y),
+                new IPoint(mouseOffset.x - 2, mouseOffset.y),
+                new IPoint(mouseOffset.x + 2, mouseOffset.y),
+                new IPoint(mouseOffset.x - 1, mouseOffset.y - 1),
+                new IPoint(mouseOffset.x + 1, mouseOffset.y + 1),
+                new IPoint(mouseOffset.x + 1, mouseOffset.y - 1),
+                new IPoint(mouseOffset.x - 1, mouseOffset.y + 1),
+
+                new IPoint(mouseOffset.x - 4, mouseOffset.y),
+                new IPoint(mouseOffset.x - 2, mouseOffset.y - 2),
+                new IPoint(mouseOffset.x - 2, mouseOffset.y + 2),
+                new IPoint(mouseOffset.x - 4, mouseOffset.y - 2),
+                new IPoint(mouseOffset.x - 3, mouseOffset.y - 1),
+                new IPoint(mouseOffset.x + 3, mouseOffset.y - 1),
+            ];
+            var nearest: {shape: Int, offset: IPoint, distSq: Float} = null;
+            dontinline(nearest);
+
+            for (i in 0...inf.shapes.length) {
+                #if debug
+                switch(i) {
+                    case 0:
+                        debGraphic.lineStyle(2, 0x9A1FD3);
+                    case 1:
+                        debGraphic.lineStyle(2, 0xD31F1F);
+                    case 2:
+                        debGraphic.lineStyle(2, 0xD39A1F);
+                    default:
+                }
+                #end
+                var verts = Const.getVertexOffsets(inf.shapes[i].ref.firstTriangle);
+                var center = verts[0].add(verts[1]).add(verts[2]).multiply(1 / 3);
+                for (o in nearOffsets) {
+                    var c = center.add(o.toPoint());
+                    dontinline(c);
+                    c.x *= Const.HEX_SIDE;
+                    c.y *= Const.HEX_HEIGHT;
+                    #if debug
+                    debGraphic.drawCircle(c.x, c.y, 5);
+                    #end
+                    var d = c.distanceSq(mousePos);
+                    if (nearest == null || nearest.distSq > d) {
+                        nearest = {
+                            shape: i,
+                            offset: o,
+                            distSq: d,
+                        };
+                    }
+                }
+            }
+
+            shapePreview.kind = inf.shapes[nearest.shape].refId;
+            if (nearest.offset.x != x || nearest.offset.y != y) {
+                if (K.isPressed(K.MOUSE_LEFT)) {
+                    this.x = nearest.offset.x;
+                    this.y = nearest.offset.y;
+                    shape.kind = inf.shapes[nearest.shape].refId;
+                    Board.inst.onSelect(null);
+                } else {
+                    shapePreview.x = nearest.offset.x;
+                    shapePreview.y = nearest.offset.y;
+                    hoverGraphic.lineStyle(2, 0x1FD346);
+                    shapePreview.draw(hoverGraphic);
+                }
+            }
+        }
     }
 }
 
 class ShapeEnt {
-    var kind(default, set): Data.ShapeKind;
-    var inf: Data.Shape;
+    public var kind(default, set): Data.ShapeKind;
+    public var inf: Data.Shape;
     public var x: Int;
     public var y: Int;
 
@@ -117,7 +219,10 @@ class ShapeEnt {
     var colliders: Array<h2d.col.Polygon> = [];
 
     function set_kind(k) {
-        inf = Data.shape.get(k);
+        if (k != kind) {
+            inf = Data.shape.get(k);
+            initTriangles();
+        }
         return this.kind = k;
     }
 
@@ -128,10 +233,14 @@ class ShapeEnt {
         if ((x & 1) != (y & 1))
             throw 'Invalid offset ${x},${y}';
         this.kind = kind;
+    }
 
+    public function initTriangles() {
+        triangles.clear();
+        colliders.clear();
         var start = inf.triangles[0];
-        triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: new IPoint(x, y)});
-        colliders.push(Triangle.getCollider(inf.firstTriangle, new IPoint(x, y)));
+        triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: new IPoint(0, 0)});
+        colliders.push(Triangle.getCollider(inf.firstTriangle, new IPoint(0, 0)));
 
         for (i in 1...inf.triangles.length) {
             var t = inf.triangles[i];
@@ -162,7 +271,7 @@ class ShapeEnt {
     public function draw(g: h2d.Graphics) {
         for (t in triangles) {
             var inf = inf.triangles.find(e -> e.id == t.id);
-            var tri = Const.BASE_TRIANGLES[t.triIndex];
+            var edges = Const.getEdges(t.triIndex);
             for (i in 0...3) {
                 var needed = switch (i) {
                     case 0: inf.edge1Id == null;
@@ -171,20 +280,18 @@ class ShapeEnt {
                     default: true;
                 }
                 if (needed) {
-                    var offset = t.offset;
-                    if (tri[i].off != null) {
-                        offset = offset.add(tri[i].off);
-                    }
-                    var edge = Const.BASE_EDGES[tri[i].v];
-                    var a = Const.BASE_VERTICES[edge[0].v].clone();
-                    a.x += edge[0].off.x + offset.x;
-                    a.y += edge[0].off.y + offset.y;
-                    var b = Const.BASE_VERTICES[edge[1].v].clone();
-                    b.x += edge[1].off.x + offset.x;
-                    b.y += edge[1].off.y + offset.y;
-                    Board.drawEdgeRaw(a, b, g);
+                    var offset = new Point(this.x + t.offset.x, this.y + t.offset.y);
+                    Board.drawEdgeRaw(edges[i].a.add(offset), edges[i].b.add(offset), g);
                 }
             }
+        }
+    }
+    public function drawDebug(g: h2d.Graphics) {
+        var t = triangles[0];
+        var edges = Const.getEdges(t.triIndex);
+        for (i in 0...3) {
+            var offset = new Point(this.x + t.offset.x, this.y + t.offset.y);
+            Board.drawEdgeRaw(edges[i].a.add(offset), edges[i].b.add(offset), g);
         }
     }
     public function drawColliders(g: h2d.Graphics) {
@@ -197,7 +304,10 @@ class ShapeEnt {
     }
 
     public function contains(p: Point) {
-        return colliders.any(c -> c.contains(p));
+        var actual = p.clone();
+        actual.x -= x * Const.HEX_SIDE;
+        actual.y -= y * Const.HEX_HEIGHT;
+        return colliders.any(c -> c.contains(actual));
     }
 }
 
@@ -213,54 +323,27 @@ class Triangle {
     }
 
     public function draw(g: h2d.Graphics) {
-        var tri = Const.BASE_TRIANGLES[idx];
-        for (i in 0...3) {
-            if (Board.inst.currentSelect != null && !Board.inst.currentSelect.inf.selectionEdges.any(e -> e.idx == tri[i].v))
+        var edges = Const.getEdges(idx);
+
+        for (e in edges) {
+            if (Board.inst.currentSelect != null && !Board.inst.currentSelect.inf.selectionEdges.any(e2 -> e2.idx == e.idx))
                 continue;
 
-            var offset2 = this.offset;
-            if (tri[i].off != null) {
-                offset2 = offset2.add(tri[i].off);
-            }
-            var edge = Const.BASE_EDGES[tri[i].v];
-            var a = Const.BASE_VERTICES[edge[0].v].clone();
-            a.x += edge[0].off.x + offset2.x;
-            a.y += edge[0].off.y + offset2.y;
-            var b = Const.BASE_VERTICES[edge[1].v].clone();
-            b.x += edge[1].off.x + offset2.x;
-            b.y += edge[1].off.y + offset2.y;
-            Board.drawEdgeRaw(a, b, g);
+            Board.drawEdgeRaw(e.a.add(offset.toPoint()), e.b.add(offset.toPoint()), g);
         }
     }
 
     public inline static function getCollider(idx, offset: IPoint) {
-        var tri = Const.BASE_TRIANGLES[idx];
-        var ret = [];
-        var firstEdge = Const.BASE_EDGES[tri[0].v];
+        var verts = Const.getVertexOffsets(idx);
 
-        var a = Const.BASE_VERTICES[firstEdge[0].v].clone();
-        a.x += firstEdge[0].off.x + offset.x;
-        a.y += firstEdge[0].off.y + offset.y;
-        ret.push(a);
-        var b = Const.BASE_VERTICES[firstEdge[1].v].clone();
-        b.x += firstEdge[1].off.x + offset.x;
-        b.y += firstEdge[1].off.y + offset.y;
-        ret.push(b);
+        for (v in verts) {
+            v.x += offset.x;
+            v.y += offset.y;
 
-        var otherEdge = Const.BASE_EDGES[tri[2].v];
-        var vert = otherEdge.find(v -> v.v != firstEdge[0].v && v.v != firstEdge[1].v);
-
-        var c = Const.BASE_VERTICES[vert.v].clone();
-        c.x += vert.off.x + offset.x;
-        c.y += vert.off.y + offset.y;
-        ret.push(c);
-
-        for (p in ret) {
-            p.x *= Const.HEX_SIDE;
-            p.y *= Const.HEX_HEIGHT;
+            v.x *= Const.HEX_SIDE;
+            v.y *= Const.HEX_HEIGHT;
         }
-
-        return ret;
+        return verts;
     }
 }
 
@@ -273,11 +356,11 @@ class Board {
 	var gridGraphics : h2d.Graphics;
 	var entityGraphics : h2d.Graphics;
     var selectGraphic: h2d.Graphics;
+    var debugGraphic: h2d.Graphics;
     var boardObj : SceneObject;
     var boardRoot : h2d.Flow;
     var window: hxd.Window;
 
-    // var shapes: Array<ShapeEnt> = [];
     var entities: Array<EntityEnt> = [];
 
     public var currentSelect: EntityEnt = null;
@@ -300,6 +383,7 @@ class Board {
 		gridGraphics = new h2d.Graphics(gridCont);
         selectGraphic = new h2d.Graphics(gridCont);
         entityGraphics = new h2d.Graphics(gridCont);
+        debugGraphic = new h2d.Graphics(gridCont);
         createGrid();
 		drawGrid(gridGraphics);
 
@@ -312,11 +396,6 @@ class Board {
             new EntityEnt(Obstacle_Rectangle6, 0, 4),
             new EntityEnt(Obstacle_Rectangle6, 0, 6),
         ];
-        entityGraphics.lineStyle(3, 0x00AACC);
-        for (e in entities) {
-            e.shape.draw(entityGraphics);
-        }
-        gridGraphics.lineStyle();
 
 		boardObj = new SceneObject(gridCont);
 		boardObj.dom.addClass("board");
@@ -336,8 +415,21 @@ class Board {
 
     var prevSelect = null;
     public function update(dt: Float) {
-        var mousePos = new Point(window.mouseX, window.mouseY);
-        if (K.isPressed(K.MOUSE_LEFT))
+        debugGraphic.clear();
+        debugGraphic.lineStyle(1, 0xFF0000);
+
+        entityGraphics.clear();
+        entityGraphics.lineStyle(3, 0x00AACC);
+        for (e in entities) {
+            e.shape.draw(entityGraphics);
+            #if debug
+            e.shape.drawDebug(debugGraphic);
+            #end
+        }
+        gridGraphics.lineStyle();
+
+
+        if (K.isPressed(K.ESCAPE) || K.isPressed(K.MOUSE_RIGHT))
             onSelect(null);
 
         for (e in entities)
@@ -373,45 +465,11 @@ class Board {
         if (currentSelect != null)
     		g.lineStyle(2, 0x000000);
         else
-            g.lineStyle(0, 0x000000);
+            g.lineStyle(#if debug 1 #else 0 #end, 0x000000);
 
         for (t in grid) {
             t.draw(g);
         }
-
-        #if debug
-        for (j in 0...Const.BOARD_HEIGHT) {
-            for (i in 0...Const.BOARD_WIDTH) {
-                var num = j * Const.BOARD_WIDTH + i;
-                var offset = {x: i * 2 + (j & 1), y: j};
-                if (num < Const.BASE_TRIANGLES.length) {
-                    var col = num % 2 == 0 ? 0xffff00 : 0xf3b8b8;
-                    g.lineStyle(1, col);
-
-                    var tri = Const.BASE_TRIANGLES[num];
-                    var text = new h2d.Text(Main.font, gridCont);
-                    text.text = "" + num;
-                    text.x = offset.x * Const.HEX_SIDE + 15;
-                    text.y = offset.y * Const.HEX_HEIGHT;
-                    text.textColor = col;
-                    for (i in 0...3) {
-                        var offset2 = offset;
-                        if (tri[i].off != null) {
-                            offset2 = addOffsets(offset2, tri[i].off);
-                        }
-                        var edge = Const.BASE_EDGES[tri[i].v];
-                        var a = Const.BASE_VERTICES[edge[0].v].clone();
-                        a.x += edge[0].off.x + offset2.x;
-                        a.y += edge[0].off.y + offset2.y;
-                        var b = Const.BASE_VERTICES[edge[1].v].clone();
-                        b.x += edge[1].off.x + offset2.x;
-                        b.y += edge[1].off.y + offset2.y;
-                        drawEdgeRaw(a, b, g);
-                    }
-                }
-            }
-        }
-        #end
 		g.lineStyle();
 	}
     function drawLargeTriangle(i, j, g: h2d.Graphics) {

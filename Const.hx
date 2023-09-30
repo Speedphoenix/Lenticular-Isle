@@ -1,5 +1,6 @@
 import h2d.col.Point;
 import h2d.col.IPoint;
+using Extensions;
 
 @:publicFields class Const {
 
@@ -119,4 +120,39 @@ import h2d.col.IPoint;
     static final OVERFLOWING_TRIANGLES: Array<Int> = [
         2, 6, 7,
     ];
+
+    static inline function getEdges(idx) {
+        var ret = [];
+        var tri = BASE_TRIANGLES[idx];
+        for (i in 0...3) {
+            var offset2 = new IPoint(0, 0);
+            if (tri[i].off != null) {
+                offset2 = offset2.add(tri[i].off);
+            }
+            var edge = BASE_EDGES[tri[i].v];
+            var a = BASE_VERTICES[edge[0].v].clone();
+            a.x += edge[0].off.x + offset2.x;
+            a.y += edge[0].off.y + offset2.y;
+            var b = BASE_VERTICES[edge[1].v].clone();
+            b.x += edge[1].off.x + offset2.x;
+            b.y += edge[1].off.y + offset2.y;
+            ret.push({a: a, b: b, idx: tri[i].v});
+        }
+        return ret;
+    }
+
+    static inline function getVertexOffsets(idx) {
+        var edges = getEdges(idx);
+        var ret = [];
+        ret.push(edges[0].a);
+        ret.push(edges[0].b);
+
+        var tri = BASE_TRIANGLES[idx];
+        var firstEdge = BASE_EDGES[tri[0].v];
+        var otherEdge = BASE_EDGES[tri[1].v];
+        var vert = otherEdge.findIndex(v -> v.v != firstEdge[0].v && v.v != firstEdge[1].v);
+        ret.push(vert == 0 ? edges[1].a : edges[1].b);
+
+        return ret;
+    }
 }
