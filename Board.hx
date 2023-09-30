@@ -60,22 +60,22 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 class ShapeEnt {
     var kind: Data.ShapeKind;
     var inf: Data.Shape;
-    var offset: {x: Int, y: Int};
+    var x: Int;
+    var y: Int;
 
     var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: {x: Int, y: Int}}> = [];
 
-    public function new(kind: Data.ShapeKind, offset) {
+    public function new(kind: Data.ShapeKind, x: Int, y: Int) {
         this.kind = kind;
-        this.offset = {
-            x: offset.x,
-            y: offset.y,
-        };
-        if ((offset.x & 1) != (offset.y & 1))
-            throw 'Invalid offset ${offset.x},${offset.y}';
+        this.x = x;
+        this.y = y;
+
+        if ((x & 1) != (y & 1))
+            throw 'Invalid offset ${x},${y}';
         this.inf = Data.shape.get(kind);
 
         var start = inf.triangles[0];
-        triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: {x: offset.x, y: offset.y}});
+        triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: {x: x, y: y}});
 
         for (i in 1...inf.triangles.length) {
             var t = inf.triangles[i];
@@ -174,6 +174,8 @@ class Board {
     var boardObj : SceneObject;
     var boardRoot : h2d.Flow;
 
+    var shapes: Array<ShapeEnt> = [];
+
     var grid = [];
 
 	public function new() {}
@@ -193,17 +195,24 @@ class Board {
         createGrid();
 		drawGrid(gridGraphics);
 
-        drawShape(2, 4, Rectangle12_A, gridGraphics);
-        drawShape(2, 6, Rectangle12_B, gridGraphics);
-        drawShape(4, 0, Triangle6_A, gridGraphics);
-        drawShape(4, 4, Triangle6_B, gridGraphics);
-        drawShape(4, 2, Hexagone12_A, gridGraphics);
-        drawShape(4, 6, Hexagone12_B, gridGraphics);
-        drawShape(8, 8, Hexagone12_C, gridGraphics);
-        drawShape(8, 4, Star24_C, gridGraphics);
-        drawShape(12, 4, Hexagone36, gridGraphics);
-        drawShape(8, 2, Losange4_C, gridGraphics);
-        drawShape(12, 2, Losange16_C, gridGraphics);
+        shapes = [
+            new ShapeEnt(Rectangle12_A, 2, 4),
+            new ShapeEnt(Rectangle12_B, 2, 6),
+            new ShapeEnt(Triangle6_A, 4, 0),
+            new ShapeEnt(Triangle6_B, 4, 4),
+            new ShapeEnt(Hexagone12_A, 4, 2),
+            new ShapeEnt(Hexagone12_B, 4, 6),
+            new ShapeEnt(Hexagone12_C, 8, 8),
+            new ShapeEnt(Star24_C, 8, 4),
+            new ShapeEnt(Hexagone36, 12, 4),
+            new ShapeEnt(Losange4_C, 8, 2),
+            new ShapeEnt(Losange16_C, 12, 2),
+        ];
+        gridGraphics.lineStyle(3, 0x00AACC);
+        for (s in shapes) {
+            s.draw(gridGraphics);
+        }
+        gridGraphics.lineStyle();
 
 		boardObj = new SceneObject(gridCont);
 		boardObj.dom.addClass("board");
@@ -223,13 +232,6 @@ class Board {
 
     public inline static function addOffsets(a: {x: Int, y: Int}, b: {x: Int, y: Int}) {
         return {x: a.x + b?.x, y: a.y + b?.y};
-    }
-
-    function drawShape(x: Int, y: Int, kind: Data.ShapeKind, g: h2d.Graphics) {
-        var s = new ShapeEnt(kind, {x: x, y: y});
-        g.lineStyle(3, 0x00AACC);
-        s.draw(g);
-        g.lineStyle();
     }
 
 	function drawGrid(g: h2d.Graphics) {
