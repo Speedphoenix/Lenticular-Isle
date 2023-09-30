@@ -1,5 +1,6 @@
 import hxd.Key as K;
 import h2d.col.Point;
+import h2d.col.IPoint;
 using Extensions;
 using Const;
 using Main;
@@ -13,12 +14,12 @@ class SceneObject extends h2d.Object implements h2d.domkit.Object {
 
 @:uiComp("board-ui")
 class BoardUi extends h2d.Flow implements h2d.domkit.Object {
+    // spacing={{x: 10, y: 0}}
+    // offset-x={50}
+    // offset-y={50}
     static var SRC = <board-ui
 		content-halign={h2d.Flow.FlowAlign.Middle}
 		content-valign={h2d.Flow.FlowAlign.Top}
-		spacing={{x: 10, y: 0}}
-        offset-x={50}
-        offset-y={50}
 	>
 		<flow class="left-cont"
 			margin-top={topMargin}
@@ -63,7 +64,9 @@ class ShapeEnt {
     var x: Int;
     var y: Int;
 
-    var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: {x: Int, y: Int}}> = [];
+    var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: IPoint}> = [];
+
+    var colliders: Array<h2d.col.Polygon> = [];
 
     public function new(kind: Data.ShapeKind, x: Int, y: Int) {
         this.kind = kind;
@@ -75,7 +78,8 @@ class ShapeEnt {
         this.inf = Data.shape.get(kind);
 
         var start = inf.triangles[0];
-        triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: {x: x, y: y}});
+        triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: new IPoint(x, y)});
+        colliders.push(Triangle.getCollider(inf.firstTriangle, new IPoint(x, y)));
 
         for (i in 1...inf.triangles.length) {
             var t = inf.triangles[i];
@@ -91,13 +95,15 @@ class ShapeEnt {
             var sharedNew = if (touch.id == t.edge1Id) newTriangle[0];
                         else if (touch.id == t.edge2Id) newTriangle[1];
                         else newTriangle[2];
-            var touchOffset = Board.addOffsets(touch.offset, sharedPrev.off);
+            var touchOffset = touch.offset.clone();
+            if (sharedPrev.off != null)
+                touchOffset = touchOffset.add(sharedPrev.off);
             if (sharedNew.off != null) {
-                touchOffset.x -= sharedNew.off.x;
-                touchOffset.y -= sharedNew.off.y;
+                touchOffset = touchOffset.sub(sharedNew.off);
             }
 
             triangles.push({id: t.id, triIndex: newTriangleIdx, offset: touchOffset});
+            colliders.push(Triangle.getCollider(newTriangleIdx, touchOffset));
         }
     }
 
@@ -115,7 +121,7 @@ class ShapeEnt {
                 if (needed) {
                     var offset = t.offset;
                     if (tri[i].off != null) {
-                        offset = Board.addOffsets(offset, tri[i].off);
+                        offset = offset.add(tri[i].off);
                     }
                     var edge = Const.BASE_EDGES[tri[i].v];
                     var a = Const.BASE_VERTICES[edge[0].v].clone();
@@ -129,18 +135,27 @@ class ShapeEnt {
             }
         }
     }
+    public function drawColliders(g: h2d.Graphics) {
+        for (c in colliders) {
+            for (i in 0...c.length) {
+                g.moveTo(c[i].x, c[i].y);
+                g.lineTo(c[(i+1) % c.length].x, c[(i+1) % c.length].y);
+            }
+        }
+    }
+
+    public function contains(p: Point) {
+        return colliders.any(c -> c.contains(p));
+    }
 }
 
 class Triangle {
     var idx: Int;
-    var offset: {x: Int, y: Int};
+    var offset: IPoint;
 
-    public function new(idx, offset) {
+    public function new(idx, offset: IPoint) {
         this.idx = idx;
-        this.offset = {
-            x: offset.x,
-            y: offset.y,
-        };
+        this.offset = offset.clone();
         if ((offset.x & 1) != (offset.y & 1))
             throw 'Invalid offset ${offset.x},${offset.y}';
     }
@@ -150,7 +165,7 @@ class Triangle {
         for (i in 0...3) {
             var offset2 = this.offset;
             if (tri[i].off != null) {
-                offset2 = Board.addOffsets(offset2, tri[i].off);
+                offset2 = offset2.add(tri[i].off);
             }
             var edge = Const.BASE_EDGES[tri[i].v];
             var a = Const.BASE_VERTICES[edge[0].v].clone();
@@ -162,6 +177,36 @@ class Triangle {
             Board.drawEdgeRaw(a, b, g);
         }
     }
+
+    public inline static function getCollider(idx, offset: IPoint) {
+        var tri = Const.BASE_TRIANGLES[idx];
+        var ret = [];
+        var firstEdge = Const.BASE_EDGES[tri[0].v];
+
+        var a = Const.BASE_VERTICES[firstEdge[0].v].clone();
+        a.x += firstEdge[0].off.x + offset.x;
+        a.y += firstEdge[0].off.y + offset.y;
+        ret.push(a);
+        var b = Const.BASE_VERTICES[firstEdge[1].v].clone();
+        b.x += firstEdge[1].off.x + offset.x;
+        b.y += firstEdge[1].off.y + offset.y;
+        ret.push(b);
+
+        var otherEdge = Const.BASE_EDGES[tri[2].v];
+        var vert = otherEdge.find(v -> v.v != firstEdge[0].v && v.v != firstEdge[1].v);
+
+        var c = Const.BASE_VERTICES[vert.v].clone();
+        c.x += vert.off.x + offset.x;
+        c.y += vert.off.y + offset.y;
+        ret.push(c);
+
+        for (p in ret) {
+            p.x *= Const.HEX_SIDE;
+            p.y *= Const.HEX_HEIGHT;
+        }
+
+        return ret;
+    }
 }
 
 class Board {
@@ -171,8 +216,11 @@ class Board {
 
 	public var gridCont : SceneObject;
 	var gridGraphics : h2d.Graphics;
+    var hoverGraphic: h2d.Graphics;
+    var selectGraphic: h2d.Graphics;
     var boardObj : SceneObject;
     var boardRoot : h2d.Flow;
+    var window: hxd.Window;
 
     var shapes: Array<ShapeEnt> = [];
 
@@ -182,7 +230,7 @@ class Board {
 
     public function init(root: h2d.Object) {
 		inst = this;
-
+        window = hxd.Window.getInstance();
         fullUi = new BoardUi(root);
 
         boardRoot = new h2d.Flow(fullUi.boardCont);
@@ -192,6 +240,8 @@ class Board {
 		gridCont = new SceneObject(boardRoot);
 
 		gridGraphics = new h2d.Graphics(gridCont);
+        selectGraphic = new h2d.Graphics(gridCont);
+        hoverGraphic = new h2d.Graphics(gridCont);
         createGrid();
 		drawGrid(gridGraphics);
 
@@ -221,7 +271,7 @@ class Board {
     function createGrid() {
         for (j in 0...Const.BOARD_HEIGHT) {
             for (i in 0...Const.BOARD_WIDTH + 1) {
-                var offset = {x: i * 2 - (j & 1), y: j};
+                var offset = new IPoint(i * 2 - (j & 1), j);
                 for (idx in 0...Const.BASE_TRIANGLES.length) {
                     if (offset.x >= 0 || !Const.UNDERFLOWING_TRIANGLES.has(idx) || Const.OVERFLOWING_TRIANGLES.has(idx))
                         grid.push(new Triangle(idx, offset));
@@ -230,8 +280,16 @@ class Board {
         }
     }
 
-    public inline static function addOffsets(a: {x: Int, y: Int}, b: {x: Int, y: Int}) {
-        return {x: a.x + b?.x, y: a.y + b?.y};
+    public function update(dt: Float) {
+        var mousePos = new Point(window.mouseX, window.mouseY);
+        selectGraphic.clear();
+        selectGraphic.lineStyle(4, 0x1FD346);
+
+        for (s in shapes) {
+            if (s.contains(mousePos))
+                s.draw(selectGraphic);
+        }
+        selectGraphic.lineStyle();
     }
 
 	function drawGrid(g: h2d.Graphics) {

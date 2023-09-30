@@ -169,6 +169,7 @@ class Main extends hxd.App {
 	}
 	override function update(dt:Float) {
 		super.update(dt);
+		board.update(dt);
 	}
 	override function onResize() {
 		super.onResize();
