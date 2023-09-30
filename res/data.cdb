@@ -56,6 +56,78 @@
 					"firstTriangle": 10
 				},
 				{
+					"id": "Rectangle6_A",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "Ab",
+							"edge2": "B",
+							"edge3": "D"
+						},
+						{
+							"id": "B",
+							"edge2": "A",
+							"edge3": "C"
+						},
+						{
+							"id": "C",
+							"edge1": "Cb",
+							"edge3": "B",
+							"edge2": "D"
+						},
+						{
+							"id": "D",
+							"edge2": "C",
+							"edge3": "A"
+						},
+						{
+							"id": "Ab",
+							"edge1": "A"
+						},
+						{
+							"id": "Cb",
+							"edge1": "C"
+						}
+					],
+					"firstTriangle": 4
+				},
+				{
+					"id": "Rectangle6_B",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "Ab",
+							"edge2": "B",
+							"edge3": "D"
+						},
+						{
+							"id": "B",
+							"edge2": "A",
+							"edge3": "C"
+						},
+						{
+							"id": "C",
+							"edge1": "Cb",
+							"edge3": "B",
+							"edge2": "D"
+						},
+						{
+							"id": "D",
+							"edge2": "C",
+							"edge3": "A"
+						},
+						{
+							"id": "Ab",
+							"edge1": "A"
+						},
+						{
+							"id": "Cb",
+							"edge1": "C"
+						}
+					],
+					"firstTriangle": 7
+				},
+				{
 					"id": "Rectangle12_A",
 					"triangles": [
 						{
@@ -1228,9 +1300,163 @@
 							"idx": 15
 						}
 					]
+				},
+				{
+					"id": "Hexachad",
+					"shapes": [
+						{
+							"ref": "Hexagone36"
+						}
+					],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 2
+						},
+						{
+							"idx": 3
+						},
+						{
+							"idx": 4
+						},
+						{
+							"idx": 5
+						}
+					]
+				},
+				{
+					"id": "Lozecannon",
+					"shapes": [
+						{
+							"ref": "Losange16_A"
+						},
+						{
+							"ref": "Losange16_B"
+						},
+						{
+							"ref": "Losange16_C"
+						}
+					],
+					"selectionEdges": [
+						{
+							"idx": 6
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					]
+				},
+				{
+					"id": "Slime",
+					"shapes": [
+						{
+							"ref": "Hexagone12_A"
+						},
+						{
+							"ref": "Hexagone12_B"
+						},
+						{
+							"ref": "Hexagone12_C"
+						}
+					],
+					"selectionEdges": [
+						{
+							"idx": 6
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 15
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					]
+				},
+				{
+					"id": "Obstacle_Hexa36",
+					"shapes": [
+						{
+							"ref": "Hexagone36"
+						}
+					],
+					"selectionEdges": []
+				},
+				{
+					"id": "Obstacle_Rectangle6",
+					"shapes": [
+						{
+							"ref": "Rectangle6_A"
+						},
+						{
+							"ref": "Rectangle6_B"
+						}
+					],
+					"selectionEdges": []
 				}
 			],
-			"separators": [],
+			"separators": [
+				{
+					"title": "PlayerCharacters",
+					"id": "Wrecktangle"
+				},
+				{
+					"title": "Enemies",
+					"id": "Slime"
+				},
+				{
+					"title": "Obstacle",
+					"id": "Obstacle_Hexa36"
+				}
+			],
 			"props": {}
 		},
 		{

@@ -305,6 +305,12 @@ class Board {
 
         entities = [
             new EntityEnt(Wrecktangle, 2, 6),
+            new EntityEnt(Hexachad, 9, 3),
+            new EntityEnt(Lozecannon, 15, 5),
+            new EntityEnt(Slime, 12, 6),
+            new EntityEnt(Obstacle_Rectangle6, 0, 2),
+            new EntityEnt(Obstacle_Rectangle6, 0, 4),
+            new EntityEnt(Obstacle_Rectangle6, 0, 6),
         ];
         entityGraphics.lineStyle(3, 0x00AACC);
         for (e in entities) {
@@ -367,7 +373,7 @@ class Board {
         if (currentSelect != null)
     		g.lineStyle(2, 0x000000);
         else
-            g.lineStyle(1, 0x000000);
+            g.lineStyle(0, 0x000000);
 
         for (t in grid) {
             t.draw(g);
