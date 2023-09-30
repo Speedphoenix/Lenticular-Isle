@@ -1,12 +1,18 @@
 import h2d.col.Point;
 
 @:publicFields class Const {
+
+    static final TITLE = "Triangle assault";
+
     static final SQRT_3 = 1.73205080757;
 
     static final HEX_SIDE = 50;
     static final HEX_HEIGHT = HEX_SIDE * SQRT_3;
-    static final BOARD_WIDTH = 20;
-	static final BOARD_HEIGHT = 10;
+    static final BOARD_WIDTH = 10;
+	static final BOARD_HEIGHT = 12;
+
+    static final BOARD_FULL_WIDTH = (BOARD_WIDTH * 2) * HEX_SIDE;
+	static final BOARD_FULL_HEIGHT = BOARD_HEIGHT * HEX_HEIGHT;
 
     static final BASE_VERTICES = [
         new Point(0, 0),        // 0

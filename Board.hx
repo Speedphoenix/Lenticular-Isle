@@ -11,8 +11,56 @@ class SceneObject extends h2d.Object implements h2d.domkit.Object {
 	}
 }
 
+@:uiComp("board-ui")
+class BoardUi extends h2d.Flow implements h2d.domkit.Object {
+    static var SRC = <board-ui
+		content-halign={h2d.Flow.FlowAlign.Middle}
+		content-valign={h2d.Flow.FlowAlign.Top}
+		spacing={{x: 10, y: 0}}
+        offset-x={50}
+        offset-y={50}
+	>
+		<flow class="left-cont"
+			margin-top={topMargin}
+			fill-height={true}
+			layout={h2d.Flow.FlowLayout.Vertical}
+			valign={h2d.Flow.FlowAlign.Top}
+			spacing={{x: 0, y: pad}}
+			height={Math.ceil(Const.BOARD_FULL_HEIGHT)}
+		>
+		</flow>
+		<flow class="center-cont" id public
+			width={Const.BOARD_FULL_WIDTH}
+			height={Math.ceil(Const.BOARD_FULL_HEIGHT)}
+		>
+			<flow class="board-cont" id public
+				position="absolute"
+			/>
+		</flow>
+	</board-ui>
+	public static var panelBG = null;
+
+    public function new(?parent) {
+		panelBG = {
+			tile : hxd.Res.panel_bg.toTile(),
+			borderL : 4,
+			borderT : 4,
+			borderR : 4,
+			borderB : 4,
+		};
+		super(parent);
+
+		var topMargin = 50;
+		var pad = 20;
+
+		initComponent();
+	}
+}
+
 class Board {
 	public static var inst: Board;
+
+    public var fullUi : BoardUi;
 
 	public var gridCont : SceneObject;
 	var gridGraphics : h2d.Graphics;
@@ -24,12 +72,12 @@ class Board {
     public function init(root: h2d.Object) {
 		inst = this;
 
-        boardRoot = new h2d.Flow(root);
+        fullUi = new BoardUi(root);
+
+        boardRoot = new h2d.Flow(fullUi.boardCont);
         boardRoot.backgroundTile = h2d.Tile.fromColor(0xFFFFFF);
         boardRoot.fillWidth = true;
         boardRoot.fillHeight = true;
-        boardRoot.x = 50;
-        boardRoot.y = 50;
 		gridCont = new SceneObject(boardRoot);
 
 		gridGraphics = new h2d.Graphics(gridCont);
@@ -44,7 +92,7 @@ class Board {
 		boardObj.dom.addClass("board");
 	}
 
-    /* inline */ function addOffsets(a: {x: Int, y: Int}, b: {x: Int, y: Int}) {
+    inline function addOffsets(a: {x: Int, y: Int}, b: {x: Int, y: Int}) {
         return {x: a.x + b?.x, y: a.y + b?.y};
     }
 
@@ -113,9 +161,9 @@ class Board {
 
 		g.lineStyle(2, 0x222222);
 		// g.moveTo(0, Const.BOARD_TOP_EXTRA * Const.SIDE);
-		g.lineTo(0, Const.BOARD_HEIGHT * Const.HEX_HEIGHT);
-		g.lineTo(Const.BOARD_WIDTH * Const.HEX_SIDE, Const.BOARD_HEIGHT * Const.HEX_HEIGHT);
-		g.lineTo(Const.BOARD_WIDTH * Const.HEX_SIDE, 0);
+		g.lineTo(0, Const.BOARD_FULL_HEIGHT);
+		g.lineTo(Const.BOARD_FULL_WIDTH, Const.BOARD_FULL_HEIGHT);
+		g.lineTo(Const.BOARD_FULL_WIDTH, 0);
 		g.lineTo(0, 0);
 
 		g.lineStyle(1, 0x222222);
@@ -176,17 +224,17 @@ class Board {
         drawLargeTriangleRaw(a, b, c, g);
     }
 
-    /* inline */ function drawTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
+    inline function drawTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
         drawEdgeRaw(a, b, g);
         drawEdgeRaw(b, c, g);
         drawEdgeRaw(c, a, g);
     }
-    /* inline */ function drawEdgeRaw(a: Point, b: Point, g: h2d.Graphics) {
+    inline function drawEdgeRaw(a: Point, b: Point, g: h2d.Graphics) {
         g.moveTo(a.x * Const.HEX_SIDE, a.y * Const.HEX_HEIGHT);
         g.lineTo(b.x * Const.HEX_SIDE, b.y * Const.HEX_HEIGHT);
     }
 
-    /* inline */ function drawLargeTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
+    inline function drawLargeTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
         drawTriangleRaw(a, b, c, g);
 
         g.lineStyle(1, 0xCC0000);

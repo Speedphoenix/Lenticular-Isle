@@ -560,7 +560,8 @@
 				{
 					"typeStr": "6:shape@triangles",
 					"name": "edge1",
-					"opt": true
+					"opt": true,
+					"documentation": "Largest edge"
 				},
 				{
 					"typeStr": "6:shape@triangles",
@@ -570,7 +571,8 @@
 				{
 					"typeStr": "6:shape@triangles",
 					"name": "edge3",
-					"opt": true
+					"opt": true,
+					"documentation": "Smallest edge"
 				}
 			]
 		}
