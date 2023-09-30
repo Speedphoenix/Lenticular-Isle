@@ -35,7 +35,10 @@ class Board {
 		gridGraphics = new h2d.Graphics(gridCont);
 		drawGrid(gridGraphics);
 
-        drawShape(2, 4, Data.shape.get(Wrecktangle), gridGraphics);
+        drawShape(2, 4, Data.shape.get(Rectangle12), gridGraphics);
+        drawShape(4, 4, Data.shape.get(Hexagone12), gridGraphics);
+        drawShape(7, 4, Data.shape.get(Star24), gridGraphics);
+        drawShape(12, 4, Data.shape.get(Hexagone36), gridGraphics);
 
 		boardObj = new SceneObject(gridCont);
 		boardObj.dom.addClass("board");

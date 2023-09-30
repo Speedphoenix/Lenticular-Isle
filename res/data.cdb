@@ -56,7 +56,7 @@
 					"firstTriangle": 10
 				},
 				{
-					"id": "Wrecktangle",
+					"id": "Rectangle12",
 					"triangles": [
 						{
 							"id": "A",
@@ -121,6 +121,420 @@
 						{
 							"id": "L",
 							"edge1": "J"
+						}
+					],
+					"firstTriangle": 5
+				},
+				{
+					"id": "Hexagone12",
+					"triangles": [
+						{
+							"id": "InnerA",
+							"edge1": "InnerB",
+							"edge2": "InnerL"
+						},
+						{
+							"id": "InnerB",
+							"edge1": "InnerA",
+							"edge2": "InnerC"
+						},
+						{
+							"id": "InnerC",
+							"edge2": "InnerB",
+							"edge1": "InnerD"
+						},
+						{
+							"id": "InnerD",
+							"edge2": "InnerE",
+							"edge1": "InnerC"
+						},
+						{
+							"id": "InnerE",
+							"edge2": "InnerD",
+							"edge1": "InnerF"
+						},
+						{
+							"id": "InnerF",
+							"edge1": "InnerE",
+							"edge2": "InnerG"
+						},
+						{
+							"id": "InnerG",
+							"edge1": "InnerH",
+							"edge2": "InnerF"
+						},
+						{
+							"id": "InnerH",
+							"edge1": "InnerG",
+							"edge2": "InnerI"
+						},
+						{
+							"id": "InnerI",
+							"edge1": "InnerJ",
+							"edge2": "InnerH"
+						},
+						{
+							"id": "InnerJ",
+							"edge2": "InnerK",
+							"edge1": "InnerI"
+						},
+						{
+							"id": "InnerK",
+							"edge2": "InnerJ",
+							"edge1": "InnerL"
+						},
+						{
+							"id": "InnerL",
+							"edge1": "InnerK",
+							"edge2": "InnerA"
+						}
+					],
+					"firstTriangle": 5
+				},
+				{
+					"id": "Star24",
+					"triangles": [
+						{
+							"id": "InnerA",
+							"edge1": "InnerB",
+							"edge2": "InnerL",
+							"edge3": "MidA"
+						},
+						{
+							"id": "InnerB",
+							"edge1": "InnerA",
+							"edge2": "InnerC",
+							"edge3": "MidB"
+						},
+						{
+							"id": "InnerC",
+							"edge2": "InnerB",
+							"edge1": "InnerD",
+							"edge3": "MidC"
+						},
+						{
+							"id": "InnerD",
+							"edge2": "InnerE",
+							"edge1": "InnerC",
+							"edge3": "MidD"
+						},
+						{
+							"id": "InnerE",
+							"edge2": "InnerD",
+							"edge1": "InnerF",
+							"edge3": "MidE"
+						},
+						{
+							"id": "InnerF",
+							"edge1": "InnerE",
+							"edge2": "InnerG",
+							"edge3": "MidF"
+						},
+						{
+							"id": "InnerG",
+							"edge1": "InnerH",
+							"edge2": "InnerF",
+							"edge3": "MidG"
+						},
+						{
+							"id": "InnerH",
+							"edge1": "InnerG",
+							"edge2": "InnerI",
+							"edge3": "MidH"
+						},
+						{
+							"id": "InnerI",
+							"edge1": "InnerJ",
+							"edge2": "InnerH",
+							"edge3": "MidI"
+						},
+						{
+							"id": "InnerJ",
+							"edge2": "InnerK",
+							"edge1": "InnerI",
+							"edge3": "MidJ"
+						},
+						{
+							"id": "InnerK",
+							"edge2": "InnerJ",
+							"edge1": "InnerL",
+							"edge3": "MidK"
+						},
+						{
+							"id": "InnerL",
+							"edge1": "InnerK",
+							"edge2": "InnerA",
+							"edge3": "MidL"
+						},
+						{
+							"id": "MidA",
+							"edge2": "MidL",
+							"edge3": "InnerA"
+						},
+						{
+							"id": "MidB",
+							"edge2": "MidC",
+							"edge3": "InnerB"
+						},
+						{
+							"id": "MidC",
+							"edge2": "MidB",
+							"edge3": "InnerC"
+						},
+						{
+							"id": "MidD",
+							"edge2": "MidE",
+							"edge3": "InnerD"
+						},
+						{
+							"id": "MidE",
+							"edge2": "MidD",
+							"edge3": "InnerE"
+						},
+						{
+							"id": "MidF",
+							"edge2": "MidG",
+							"edge3": "InnerF"
+						},
+						{
+							"id": "MidG",
+							"edge2": "MidF",
+							"edge3": "InnerG"
+						},
+						{
+							"id": "MidH",
+							"edge2": "MidI",
+							"edge3": "InnerH"
+						},
+						{
+							"id": "MidI",
+							"edge2": "MidH",
+							"edge3": "InnerI"
+						},
+						{
+							"id": "MidJ",
+							"edge2": "MidK",
+							"edge3": "InnerJ"
+						},
+						{
+							"id": "MidK",
+							"edge2": "MidJ",
+							"edge3": "InnerK"
+						},
+						{
+							"id": "MidL",
+							"edge2": "MidA",
+							"edge3": "InnerL"
+						}
+					],
+					"firstTriangle": 5
+				},
+				{
+					"id": "Hexagone36",
+					"triangles": [
+						{
+							"id": "InnerA",
+							"edge1": "InnerB",
+							"edge2": "InnerL",
+							"edge3": "MidA"
+						},
+						{
+							"id": "InnerB",
+							"edge1": "InnerA",
+							"edge2": "InnerC",
+							"edge3": "MidB"
+						},
+						{
+							"id": "InnerC",
+							"edge2": "InnerB",
+							"edge1": "InnerD",
+							"edge3": "MidC"
+						},
+						{
+							"id": "InnerD",
+							"edge2": "InnerE",
+							"edge1": "InnerC",
+							"edge3": "MidD"
+						},
+						{
+							"id": "InnerE",
+							"edge2": "InnerD",
+							"edge1": "InnerF",
+							"edge3": "MidE"
+						},
+						{
+							"id": "InnerF",
+							"edge1": "InnerE",
+							"edge2": "InnerG",
+							"edge3": "MidF"
+						},
+						{
+							"id": "InnerG",
+							"edge1": "InnerH",
+							"edge2": "InnerF",
+							"edge3": "MidG"
+						},
+						{
+							"id": "InnerH",
+							"edge1": "InnerG",
+							"edge2": "InnerI",
+							"edge3": "MidH"
+						},
+						{
+							"id": "InnerI",
+							"edge1": "InnerJ",
+							"edge2": "InnerH",
+							"edge3": "MidI"
+						},
+						{
+							"id": "InnerJ",
+							"edge2": "InnerK",
+							"edge1": "InnerI",
+							"edge3": "MidJ"
+						},
+						{
+							"id": "InnerK",
+							"edge2": "InnerJ",
+							"edge1": "InnerL",
+							"edge3": "MidK"
+						},
+						{
+							"id": "InnerL",
+							"edge1": "InnerK",
+							"edge2": "InnerA",
+							"edge3": "MidL"
+						},
+						{
+							"id": "MidA",
+							"edge2": "MidL",
+							"edge3": "InnerA",
+							"edge1": "OuterA"
+						},
+						{
+							"id": "MidB",
+							"edge2": "MidC",
+							"edge3": "InnerB",
+							"edge1": "OuterB"
+						},
+						{
+							"id": "MidC",
+							"edge2": "MidB",
+							"edge3": "InnerC",
+							"edge1": "OuterC"
+						},
+						{
+							"id": "MidD",
+							"edge2": "MidE",
+							"edge3": "InnerD",
+							"edge1": "OuterD"
+						},
+						{
+							"id": "MidE",
+							"edge2": "MidD",
+							"edge3": "InnerE",
+							"edge1": "OuterE"
+						},
+						{
+							"id": "MidF",
+							"edge2": "MidG",
+							"edge3": "InnerF",
+							"edge1": "OuterF"
+						},
+						{
+							"id": "MidG",
+							"edge2": "MidF",
+							"edge3": "InnerG",
+							"edge1": "OuterG"
+						},
+						{
+							"id": "MidH",
+							"edge2": "MidI",
+							"edge3": "InnerH",
+							"edge1": "OuterH"
+						},
+						{
+							"id": "MidI",
+							"edge2": "MidH",
+							"edge3": "InnerI",
+							"edge1": "OuterI"
+						},
+						{
+							"id": "MidJ",
+							"edge2": "MidK",
+							"edge3": "InnerJ",
+							"edge1": "OuterJ"
+						},
+						{
+							"id": "MidK",
+							"edge2": "MidJ",
+							"edge3": "InnerK",
+							"edge1": "OuterK"
+						},
+						{
+							"id": "MidL",
+							"edge2": "MidA",
+							"edge3": "InnerL",
+							"edge1": "OuterL"
+						},
+						{
+							"id": "OuterA",
+							"edge3": "OuterB",
+							"edge1": "MidA"
+						},
+						{
+							"id": "OuterB",
+							"edge3": "OuterA",
+							"edge1": "MidB"
+						},
+						{
+							"id": "OuterC",
+							"edge3": "OuterD",
+							"edge1": "MidC"
+						},
+						{
+							"id": "OuterD",
+							"edge3": "OuterC",
+							"edge1": "MidD"
+						},
+						{
+							"id": "OuterE",
+							"edge3": "OuterF",
+							"edge1": "MidE"
+						},
+						{
+							"id": "OuterF",
+							"edge3": "OuterE",
+							"edge1": "MidF"
+						},
+						{
+							"id": "OuterG",
+							"edge3": "OuterH",
+							"edge1": "MidG"
+						},
+						{
+							"id": "OuterH",
+							"edge3": "OuterG",
+							"edge1": "MidH"
+						},
+						{
+							"id": "OuterI",
+							"edge3": "OuterJ",
+							"edge1": "MidI"
+						},
+						{
+							"id": "OuterJ",
+							"edge3": "OuterI",
+							"edge1": "MidJ"
+						},
+						{
+							"id": "OuterK",
+							"edge3": "OuterL",
+							"edge1": "MidK"
+						},
+						{
+							"id": "OuterL",
+							"edge3": "OuterK",
+							"edge1": "MidL"
 						}
 					],
 					"firstTriangle": 5
