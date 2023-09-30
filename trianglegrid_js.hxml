@@ -1,0 +1,11 @@
+-lib heaps
+-lib castle
+-lib domkit
+
+-D domkit_heaps
+-D release
+-js trianglegrid.js
+-main Main
+-cp .
+
+-dce full
