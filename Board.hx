@@ -193,10 +193,17 @@ class Board {
         createGrid();
 		drawGrid(gridGraphics);
 
-        drawShape(2, 4, Rectangle12, gridGraphics);
-        drawShape(4, 4, Hexagone12, gridGraphics);
-        drawShape(8, 4, Star24, gridGraphics);
+        drawShape(2, 4, Rectangle12_A, gridGraphics);
+        drawShape(2, 6, Rectangle12_B, gridGraphics);
+        drawShape(4, 0, Triangle6_A, gridGraphics);
+        drawShape(4, 4, Triangle6_B, gridGraphics);
+        drawShape(4, 2, Hexagone12_A, gridGraphics);
+        drawShape(4, 6, Hexagone12_B, gridGraphics);
+        drawShape(8, 8, Hexagone12_C, gridGraphics);
+        drawShape(8, 4, Star24_C, gridGraphics);
         drawShape(12, 4, Hexagone36, gridGraphics);
+        drawShape(8, 2, Losange4_C, gridGraphics);
+        drawShape(12, 2, Losange16_C, gridGraphics);
 
 		boardObj = new SceneObject(gridCont);
 		boardObj.dom.addClass("board");

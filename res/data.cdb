@@ -56,7 +56,7 @@
 					"firstTriangle": 10
 				},
 				{
-					"id": "Rectangle12",
+					"id": "Rectangle12_A",
 					"triangles": [
 						{
 							"id": "A",
@@ -123,10 +123,296 @@
 							"edge1": "J"
 						}
 					],
-					"firstTriangle": 5
+					"firstTriangle": 6
 				},
 				{
-					"id": "Hexagone12",
+					"id": "Rectangle12_B",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "B"
+						},
+						{
+							"id": "B",
+							"edge1": "A",
+							"edge3": "C",
+							"edge2": "D"
+						},
+						{
+							"id": "C",
+							"edge3": "B",
+							"edge2": "E"
+						},
+						{
+							"id": "D",
+							"edge2": "B",
+							"edge3": "E",
+							"edge1": "I"
+						},
+						{
+							"id": "E",
+							"edge3": "D",
+							"edge2": "C",
+							"edge1": "F"
+						},
+						{
+							"id": "F",
+							"edge1": "E",
+							"edge3": "G"
+						},
+						{
+							"id": "G",
+							"edge3": "F",
+							"edge1": "H"
+						},
+						{
+							"id": "H",
+							"edge1": "G",
+							"edge3": "I",
+							"edge2": "K"
+						},
+						{
+							"id": "I",
+							"edge3": "H",
+							"edge1": "D",
+							"edge2": "J"
+						},
+						{
+							"id": "J",
+							"edge2": "I",
+							"edge3": "K",
+							"edge1": "L"
+						},
+						{
+							"id": "K",
+							"edge3": "J",
+							"edge2": "H"
+						},
+						{
+							"id": "L",
+							"edge1": "J"
+						}
+					],
+					"firstTriangle": 0
+				},
+				{
+					"id": "Triangle6_A",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "B",
+							"edge3": "F"
+						},
+						{
+							"id": "B",
+							"edge1": "A",
+							"edge3": "C"
+						},
+						{
+							"id": "C",
+							"edge3": "B",
+							"edge1": "D"
+						},
+						{
+							"id": "D",
+							"edge1": "C",
+							"edge3": "E"
+						},
+						{
+							"id": "E",
+							"edge3": "D",
+							"edge1": "F"
+						},
+						{
+							"id": "F",
+							"edge1": "E",
+							"edge3": "A"
+						}
+					],
+					"firstTriangle": 0
+				},
+				{
+					"id": "Triangle6_B",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "B",
+							"edge3": "F"
+						},
+						{
+							"id": "B",
+							"edge1": "A",
+							"edge3": "C"
+						},
+						{
+							"id": "C",
+							"edge3": "B",
+							"edge1": "D"
+						},
+						{
+							"id": "D",
+							"edge1": "C",
+							"edge3": "E"
+						},
+						{
+							"id": "E",
+							"edge3": "D",
+							"edge1": "F"
+						},
+						{
+							"id": "F",
+							"edge1": "E",
+							"edge3": "A"
+						}
+					],
+					"firstTriangle": 6
+				},
+				{
+					"id": "Hexagone12_A",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "B",
+							"edge3": "F",
+							"edge2": "A1"
+						},
+						{
+							"id": "B",
+							"edge1": "A",
+							"edge3": "C",
+							"edge2": "B1"
+						},
+						{
+							"id": "C",
+							"edge3": "B",
+							"edge1": "D",
+							"edge2": "C1"
+						},
+						{
+							"id": "D",
+							"edge1": "C",
+							"edge3": "E",
+							"edge2": "D1"
+						},
+						{
+							"id": "E",
+							"edge3": "D",
+							"edge1": "F",
+							"edge2": "E1"
+						},
+						{
+							"id": "F",
+							"edge1": "E",
+							"edge3": "A",
+							"edge2": "F1"
+						},
+						{
+							"id": "A1",
+							"edge3": "F1",
+							"edge2": "A"
+						},
+						{
+							"id": "B1",
+							"edge3": "C1",
+							"edge2": "B"
+						},
+						{
+							"id": "C1",
+							"edge3": "B1",
+							"edge2": "C"
+						},
+						{
+							"id": "D1",
+							"edge3": "E1",
+							"edge2": "D"
+						},
+						{
+							"id": "E1",
+							"edge3": "D1",
+							"edge2": "E"
+						},
+						{
+							"id": "F1",
+							"edge3": "A1",
+							"edge2": "F"
+						}
+					],
+					"firstTriangle": 0
+				},
+				{
+					"id": "Hexagone12_B",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "B",
+							"edge3": "F",
+							"edge2": "A1"
+						},
+						{
+							"id": "B",
+							"edge1": "A",
+							"edge3": "C",
+							"edge2": "B1"
+						},
+						{
+							"id": "C",
+							"edge3": "B",
+							"edge1": "D",
+							"edge2": "C1"
+						},
+						{
+							"id": "D",
+							"edge1": "C",
+							"edge3": "E",
+							"edge2": "D1"
+						},
+						{
+							"id": "E",
+							"edge3": "D",
+							"edge1": "F",
+							"edge2": "E1"
+						},
+						{
+							"id": "F",
+							"edge1": "E",
+							"edge3": "A",
+							"edge2": "F1"
+						},
+						{
+							"id": "A1",
+							"edge3": "F1",
+							"edge2": "A"
+						},
+						{
+							"id": "B1",
+							"edge3": "C1",
+							"edge2": "B"
+						},
+						{
+							"id": "C1",
+							"edge3": "B1",
+							"edge2": "C"
+						},
+						{
+							"id": "D1",
+							"edge3": "E1",
+							"edge2": "D"
+						},
+						{
+							"id": "E1",
+							"edge3": "D1",
+							"edge2": "E"
+						},
+						{
+							"id": "F1",
+							"edge3": "A1",
+							"edge2": "F"
+						}
+					],
+					"firstTriangle": 6
+				},
+				{
+					"id": "Hexagone12_C",
 					"triangles": [
 						{
 							"id": "InnerA",
@@ -189,10 +475,10 @@
 							"edge2": "InnerA"
 						}
 					],
-					"firstTriangle": 5
+					"firstTriangle": 0
 				},
 				{
-					"id": "Star24",
+					"id": "Star24_C",
 					"triangles": [
 						{
 							"id": "InnerA",
@@ -327,7 +613,7 @@
 							"edge3": "InnerL"
 						}
 					],
-					"firstTriangle": 5
+					"firstTriangle": 0
 				},
 				{
 					"id": "Hexagone36",
@@ -537,7 +823,355 @@
 							"edge1": "MidL"
 						}
 					],
-					"firstTriangle": 5
+					"firstTriangle": 0
+				},
+				{
+					"id": "Losange4_A",
+					"triangles": [
+						{
+							"id": "A",
+							"edge3": "B",
+							"edge2": "D"
+						},
+						{
+							"id": "B",
+							"edge3": "A",
+							"edge2": "C"
+						},
+						{
+							"id": "C",
+							"edge3": "D",
+							"edge2": "B"
+						},
+						{
+							"id": "D",
+							"edge3": "C",
+							"edge2": "A"
+						}
+					],
+					"firstTriangle": 0
+				},
+				{
+					"id": "Losange4_B",
+					"triangles": [
+						{
+							"id": "B",
+							"edge2": "A",
+							"edge1": "C"
+						},
+						{
+							"id": "A",
+							"edge2": "B"
+						},
+						{
+							"id": "C",
+							"edge1": "B",
+							"edge2": "D"
+						},
+						{
+							"id": "D",
+							"edge2": "C"
+						}
+					],
+					"firstTriangle": 2
+				},
+				{
+					"id": "Losange4_C",
+					"triangles": [
+						{
+							"id": "B",
+							"edge2": "A",
+							"edge1": "C"
+						},
+						{
+							"id": "A",
+							"edge2": "B"
+						},
+						{
+							"id": "C",
+							"edge1": "B",
+							"edge2": "D"
+						},
+						{
+							"id": "D",
+							"edge2": "C"
+						}
+					],
+					"firstTriangle": 8
+				},
+				{
+					"id": "Losange16_A",
+					"triangles": [
+						{
+							"id": "InnerA",
+							"edge1": "InnerB",
+							"edge2": "InnerL",
+							"edge3": "OuterA"
+						},
+						{
+							"id": "InnerB",
+							"edge1": "InnerA",
+							"edge2": "InnerC"
+						},
+						{
+							"id": "InnerC",
+							"edge2": "InnerB",
+							"edge1": "InnerD"
+						},
+						{
+							"id": "InnerD",
+							"edge2": "InnerE",
+							"edge1": "InnerC"
+						},
+						{
+							"id": "InnerE",
+							"edge2": "InnerD",
+							"edge1": "InnerF"
+						},
+						{
+							"id": "InnerF",
+							"edge1": "InnerE",
+							"edge2": "InnerG",
+							"edge3": "OuterF"
+						},
+						{
+							"id": "InnerG",
+							"edge1": "InnerH",
+							"edge2": "InnerF",
+							"edge3": "OuterG"
+						},
+						{
+							"id": "InnerH",
+							"edge1": "InnerG",
+							"edge2": "InnerI"
+						},
+						{
+							"id": "InnerI",
+							"edge1": "InnerJ",
+							"edge2": "InnerH"
+						},
+						{
+							"id": "InnerJ",
+							"edge2": "InnerK",
+							"edge1": "InnerI"
+						},
+						{
+							"id": "InnerK",
+							"edge2": "InnerJ",
+							"edge1": "InnerL"
+						},
+						{
+							"id": "InnerL",
+							"edge1": "InnerK",
+							"edge2": "InnerA",
+							"edge3": "OuterL"
+						},
+						{
+							"id": "OuterA",
+							"edge3": "InnerA",
+							"edge2": "OuterL"
+						},
+						{
+							"id": "OuterL",
+							"edge3": "InnerL",
+							"edge2": "OuterA"
+						},
+						{
+							"id": "OuterF",
+							"edge3": "InnerF",
+							"edge2": "OuterG"
+						},
+						{
+							"id": "OuterG",
+							"edge3": "InnerG",
+							"edge2": "OuterF"
+						}
+					],
+					"firstTriangle": 0
+				},
+				{
+					"id": "Losange16_B",
+					"triangles": [
+						{
+							"id": "UpA",
+							"edge2": "UpB",
+							"edge3": "UpD",
+							"edge1": "LefA"
+						},
+						{
+							"id": "UpB",
+							"edge2": "UpA",
+							"edge3": "UpC"
+						},
+						{
+							"id": "UpC",
+							"edge2": "UpD",
+							"edge3": "UpB"
+						},
+						{
+							"id": "UpD",
+							"edge2": "UpC",
+							"edge3": "UpA",
+							"edge1": "RigD"
+						},
+						{
+							"id": "RigD",
+							"edge2": "RigC",
+							"edge1": "UpD",
+							"edge3": "BotC"
+						},
+						{
+							"id": "RigC",
+							"edge2": "RigD",
+							"edge1": "RigB",
+							"edge3": "BotD"
+						},
+						{
+							"id": "RigB",
+							"edge2": "RigA",
+							"edge1": "RigC"
+						},
+						{
+							"id": "RigA",
+							"edge2": "RigB"
+						},
+						{
+							"id": "LefA",
+							"edge2": "LefB",
+							"edge1": "UpA",
+							"edge3": "BotB"
+						},
+						{
+							"id": "LefB",
+							"edge2": "LefA",
+							"edge1": "LefC",
+							"edge3": "BotA"
+						},
+						{
+							"id": "LefC",
+							"edge2": "LefD",
+							"edge1": "LefB"
+						},
+						{
+							"id": "LefD",
+							"edge2": "LefC"
+						},
+						{
+							"id": "BotA",
+							"edge2": "BotB",
+							"edge3": "LefB"
+						},
+						{
+							"id": "BotB",
+							"edge2": "BotA",
+							"edge1": "BotC",
+							"edge3": "LefA"
+						},
+						{
+							"id": "BotC",
+							"edge1": "BotB",
+							"edge2": "BotD",
+							"edge3": "RigD"
+						},
+						{
+							"id": "BotD",
+							"edge2": "BotC",
+							"edge3": "RigC"
+						}
+					],
+					"firstTriangle": 0
+				},
+				{
+					"id": "Losange16_C",
+					"triangles": [
+						{
+							"id": "UpA",
+							"edge2": "UpB",
+							"edge3": "UpD",
+							"edge1": "LefA"
+						},
+						{
+							"id": "UpB",
+							"edge2": "UpA",
+							"edge3": "UpC"
+						},
+						{
+							"id": "UpC",
+							"edge2": "UpD",
+							"edge3": "UpB"
+						},
+						{
+							"id": "UpD",
+							"edge2": "UpC",
+							"edge3": "UpA",
+							"edge1": "RigD"
+						},
+						{
+							"id": "RigD",
+							"edge2": "RigC",
+							"edge1": "UpD",
+							"edge3": "BotC"
+						},
+						{
+							"id": "RigC",
+							"edge2": "RigD",
+							"edge1": "RigB",
+							"edge3": "BotD"
+						},
+						{
+							"id": "RigB",
+							"edge2": "RigA",
+							"edge1": "RigC"
+						},
+						{
+							"id": "RigA",
+							"edge2": "RigB"
+						},
+						{
+							"id": "LefA",
+							"edge2": "LefB",
+							"edge1": "UpA",
+							"edge3": "BotB"
+						},
+						{
+							"id": "LefB",
+							"edge2": "LefA",
+							"edge1": "LefC",
+							"edge3": "BotA"
+						},
+						{
+							"id": "LefC",
+							"edge2": "LefD",
+							"edge1": "LefB"
+						},
+						{
+							"id": "LefD",
+							"edge2": "LefC"
+						},
+						{
+							"id": "BotA",
+							"edge2": "BotB",
+							"edge3": "LefB"
+						},
+						{
+							"id": "BotB",
+							"edge2": "BotA",
+							"edge1": "BotC",
+							"edge3": "LefA"
+						},
+						{
+							"id": "BotC",
+							"edge1": "BotB",
+							"edge2": "BotD",
+							"edge3": "RigD"
+						},
+						{
+							"id": "BotD",
+							"edge2": "BotC",
+							"edge3": "RigC"
+						}
+					],
+					"firstTriangle": 6
 				}
 			],
 			"separators": [],
