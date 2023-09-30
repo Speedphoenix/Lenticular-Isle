@@ -1178,6 +1178,92 @@
 			"props": {}
 		},
 		{
+			"name": "entity",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "8",
+					"name": "shapes",
+					"kind": null
+				},
+				{
+					"typeStr": "8",
+					"name": "selectionEdges",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"id": "Wrecktangle",
+					"shapes": [
+						{
+							"ref": "Rectangle12_A"
+						},
+						{
+							"ref": "Rectangle12_B"
+						}
+					],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 15
+						}
+					]
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "entity@shapes",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:shape",
+					"name": "ref",
+					"kind": null
+				}
+			]
+		},
+		{
+			"name": "entity@selectionEdges",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "idx",
+					"kind": null
+				}
+			]
+		},
+		{
 			"name": "shape@triangles",
 			"props": {
 				"hide": true

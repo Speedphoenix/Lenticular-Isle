@@ -58,24 +58,76 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 	}
 }
 
+class EntityEnt {
+    public var kind(default, set): Data.EntityKind;
+    public var inf: Data.Entity;
+    public var shape: ShapeEnt;
+    public var x(default, set): Int;
+    public var y(default, set): Int;
+
+    var hoverGraphic: h2d.Graphics;
+
+    function set_kind(k) {
+        inf = Data.entity.get(k);
+        return this.kind = k;
+    }
+    function set_x(v) {
+        if (shape != null)
+            shape.x = v;
+        return this.x = v;
+    }
+    function set_y(v) {
+        if (shape != null)
+            shape.y = v;
+        return this.y = v;
+    }
+
+    public function new(kind: Data.EntityKind, x: Int, y: Int) {
+        this.x = x;
+        this.y = y;
+        this.kind = kind;
+        shape = new ShapeEnt(inf.shapes[0].refId, x, y);
+        hoverGraphic = new h2d.Graphics(Board.inst.gridCont);
+    }
+
+    public function update(dt: Float) {
+        var window = hxd.Window.getInstance();
+        var mousePos = new Point(window.mouseX, window.mouseY);
+        hoverGraphic.clear();
+        hoverGraphic.lineStyle(4, 0x1FD346);
+
+        if (shape.contains(mousePos)) {
+            shape.draw(hoverGraphic);
+            if (K.isPressed(K.MOUSE_LEFT)) {
+                Board.inst.onSelect(this);
+            }
+        }
+        hoverGraphic.lineStyle();
+    }
+}
+
 class ShapeEnt {
-    var kind: Data.ShapeKind;
+    var kind(default, set): Data.ShapeKind;
     var inf: Data.Shape;
-    var x: Int;
-    var y: Int;
+    public var x: Int;
+    public var y: Int;
 
     var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: IPoint}> = [];
 
     var colliders: Array<h2d.col.Polygon> = [];
 
+    function set_kind(k) {
+        inf = Data.shape.get(k);
+        return this.kind = k;
+    }
+
     public function new(kind: Data.ShapeKind, x: Int, y: Int) {
-        this.kind = kind;
         this.x = x;
         this.y = y;
 
         if ((x & 1) != (y & 1))
             throw 'Invalid offset ${x},${y}';
-        this.inf = Data.shape.get(kind);
+        this.kind = kind;
 
         var start = inf.triangles[0];
         triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: new IPoint(x, y)});
@@ -163,6 +215,9 @@ class Triangle {
     public function draw(g: h2d.Graphics) {
         var tri = Const.BASE_TRIANGLES[idx];
         for (i in 0...3) {
+            if (Board.inst.currentSelect != null && !Board.inst.currentSelect.inf.selectionEdges.any(e -> e.idx == tri[i].v))
+                continue;
+
             var offset2 = this.offset;
             if (tri[i].off != null) {
                 offset2 = offset2.add(tri[i].off);
@@ -216,13 +271,16 @@ class Board {
 
 	public var gridCont : SceneObject;
 	var gridGraphics : h2d.Graphics;
-    var hoverGraphic: h2d.Graphics;
+	var entityGraphics : h2d.Graphics;
     var selectGraphic: h2d.Graphics;
     var boardObj : SceneObject;
     var boardRoot : h2d.Flow;
     var window: hxd.Window;
 
-    var shapes: Array<ShapeEnt> = [];
+    // var shapes: Array<ShapeEnt> = [];
+    var entities: Array<EntityEnt> = [];
+
+    public var currentSelect: EntityEnt = null;
 
     var grid = [];
 
@@ -241,26 +299,16 @@ class Board {
 
 		gridGraphics = new h2d.Graphics(gridCont);
         selectGraphic = new h2d.Graphics(gridCont);
-        hoverGraphic = new h2d.Graphics(gridCont);
+        entityGraphics = new h2d.Graphics(gridCont);
         createGrid();
 		drawGrid(gridGraphics);
 
-        shapes = [
-            new ShapeEnt(Rectangle12_A, 2, 4),
-            new ShapeEnt(Rectangle12_B, 2, 6),
-            new ShapeEnt(Triangle6_A, 4, 0),
-            new ShapeEnt(Triangle6_B, 4, 4),
-            new ShapeEnt(Hexagone12_A, 4, 2),
-            new ShapeEnt(Hexagone12_B, 4, 6),
-            new ShapeEnt(Hexagone12_C, 8, 8),
-            new ShapeEnt(Star24_C, 8, 4),
-            new ShapeEnt(Hexagone36, 12, 4),
-            new ShapeEnt(Losange4_C, 8, 2),
-            new ShapeEnt(Losange16_C, 12, 2),
+        entities = [
+            new EntityEnt(Wrecktangle, 2, 6),
         ];
-        gridGraphics.lineStyle(3, 0x00AACC);
-        for (s in shapes) {
-            s.draw(gridGraphics);
+        entityGraphics.lineStyle(3, 0x00AACC);
+        for (e in entities) {
+            e.shape.draw(entityGraphics);
         }
         gridGraphics.lineStyle();
 
@@ -280,16 +328,30 @@ class Board {
         }
     }
 
+    var prevSelect = null;
     public function update(dt: Float) {
         var mousePos = new Point(window.mouseX, window.mouseY);
+        if (K.isPressed(K.MOUSE_LEFT))
+            onSelect(null);
+
+        for (e in entities)
+            e.update(dt);
+
         selectGraphic.clear();
         selectGraphic.lineStyle(4, 0x1FD346);
 
-        for (s in shapes) {
-            if (s.contains(mousePos))
-                s.draw(selectGraphic);
+        if (currentSelect != null) {
+            currentSelect.shape.draw(selectGraphic);
         }
         selectGraphic.lineStyle();
+        if (prevSelect != currentSelect) {
+            drawGrid(gridGraphics);
+        }
+        prevSelect = currentSelect;
+    }
+
+    public function onSelect(e: EntityEnt) {
+        currentSelect = e;
     }
 
 	function drawGrid(g: h2d.Graphics) {
@@ -302,7 +364,10 @@ class Board {
 		g.lineTo(Const.BOARD_FULL_WIDTH, 0);
 		g.lineTo(0, 0);
 
-		g.lineStyle(1, 0x000000);
+        if (currentSelect != null)
+    		g.lineStyle(2, 0x000000);
+        else
+            g.lineStyle(1, 0x000000);
 
         for (t in grid) {
             t.draw(g);
