@@ -4,6 +4,8 @@ using Extensions;
 class Main extends hxd.App {
 	public static var inst: Main;
 
+	var board: Board;
+
 	public static var font: h2d.Font;
 
 	override function init() {
@@ -16,6 +18,10 @@ class Main extends hxd.App {
 			Data.load(cdbData, true);
 		});
 		font = hxd.Res.customFont.toFont();
+
+		board = new Board();
+		board.init(s2d);
+
 		onResize();
 	}
 	static function main() {

@@ -1,11 +1,164 @@
 {
 	"sheets": [
 		{
-			"name": "data.cdb",
-			"columns": [],
-			"lines": [],
+			"name": "shape",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "8",
+					"name": "triangles",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "firstTriangle",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"id": "Test",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "B",
+							"edge2": "D",
+							"edge3": "F"
+						},
+						{
+							"id": "B",
+							"edge1": "A",
+							"edge3": "C"
+						},
+						{
+							"id": "C",
+							"edge3": "B"
+						},
+						{
+							"id": "D",
+							"edge2": "A",
+							"edge1": "E"
+						},
+						{
+							"id": "E",
+							"edge1": "D"
+						},
+						{
+							"id": "F",
+							"edge3": "A"
+						}
+					],
+					"firstTriangle": 10
+				},
+				{
+					"id": "Wrecktangle",
+					"triangles": [
+						{
+							"id": "A",
+							"edge1": "B"
+						},
+						{
+							"id": "B",
+							"edge1": "A",
+							"edge3": "C",
+							"edge2": "D"
+						},
+						{
+							"id": "C",
+							"edge3": "B",
+							"edge2": "E"
+						},
+						{
+							"id": "D",
+							"edge2": "B",
+							"edge3": "E",
+							"edge1": "I"
+						},
+						{
+							"id": "E",
+							"edge3": "D",
+							"edge2": "C",
+							"edge1": "F"
+						},
+						{
+							"id": "F",
+							"edge1": "E",
+							"edge3": "G"
+						},
+						{
+							"id": "G",
+							"edge3": "F",
+							"edge1": "H"
+						},
+						{
+							"id": "H",
+							"edge1": "G",
+							"edge3": "I",
+							"edge2": "K"
+						},
+						{
+							"id": "I",
+							"edge3": "H",
+							"edge1": "D",
+							"edge2": "J"
+						},
+						{
+							"id": "J",
+							"edge2": "I",
+							"edge3": "K",
+							"edge1": "L"
+						},
+						{
+							"id": "K",
+							"edge3": "J",
+							"edge2": "H"
+						},
+						{
+							"id": "L",
+							"edge1": "J"
+						}
+					],
+					"firstTriangle": 5
+				}
+			],
 			"separators": [],
 			"props": {}
+		},
+		{
+			"name": "shape@triangles",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": 1
+				},
+				{
+					"typeStr": "6:shape@triangles",
+					"name": "edge1",
+					"opt": true
+				},
+				{
+					"typeStr": "6:shape@triangles",
+					"name": "edge2",
+					"opt": true
+				},
+				{
+					"typeStr": "6:shape@triangles",
+					"name": "edge3",
+					"opt": true
+				}
+			]
 		}
 	],
 	"customTypes": [],
