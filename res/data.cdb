@@ -1441,6 +1441,18 @@
 						}
 					],
 					"selectionEdges": []
+				},
+				{
+					"id": "Obstacle_Triangle6",
+					"shapes": [
+						{
+							"ref": "Triangle6_A"
+						},
+						{
+							"ref": "Triangle6_B"
+						}
+					],
+					"selectionEdges": []
 				}
 			],
 			"separators": [
