@@ -191,6 +191,7 @@ class EntityEnt {
             }
 
             shapePreview.kind = inf.shapes[nearest.shape].refId;
+            trace('${shapePreview.kind} (number ${nearest.shape})');
             if (nearest.offset.x != x || nearest.offset.y != y) {
                 if (K.isPressed(K.MOUSE_LEFT)) {
                     this.x = nearest.offset.x;
