@@ -2,6 +2,18 @@ import h2d.col.Point;
 import h2d.col.IPoint;
 using Extensions;
 
+// TODO
+// Fix les bords de la grille
+// fix le zoffset des bitmaps
+// le déplacement
+// les points d'action/mouvement
+// collisions des déplacements
+// menu principal
+
+// game title
+
+// level end
+
 @:publicFields class Const {
 
     static final TITLE = "Triangle assault";
@@ -16,6 +28,8 @@ using Extensions;
     static final BOARD_FULL_WIDTH = (BOARD_WIDTH * 2) * HEX_SIDE;
 	static final BOARD_FULL_HEIGHT = BOARD_HEIGHT * HEX_HEIGHT;
 
+    static final POLY_SCALE = 6; // multiplying vertex points by this needs to be round
+
     static var ISO_MATRIX: h2d.col.Matrix = new h2d.col.Matrix();
     static var INV_ISO_MATRIX: h2d.col.Matrix = new h2d.col.Matrix();
 
@@ -23,24 +37,11 @@ using Extensions;
         // ISO_MATRIX.a = HEX_SIDE;    ISO_MATRIX.b = 0;           ISO_MATRIX.x = 0;
         // ISO_MATRIX.c = 0;           ISO_MATRIX.d = HEX_HEIGHT;  ISO_MATRIX.y + 0;
 
-        // ISO_MATRIX.a = 70;  ISO_MATRIX.b = -42; ISO_MATRIX.x = 0;
-        // ISO_MATRIX.c = 122;  ISO_MATRIX.d = 70;  ISO_MATRIX.y = 500;
-
         // ISO_MATRIX.a = 122;  ISO_MATRIX.b = 70; ISO_MATRIX.x = 0;
         // ISO_MATRIX.c = 70;  ISO_MATRIX.d = -42; ISO_MATRIX.y = 450;
 
         ISO_MATRIX.a = 32.0454545;  ISO_MATRIX.b = 18.18181818; ISO_MATRIX.x = 0;
         ISO_MATRIX.c = 56.25;  ISO_MATRIX.d = -33.33333; ISO_MATRIX.y = 405;
-
-        // ISO_MATRIX.a /= 2;
-        // ISO_MATRIX.b /= 2;
-        // ISO_MATRIX.c /= 2;
-        // ISO_MATRIX.d /= 2;
-
-        // ISO_MATRIX.a = Math.round(ISO_MATRIX.a / SQRT_3);
-        // ISO_MATRIX.b = Math.round(ISO_MATRIX.b / SQRT_3);
-        // ISO_MATRIX.c = Math.round(ISO_MATRIX.c * SQRT_3);
-        // ISO_MATRIX.d = Math.round(ISO_MATRIX.d * SQRT_3);
 
         INV_ISO_MATRIX = ISO_MATRIX.clone();
         INV_ISO_MATRIX.invert();
@@ -54,31 +55,29 @@ using Extensions;
         return INV_ISO_MATRIX.transform(p);
     }
 
-    static /* inline */ function toGrid(p: IPoint, g: Data.GridKind) {
+    static inline function toGrid(p: IPoint, g: Data.GridKind) {
         switch (g) {
             case Base, None:
                 return p;
             case TriangleZeroes:
-                var oddLine = p.y & 1 != 0;
-                var ret = new IPoint(Math.round((p.x - (oddLine ? 1 : 0)) / 2), p.y);
+                var ret = new IPoint(Math.round((p.x - (p.y & 1)) / 2), p.y);
                 return ret;
             default:
                 return p;
         }
     }
-    static /* inline */ function fromGrid(p: IPoint, g: Data.GridKind) {
+    static inline function fromGrid(p: IPoint, g: Data.GridKind) {
         switch (g) {
             case Base, None:
                 return p;
             case TriangleZeroes:
-                var oddLine = p.y & 1 != 0;
-                var ret = new IPoint(Math.round((p.x + (oddLine ? 1 : 0)) / 2), p.y);
+                var ret = new IPoint((p.x * 2) + (p.y & 1), p.y);
                 return ret;
             default:
                 return p;
         }
     }
-    static /* inline */ function getGridAdjacent(p: IPoint, g: Data.GridKind) {
+    static inline function getGridAdjacent(p: IPoint, g: Data.GridKind) {
         switch (g) {
             case Base, None:
                 return [
@@ -90,14 +89,29 @@ using Extensions;
                     new IPoint(1, -1),
                 ];
             case TriangleZeroes:
-                return [
-                    new IPoint(-1, 0),
-                    new IPoint(1, 0),
-                    new IPoint(0, -1),
-                    new IPoint(0, 1),
-                    new IPoint(-1, 1),
-                    new IPoint(1, -1),
-                ];
+                if ((p.y & 1) == 0) {
+                    return [
+                        new IPoint(-1, 0),
+                        new IPoint(1, 0),
+
+                        new IPoint(0, -1),
+                        new IPoint(0, 1),
+
+                        new IPoint(-1, 1),
+                        new IPoint(-1, -1),
+                    ];
+                } else {
+                    return [
+                        new IPoint(-1, 0),
+                        new IPoint(1, 0),
+
+                        new IPoint(0, -1),
+                        new IPoint(0, 1),
+
+                        new IPoint(1, -1),
+                        new IPoint(1, 1),
+                    ];
+                }
             default:
                 return [
                     new IPoint(-2, 0),

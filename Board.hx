@@ -71,7 +71,9 @@ class EntityEnt {
     var hoverGraphic: h2d.Graphics;
     var previewGraphic: h2d.Graphics;
     var debGraphic: h2d.Graphics;
+    var rangeGraphic: h2d.Graphics;
     var bitmap: h2d.Bitmap;
+    var possibleMovements: Array<{pos: IPoint, shapeIdx: Int}> = [];
 
     public var isSelected(get, never): Bool;
     function get_isSelected() {
@@ -108,6 +110,7 @@ class EntityEnt {
         hoverGraphic = new h2d.Graphics(Board.inst.gridCont);
         previewGraphic = new h2d.Graphics(Board.inst.gridCont);
         debGraphic = new h2d.Graphics(Board.inst.gridCont);
+        rangeGraphic = new h2d.Graphics(Board.inst.gridCont);
         if (inf.gfx != null) {
             // TODO TOMORROW sort them for depth
             bitmap = new h2d.Bitmap(inf.gfx.toTile(), Board.inst.entitiesCont);
@@ -127,7 +130,7 @@ class EntityEnt {
             shape.draw(hoverGraphic);
             // shape.drawColliders(hoverGraphic);
             if (K.isPressed(K.MOUSE_LEFT)) {
-                Board.inst.onSelect(this);
+                Board.inst.select(this);
                 return;
             }
         }
@@ -140,82 +143,20 @@ class EntityEnt {
             if (shapePreview == null)
                 shapePreview = new ShapeEnt(inf.shapes[0].refId, x, y);
 
-            var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
-
-            var offsetToOffset = center.add(gridMousePos);
-            var mouseOffset = new IPoint(Math.round(offsetToOffset.x), Math.round(offsetToOffset.y));
-            if ((mouseOffset.x & 1) != (mouseOffset.y & 1)) {
-                mouseOffset.x--;
-            }
-            dontinline(mouseOffset);
-            dontinline(gridMousePos);
-            dontinline(center);
-            dontinline(offsetToOffset);
-
-            var nearOffsets = [
-                new IPoint(mouseOffset.x, mouseOffset.y),
-                new IPoint(mouseOffset.x - 2, mouseOffset.y),
-                new IPoint(mouseOffset.x + 2, mouseOffset.y),
-                new IPoint(mouseOffset.x - 1, mouseOffset.y - 1),
-                new IPoint(mouseOffset.x + 1, mouseOffset.y + 1),
-                new IPoint(mouseOffset.x + 1, mouseOffset.y - 1),
-                new IPoint(mouseOffset.x - 1, mouseOffset.y + 1),
-
-                new IPoint(mouseOffset.x - 4, mouseOffset.y),
-                new IPoint(mouseOffset.x - 2, mouseOffset.y - 2),
-                new IPoint(mouseOffset.x - 2, mouseOffset.y + 2),
-                new IPoint(mouseOffset.x - 4, mouseOffset.y - 2),
-                new IPoint(mouseOffset.x - 3, mouseOffset.y - 1),
-                new IPoint(mouseOffset.x + 3, mouseOffset.y - 1),
-            ];
-            var nearest: {shape: Int, offset: IPoint, distSq: Float} = null;
-            dontinline(nearest);
-
-            for (i in 0...inf.shapes.length) {
-                #if debug
-                switch(i) {
-                    case 0:
-                        debGraphic.lineStyle(2, 0x9A1FD3);
-                    case 1:
-                        debGraphic.lineStyle(2, 0xD31F1F);
-                    case 2:
-                        debGraphic.lineStyle(2, 0xD39A1F);
-                    default:
-                }
-                #end
-                var center = Const.getCenter(inf.shapes[i].ref.firstTriangle, inf.shapes[i].ref.firstTriangleCenter);
-                for (j in 0...nearOffsets.length) {
-                    var o = nearOffsets[j];
-                    var c = center.add(o.toPoint());
-                    if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
-                        continue;
-                    dontinline(c);
-                    #if debug
-                    var debCenter = Const.toIso(c);
-                    dontinline(debCenter);
-                    debGraphic.drawCircle(debCenter.x, debCenter.y, 5);
-                    #end
-                    var d = c.distanceSq(gridMousePos);
-                    if (nearest == null || nearest.distSq > d) {
-                        nearest = {
-                            shape: i,
-                            offset: o,
-                            distSq: d,
-                        };
-                    }
-                }
-            }
-            // TODO sometimes the offset picked is wrong (does not take the one that's actually below the mouse)
-            // Check with debug, with the small rectangles
+            #if admin
+            var nearest = getMouseDest(gridMousePos);
+            #else
+            var nearest = getPossibleDest(gridMousePos);
+            #end
 
             if (nearest != null) {
                 shapePreview.kind = inf.shapes[nearest.shape].refId;
-                if (nearest.offset.x != x || nearest.offset.y != y) {
+                if (nearest.offset.x != x || nearest.offset.y != y || nearest.shape != shapeIdx) {
                     if (K.isPressed(K.MOUSE_LEFT)) {
                         this.x = nearest.offset.x;
                         this.y = nearest.offset.y;
                         setShapeIdx(nearest.shape);
-                        Board.inst.onSelect(null);
+                        Board.inst.select(null);
                         Board.inst.onMove(this);
                     } else {
                         shapePreview.x = nearest.offset.x;
@@ -226,6 +167,113 @@ class EntityEnt {
                 }
             }
         }
+    }
+
+    function getPossibleDest(gridMousePos: Point) {
+        var nearest: {shape: Int, offset: IPoint, distSq: Float} = null;
+
+        for (i in 0...possibleMovements.length) {
+            var p = possibleMovements[i];
+            var o = p.pos;
+            #if debug
+            switch(p.shapeIdx) {
+                case 0: debGraphic.lineStyle(2, 0x9A1FD3);
+                case 1: debGraphic.lineStyle(2, 0xD31F1F);
+                case 2: debGraphic.lineStyle(2, 0xD39A1F);
+                default:
+            }
+            #end
+            var center = Const.getCenter(inf.shapes[p.shapeIdx].ref.firstTriangle, inf.shapes[p.shapeIdx].ref.firstTriangleCenter);
+            var c = center.add(o.toPoint());
+            if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
+                continue;
+            #if debug
+            var debCenter = Const.toIso(c);
+            debGraphic.drawCircle(debCenter.x, debCenter.y, 5);
+            #end
+            var d = c.distanceSq(gridMousePos);
+            if (nearest == null || nearest.distSq > d) {
+                nearest = {
+                    shape: p.shapeIdx,
+                    offset: o,
+                    distSq: d,
+                };
+            }
+        }
+        return nearest;
+    }
+
+
+    function getMouseDest(gridMousePos: Point) {
+        var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
+
+        var offsetToOffset = center.add(gridMousePos);
+        var mouseOffset = new IPoint(Math.round(offsetToOffset.x), Math.round(offsetToOffset.y));
+        if ((mouseOffset.x & 1) != (mouseOffset.y & 1)) {
+            mouseOffset.x--;
+        }
+
+        var nearOffsets = [
+            new IPoint(mouseOffset.x, mouseOffset.y),
+            new IPoint(mouseOffset.x - 2, mouseOffset.y),
+            new IPoint(mouseOffset.x + 2, mouseOffset.y),
+            new IPoint(mouseOffset.x - 1, mouseOffset.y - 1),
+            new IPoint(mouseOffset.x + 1, mouseOffset.y + 1),
+            new IPoint(mouseOffset.x + 1, mouseOffset.y - 1),
+            new IPoint(mouseOffset.x - 1, mouseOffset.y + 1),
+
+            new IPoint(mouseOffset.x - 4, mouseOffset.y),
+            new IPoint(mouseOffset.x - 2, mouseOffset.y - 2),
+            new IPoint(mouseOffset.x - 2, mouseOffset.y + 2),
+            new IPoint(mouseOffset.x - 4, mouseOffset.y - 2),
+            new IPoint(mouseOffset.x - 3, mouseOffset.y - 1),
+            new IPoint(mouseOffset.x + 3, mouseOffset.y - 1),
+        ];
+        var nearest: {shape: Int, offset: IPoint, distSq: Float} = null;
+
+        for (i in 0...inf.shapes.length) {
+            #if debug
+            switch(i) {
+                case 0: debGraphic.lineStyle(2, 0x9A1FD3);
+                case 1: debGraphic.lineStyle(2, 0xD31F1F);
+                case 2: debGraphic.lineStyle(2, 0xD39A1F);
+                default:
+            }
+            #end
+            var center = Const.getCenter(inf.shapes[i].ref.firstTriangle, inf.shapes[i].ref.firstTriangleCenter);
+            for (j in 0...nearOffsets.length) {
+                var o = nearOffsets[j];
+                var c = center.add(o.toPoint());
+                if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
+                    continue;
+                #if debug
+                var debCenter = Const.toIso(c);
+                debGraphic.drawCircle(debCenter.x, debCenter.y, 5);
+                #end
+                var d = c.distanceSq(gridMousePos);
+                if (nearest == null || nearest.distSq > d) {
+                    nearest = {
+                        shape: i,
+                        offset: o,
+                        distSq: d,
+                    };
+                }
+            }
+        }
+        return nearest;
+    }
+
+    public function onSelect() {
+        var possible = getPossibleMovements(inf.actionPerTurn);
+        rangeGraphic.lineStyle(5, inf.color ?? 0x1FD346, 0.5);
+        for (i in 0...possible.hull.length) {
+            Board.drawEdgeRaw(possible.hull[i], possible.hull[(i + 1) % possible.hull.length], rangeGraphic);
+        }
+        possibleMovements = possible.positions;
+    }
+
+    public function onDeselect() {
+        rangeGraphic.clear();
     }
 
     public function draw(g: h2d.Graphics) {
@@ -243,14 +291,80 @@ class EntityEnt {
         }
     }
 
-    // public function getPossibleMovements() {
-    //     var verts  =
-    // }
+    // TODO TOMORROW take the right shape coming back from fromGrid, and specify it to isposvalid
+    public /* inline */ function getPossibleMovements(count: Int) {
+        var checked = [];
+        var ret = [];
 
+        final baseVerts = shape.vertices;
+        var verts = baseVerts.toIPolygon(Const.POLY_SCALE);
+        for (i in 0...verts.length) {
+            verts[i] = verts[i].add(new IPoint(x, y).multiply(Const.POLY_SCALE));
+        }
+
+        var start = Const.toGrid(new IPoint(x, y), inf.gridId);
+        checked.push(start);
+
+        var nextAdjacents = Const.getGridAdjacent(new IPoint(x, y), inf.gridId);
+
+        for (i in 0...count) {
+            if (nextAdjacents.isEmpty())
+                break;
+            var currAdjacents = nextAdjacents.copy();
+            nextAdjacents.clear();
+            for (a in currAdjacents) {
+                var curr = start.add(a);
+                if (checked.any(p -> p.equals(curr)))
+                    continue;
+                checked.push(curr);
+                var currWorld = Const.fromGrid(curr, inf.gridId);
+
+                if (!isPosValid(currWorld))
+                    continue;
+                ret.push({
+                    pos: currWorld,
+                    shapeIdx: 0, // TODO
+                });
+                var currVerts: h2d.col.Polygon = baseVerts.copy();
+                for (i in 0...currVerts.length) {
+                    currVerts[i] = currVerts[i].add(currWorld.toPoint());
+                }
+                verts = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false)[0];
+
+                for (a2 in Const.getGridAdjacent(curr, inf.gridId)) {
+                    var next = a.add(a2);
+                    if (!checked.any(p -> p.equals(start.add(next))) && !nextAdjacents.any(p -> p.equals(next)))
+                        nextAdjacents.push(next);
+                }
+            }
+        }
+
+        var worldVerts = verts.toPolygon(1 / Const.POLY_SCALE);
+        return {
+            hull: worldVerts,
+            positions: ret,
+        };
+    }
+
+    // TODO TOMORROW for different shapes. They stay on the same grid though, so should check with floating pos?
+    inline function isPosValid(p: IPoint) {
+        // var center = Const.getCenter(inf.shapes[i].ref.firstTriangle, inf.shapes[i].ref.firstTriangleCenter);
+        var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
+
+        var c = center.add(p.toPoint());
+
+        if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
+            return false;
+        return true;
+    }
+
+    public var removed = false;
     public function onRemove() {
+        removed = true;
         hoverGraphic.remove();
         previewGraphic.remove();
         debGraphic.remove();
+        rangeGraphic.remove();
         bitmap.remove();
     }
     public function saveData() {
@@ -272,7 +386,7 @@ class ShapeEnt {
     var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: IPoint}> = [];
 
     var colliders: Array<h2d.col.Polygon> = [];
-    var vertices: Array<Point> = [];
+    public var vertices: h2d.col.Polygon = [];
 
     function set_kind(k) {
         if (k != kind) {
@@ -531,7 +645,7 @@ class Board {
             entities.push(new EntityEnt(e.refId, e.shapeIdx, e.offsetx, e.offsety));
         }
 
-        #if !release
+        #if admin
         for (e in sideEntities)
             e.onRemove();
         sideEntities.clear();
@@ -548,8 +662,8 @@ class Board {
         var x = Const.BOARD_WIDTH * 2 + 4;
         var y = i * 2;
         if (i >= 9) {
-            x = (i - 9) * 2;
-            y = Const.BOARD_HEIGHT;
+            x = (i - 9) * 3;
+            y = Const.BOARD_HEIGHT + (x & 1);
         }
         return new EntityEnt(k, 0, x, y);
     }
@@ -595,7 +709,7 @@ class Board {
 
         var gridChanged = false;
         if (K.isPressed(K.ESCAPE) || K.isPressed(K.MOUSE_RIGHT))
-            onSelect(null);
+            select(null);
         #if !release
         if (K.isPressed(K.DELETE)) {
             if (currentSelect != null && entities.has(currentSelect)) {
@@ -645,8 +759,12 @@ class Board {
         prevSelect = currentSelect;
     }
 
-    public function onSelect(e: EntityEnt) {
+    public function select(e: EntityEnt) {
+        if (currentSelect != null && !currentSelect.removed)
+            currentSelect.onDeselect();
         currentSelect = e;
+        if (currentSelect != null)
+            currentSelect.onSelect();
     }
 
     public function onMove(e: EntityEnt) {

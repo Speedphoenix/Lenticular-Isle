@@ -1308,6 +1308,11 @@
 					"kind": null
 				},
 				{
+					"typeStr": "3",
+					"name": "actionPerTurn",
+					"kind": null
+				},
+				{
 					"typeStr": "10:NoSelection",
 					"name": "flags",
 					"kind": null
@@ -1333,7 +1338,8 @@
 					"color": 6348381,
 					"grid": "Grid2",
 					"flags": 0,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 1
 				},
 				{
 					"id": "Hexachad",
@@ -1346,7 +1352,8 @@
 					"color": 6348381,
 					"grid": "TriangleZeroes",
 					"flags": 0,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 3
 				},
 				{
 					"id": "Lozecannon",
@@ -1376,7 +1383,8 @@
 						"y": 0,
 						"width": 343,
 						"height": 337
-					}
+					},
+					"actionPerTurn": 1
 				},
 				{
 					"id": "Slime",
@@ -1395,7 +1403,8 @@
 					"color": 14572893,
 					"grid": "Grid4",
 					"flags": 0,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 1
 				},
 				{
 					"id": "Cyclope",
@@ -1411,7 +1420,8 @@
 					"group": 1,
 					"grid": "TriangleZeroes",
 					"flags": 0,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 1
 				},
 				{
 					"id": "Obstacle_Hexa36",
@@ -1435,7 +1445,8 @@
 						"y": 0,
 						"width": 357,
 						"height": 331
-					}
+					},
+					"actionPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Rectangle12",
@@ -1451,7 +1462,8 @@
 					"flags": 1,
 					"color": 14593627,
 					"group": 2,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Rectangle6",
@@ -1467,7 +1479,8 @@
 					"color": 0,
 					"grid": "None",
 					"flags": 1,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Triangle6",
@@ -1483,7 +1496,8 @@
 					"color": 0,
 					"grid": "None",
 					"flags": 1,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Hexa12",
@@ -1513,7 +1527,8 @@
 						"width": 178,
 						"height": 125
 					},
-					"color": 0
+					"color": 0,
+					"actionPerTurn": 0
 				},
 				{
 					"id": "Hexachad_EndPoint",
@@ -1526,7 +1541,8 @@
 					"group": 3,
 					"grid": "TriangleZeroes",
 					"flags": 1,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 0
 				},
 				{
 					"id": "Wrectangle_EndPoint",
@@ -1542,7 +1558,8 @@
 					"flags": 1,
 					"color": 152064,
 					"group": 3,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 0
 				},
 				{
 					"id": "Lozecannon_Endpoint",
@@ -1561,7 +1578,8 @@
 					"flags": 1,
 					"color": 152064,
 					"group": 3,
-					"props": {}
+					"props": {},
+					"actionPerTurn": 0
 				}
 			],
 			"separators": [

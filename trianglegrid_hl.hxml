@@ -6,6 +6,7 @@
 -D windowSize=1520x900
 -D domkit_heaps
 # -D debug
+# -D admin
 # -D release
 
 -hl trianglegrid.hl
