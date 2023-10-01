@@ -29,18 +29,18 @@ using Extensions;
         // ISO_MATRIX.a = 122;  ISO_MATRIX.b = 70; ISO_MATRIX.x = 0;
         // ISO_MATRIX.c = 70;  ISO_MATRIX.d = -42; ISO_MATRIX.y = 450;
 
-        ISO_MATRIX.a = 110.624762;  ISO_MATRIX.b = 63.492381; ISO_MATRIX.x = 0;
-        ISO_MATRIX.c = 65.2;  ISO_MATRIX.d = -39.1; ISO_MATRIX.y = 410;
+        ISO_MATRIX.a = 32.0454545;  ISO_MATRIX.b = 18.18181818; ISO_MATRIX.x = 0;
+        ISO_MATRIX.c = 56.25;  ISO_MATRIX.d = -33.33333; ISO_MATRIX.y = 405;
 
-        ISO_MATRIX.a /= 2;
-        ISO_MATRIX.b /= 2;
-        ISO_MATRIX.c /= 2;
-        ISO_MATRIX.d /= 2;
+        // ISO_MATRIX.a /= 2;
+        // ISO_MATRIX.b /= 2;
+        // ISO_MATRIX.c /= 2;
+        // ISO_MATRIX.d /= 2;
 
-        ISO_MATRIX.a = Math.round(ISO_MATRIX.a / SQRT_3);
-        ISO_MATRIX.b = Math.round(ISO_MATRIX.b / SQRT_3);
-        ISO_MATRIX.c = Math.round(ISO_MATRIX.c * SQRT_3);
-        ISO_MATRIX.d = Math.round(ISO_MATRIX.d * SQRT_3);
+        // ISO_MATRIX.a = Math.round(ISO_MATRIX.a / SQRT_3);
+        // ISO_MATRIX.b = Math.round(ISO_MATRIX.b / SQRT_3);
+        // ISO_MATRIX.c = Math.round(ISO_MATRIX.c * SQRT_3);
+        // ISO_MATRIX.d = Math.round(ISO_MATRIX.d * SQRT_3);
 
         INV_ISO_MATRIX = ISO_MATRIX.clone();
         INV_ISO_MATRIX.invert();
