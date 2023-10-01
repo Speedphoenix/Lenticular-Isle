@@ -435,7 +435,7 @@ class Board {
         selectGraphic = new h2d.Graphics(gridCont);
         entityGraphics = new h2d.Graphics(gridCont);
         debugGraphic = new h2d.Graphics(gridCont);
-        startLevel(Empty);
+        startLevel(Data.level.all[0].id);
 
 		boardObj = new SceneObject(gridCont);
 		boardObj.dom.addClass("board");
