@@ -109,6 +109,8 @@ class EntityEnt {
         debGraphic = new h2d.Graphics(Board.inst.gridCont);
     }
 
+    inline function dontinline(a: Dynamic) {}
+
     public function update(dt: Float) {
         var gridMousePos = Board.inst.getGridMousePos();
         hoverGraphic.clear();
@@ -124,7 +126,6 @@ class EntityEnt {
         }
         hoverGraphic.lineStyle();
 
-        inline function dontinline(a: Dynamic) {}
 
         previewGraphic.clear();
         debGraphic.clear();
@@ -220,9 +221,7 @@ class EntityEnt {
         }
     }
 
-    public function checkMovement() {
-
-    }
+    // public function getPossibleMovements() {}
 
     public function onRemove() {
         hoverGraphic.remove();
@@ -248,6 +247,7 @@ class ShapeEnt {
     var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: IPoint}> = [];
 
     var colliders: Array<h2d.col.Polygon> = [];
+    var vertices: Array<Point> = [];
 
     function set_kind(k) {
         if (k != kind) {
@@ -271,7 +271,7 @@ class ShapeEnt {
         colliders.clear();
         var start = inf.triangles[0];
         triangles.push({id: start.id, triIndex: inf.firstTriangle, offset: new IPoint(0, 0)});
-        colliders.push(Triangle.getCollider(inf.firstTriangle, new IPoint(0, 0)));
+        // colliders.push(Triangle.getCollider(inf.firstTriangle, new IPoint(0, 0)));
 
         for (i in 1...inf.triangles.length) {
             var t = inf.triangles[i];
@@ -295,8 +295,50 @@ class ShapeEnt {
             }
 
             triangles.push({id: t.id, triIndex: newTriangleIdx, offset: touchOffset});
-            colliders.push(Triangle.getCollider(newTriangleIdx, touchOffset));
+            // colliders.push(Triangle.getCollider(newTriangleIdx, touchOffset));
         }
+        vertices = getVertices();
+        colliders.push(vertices);
+    }
+
+    public function getVertices() {
+        var allEdges: Array<{a: Point, b: Point}> = [];
+        for (t in triangles) {
+            var inf = inf.triangles.find(e -> e.id == t.id);
+            var edges = Const.getEdges(t.triIndex);
+            for (i in 0...3) {
+                var needed = switch (i) {
+                    case 0: inf.edge1Id == null;
+                    case 1: inf.edge2Id == null;
+                    case 2: inf.edge3Id == null;
+                    default: true;
+                }
+                if (needed) {
+                    var offset = new Point(t.offset.x, t.offset.y);
+                    allEdges.push({
+                        a: edges[i].a.add(offset),
+                        b: edges[i].b.add(offset),
+                    });
+                }
+            }
+        }
+        var ret = [];
+        var e = allEdges.pop();
+        ret.push(e.a);
+        ret.push(e.b);
+        while (!allEdges.isEmpty()) {
+            var top = ret.last();
+            var e = allEdges.find(e2 -> e2.a.equals(top) || e2.b.equals(top));
+            if (e == null) {
+                throw "Unclosed shape " + kind.toString();
+            }
+            if (e.a.equals(top))
+                ret.push(e.b);
+            else if (e.b.equals(top))
+                ret.push(e.a);
+            allEdges.remove(e);
+        }
+        return ret;
     }
 
     public function draw(g: h2d.Graphics) {
