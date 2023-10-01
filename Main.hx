@@ -148,7 +148,6 @@ class Main extends hxd.App {
 	public static var font: h2d.Font;
 
 	override function init() {
-		Const.initConstants();
 		inst = this;
 		var cdbData = hxd.Res.data.entry.getText();
 		Data.load(cdbData, false);
@@ -157,6 +156,7 @@ class Main extends hxd.App {
 			var cdbData = hxd.Res.data.entry.getText();
 			Data.load(cdbData, true);
 		});
+		Const.initConstants();
 		font = hxd.Res.customFont.toFont();
 
 		board = new Board();

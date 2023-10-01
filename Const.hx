@@ -5,14 +5,10 @@ using Extensions;
 // TODO
 // Fix les bords de la grille
 // fix le zoffset des bitmaps
-// le déplacement
 // les points d'action/mouvement
 // collisions des déplacements
-// menu principal
 
 // game title
-
-// level end
 
 @:publicFields class Const {
 
@@ -45,7 +41,6 @@ using Extensions;
 
         INV_ISO_MATRIX = ISO_MATRIX.clone();
         INV_ISO_MATRIX.invert();
-        return true;
     }
 
     static inline function toIso(p) {

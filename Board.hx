@@ -68,6 +68,8 @@ class EntityEnt {
     public var shape: ShapeEnt;
     public var shapePreview: ShapeEnt = null;
 
+    public var fabLine: Data.Level_entities = null;
+
     var hoverGraphic: h2d.Graphics;
     var previewGraphic: h2d.Graphics;
     var debGraphic: h2d.Graphics;
@@ -121,20 +123,38 @@ class EntityEnt {
 
     inline function dontinline(a: Dynamic) {}
 
+    public inline function canBeSelected() {
+        #if admin
+        return true;
+        #else
+        return !inf.flags.has(NoSelection);
+        #end
+    }
+
+    public inline function getColor() {
+        #if admin
+        return inf.color ?? 0x1FD346;
+        #else
+        return inf.color ?? -1;
+        #end
+    }
+
     public function update(dt: Float) {
         var gridMousePos = Board.inst.getGridMousePos();
-        hoverGraphic.clear();
-        hoverGraphic.lineStyle(5, inf.color ?? 0x1FD346);
+        if (getColor() >= 0) {
+            hoverGraphic.clear();
+            hoverGraphic.lineStyle(5, getColor());
 
-        if (shape.contains(gridMousePos)) {
-            shape.draw(hoverGraphic);
-            // shape.drawColliders(hoverGraphic);
-            if (K.isPressed(K.MOUSE_LEFT)) {
-                Board.inst.select(this);
-                return;
+            if (canBeSelected() && shape.contains(gridMousePos)) {
+                shape.draw(hoverGraphic);
+                // shape.drawColliders(hoverGraphic);
+                if (K.isPressed(K.MOUSE_LEFT)) {
+                    Board.inst.select(this);
+                    return;
+                }
             }
+            hoverGraphic.lineStyle();
         }
-        hoverGraphic.lineStyle();
 
 
         previewGraphic.clear();
@@ -158,10 +178,10 @@ class EntityEnt {
                         setShapeIdx(nearest.shape);
                         Board.inst.select(null);
                         Board.inst.onMove(this);
-                    } else {
+                    } else if (getColor() >= 0) {
                         shapePreview.x = nearest.offset.x;
                         shapePreview.y = nearest.offset.y;
-                        hoverGraphic.lineStyle(2, inf.color ?? 0x1FD346);
+                        hoverGraphic.lineStyle(2, getColor());
                         shapePreview.draw(hoverGraphic);
                     }
                 }
@@ -265,11 +285,14 @@ class EntityEnt {
 
     public function onSelect() {
         var possible = getPossibleMovements(inf.actionPerTurn);
-        rangeGraphic.lineStyle(5, inf.color ?? 0x1FD346, 0.5);
-        for (i in 0...possible.hull.length) {
-            Board.drawEdgeRaw(possible.hull[i], possible.hull[(i + 1) % possible.hull.length], rangeGraphic);
-        }
         possibleMovements = possible.positions;
+
+        if (getColor() >= 0) {
+            rangeGraphic.lineStyle(5, getColor(), 0.5);
+            for (i in 0...possible.hull.length) {
+                Board.drawEdgeRaw(possible.hull[i], possible.hull[(i + 1) % possible.hull.length], rangeGraphic);
+            }
+        }
     }
 
     public function onDeselect() {
@@ -323,8 +346,14 @@ class EntityEnt {
                     continue;
                 ret.push({
                     pos: currWorld,
-                    shapeIdx: 0, // TODO
+                    shapeIdx: 0, // TODO, smarter shapes
                 });
+                for (i in 0...inf.shapes.length) { // TODO, smarter shapes
+                    ret.push({
+                        pos: currWorld,
+                        shapeIdx: i,
+                    });
+                }
                 var currVerts: h2d.col.Polygon = baseVerts.copy();
                 for (i in 0...currVerts.length) {
                     currVerts[i] = currVerts[i].add(currWorld.toPoint());
@@ -590,6 +619,7 @@ class Board {
     public var forceSelectionEdges: Data.Grid = null;
 
     var grid = [];
+    var worldGrid: Array<Array<Array<EntityEnt>>> = [];
 
 	public function new() {}
 
@@ -642,7 +672,9 @@ class Board {
             e.onRemove();
         entities.clear();
         for (e in inf.entities) {
-            entities.push(new EntityEnt(e.refId, e.shapeIdx, e.offsetx, e.offsety));
+            var ent = new EntityEnt(e.refId, e.shapeIdx, e.offsetx, e.offsety);
+            ent.fabLine = e;
+            entities.push(ent);
         }
 
         #if admin
@@ -690,16 +722,34 @@ class Board {
         debugGraphic.clear();
         debugGraphic.lineStyle(1, 0xFF0000);
 
+        for (l in worldGrid) {
+            if (l != null) {
+                for (c in l) {
+                    if (c != null)
+                        c.clear();
+                }
+            }
+        }
+
         entityGraphics.clear();
         for (e in entities) {
-            entityGraphics.lineStyle(3, e.inf.color ?? 0x00AACC);
-            e.draw(entityGraphics);
+            if (e.x >= 0 && e.y >= 0) {
+                if (worldGrid[e.x] == null)
+                    worldGrid[e.x] = [];
+                if (worldGrid[e.x][e.y] == null)
+                    worldGrid[e.x][e.y] = [];
+                worldGrid[e.x][e.y].push(e);
+            }
+            if (e.getColor() >= 0) {
+                entityGraphics.lineStyle(3, e.getColor());
+                e.draw(entityGraphics);
+            }
             #if debug
             e.shape.drawDebug(debugGraphic);
             #end
         }
         for (e in sideEntities) {
-            entityGraphics.lineStyle(3, e.inf.color ?? 0x00AACC);
+            entityGraphics.lineStyle(3, e.getColor());
             e.draw(entityGraphics);
             #if debug
             e.shape.drawDebug(debugGraphic);
@@ -757,6 +807,35 @@ class Board {
             drawGrid(gridGraphics);
         }
         prevSelect = currentSelect;
+
+        var missingEffects = 0;
+        var activeEffects = 0;
+        for (l in worldGrid) {
+            if (l != null) {
+                for (c in l) {
+                    if (c != null) {
+                        for (e in c) {
+                            if (e.inf.flags.has(HasEffect)) {
+                                if (c.any(e2 -> e2 != e && e2.shape.kind == e.shape.kind)) {
+                                    activeEffects++;
+                                    if (e.fabLine != null && e.fabLine.stompGoToId != null) {
+                                        startLevel(e.fabLine.stompGoToId);
+                                        return;
+                                    }
+                                } else {
+                                    missingEffects++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (missingEffects == 0 && activeEffects > 0 && level != null) {
+            var inf = Data.level.get(level);
+            if (inf.allEffectsStompedId != null)
+                startLevel(inf.allEffectsStompedId);
+        }
     }
 
     public function select(e: EntityEnt) {

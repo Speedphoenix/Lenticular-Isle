@@ -1313,9 +1313,8 @@
 					"kind": null
 				},
 				{
-					"typeStr": "10:NoSelection",
-					"name": "flags",
-					"kind": null
+					"typeStr": "10:NoSelection,HasEffect,IsPlayer",
+					"name": "flags"
 				},
 				{
 					"typeStr": "17",
@@ -1337,7 +1336,7 @@
 					"group": 0,
 					"color": 6348381,
 					"grid": "Grid2",
-					"flags": 0,
+					"flags": 4,
 					"props": {},
 					"actionPerTurn": 1
 				},
@@ -1351,7 +1350,7 @@
 					"group": 0,
 					"color": 6348381,
 					"grid": "TriangleZeroes",
-					"flags": 0,
+					"flags": 4,
 					"props": {},
 					"actionPerTurn": 3
 				},
@@ -1371,7 +1370,7 @@
 					"group": 0,
 					"color": 6348381,
 					"grid": "Grid3",
-					"flags": 0,
+					"flags": 4,
 					"props": {
 						"gfxOffsetx": -81,
 						"gfxOffsety": -130
@@ -1402,7 +1401,7 @@
 					"group": 1,
 					"color": 14572893,
 					"grid": "Grid4",
-					"flags": 0,
+					"flags": 1,
 					"props": {},
 					"actionPerTurn": 1
 				},
@@ -1419,7 +1418,7 @@
 					"color": 14572893,
 					"group": 1,
 					"grid": "TriangleZeroes",
-					"flags": 0,
+					"flags": 1,
 					"props": {},
 					"actionPerTurn": 1
 				},
@@ -1540,7 +1539,7 @@
 					"color": 152064,
 					"group": 3,
 					"grid": "TriangleZeroes",
-					"flags": 1,
+					"flags": 3,
 					"props": {},
 					"actionPerTurn": 0
 				},
@@ -1555,7 +1554,7 @@
 						}
 					],
 					"grid": "Grid2",
-					"flags": 1,
+					"flags": 3,
 					"color": 152064,
 					"group": 3,
 					"props": {},
@@ -1575,11 +1574,68 @@
 						}
 					],
 					"grid": "Grid3",
-					"flags": 1,
+					"flags": 3,
 					"color": 152064,
 					"group": 3,
 					"props": {},
 					"actionPerTurn": 0
+				},
+				{
+					"id": "EndPoint_Level1",
+					"shapes": [
+						{
+							"ref": "Losange16_A"
+						},
+						{
+							"ref": "Losange16_B"
+						},
+						{
+							"ref": "Losange16_C"
+						}
+					],
+					"grid": "Grid3",
+					"actionPerTurn": 0,
+					"flags": 3,
+					"props": {
+						"gfxOffsetx": -65,
+						"gfxOffsety": -37
+					},
+					"group": 3,
+					"gfx": {
+						"file": "tiles/level1_tile.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 260,
+						"height": 150
+					}
+				},
+				{
+					"id": "Deco_GameTitle",
+					"shapes": [
+						{
+							"ref": "Rectangle6_A"
+						},
+						{
+							"ref": "Rectangle6_B"
+						}
+					],
+					"grid": "None",
+					"actionPerTurn": 0,
+					"flags": 1,
+					"props": {
+						"gfxOffsetx": -140,
+						"gfxOffsety": -110
+					},
+					"group": 4,
+					"gfx": {
+						"file": "tiles/title_tile.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 568,
+						"height": 369
+					}
 				}
 			],
 			"separators": [
@@ -1598,6 +1654,10 @@
 				{
 					"title": "GroundEffects",
 					"id": "Hexachad_EndPoint"
+				},
+				{
+					"title": "Decorators",
+					"id": "Deco_GameTitle"
 				}
 			],
 			"props": {
@@ -1831,59 +1891,38 @@
 					"typeStr": "8",
 					"name": "entities",
 					"kind": null
+				},
+				{
+					"typeStr": "6:level",
+					"name": "allEffectsStomped",
+					"kind": null
 				}
 			],
 			"lines": [
 				{
-					"id": "Empty",
-					"entities": []
-				},
-				{
-					"id": "Level1",
+					"id": "MainMenu",
 					"entities": [
 						{
-							"offsetx": 5,
-							"offsety": 7,
-							"ref": "Wrecktangle",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 16,
-							"offsety": 4,
-							"ref": "Hexachad",
+							"offsetx": -2,
+							"offsety": 6,
+							"ref": "Deco_GameTitle",
 							"shapeIdx": 0
 						},
 						{
+							"offsetx": 9,
+							"offsety": 9,
+							"ref": "EndPoint_Level1",
+							"shapeIdx": 0,
+							"stompGoTo": "HexaSolo_TutoChara"
+						},
+						{
+							"offsetx": 9,
+							"offsety": 3,
 							"ref": "Lozecannon",
-							"shapeIdx": 0,
-							"offsetx": 0,
-							"offsety": 0
-						},
-						{
-							"ref": "Obstacle_Hexa36",
-							"shapeIdx": 0,
-							"offsetx": 0,
-							"offsety": 0
-						},
-						{
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0,
-							"offsetx": 0,
-							"offsety": 0
-						},
-						{
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 0,
-							"offsetx": 0,
-							"offsety": 0
-						},
-						{
-							"ref": "Slime",
-							"shapeIdx": 0,
-							"offsetx": 0,
-							"offsety": 0
+							"shapeIdx": 1
 						}
-					]
+					],
+					"allEffectsStomped": "HexaSolo_TutoChara"
 				},
 				{
 					"id": "HexaSolo_TutoChara",
@@ -2056,7 +2095,8 @@
 							"ref": "Cyclope",
 							"shapeIdx": 1
 						}
-					]
+					],
+					"allEffectsStomped": "HexaSolo_SlimyAmbush"
 				},
 				{
 					"id": "HexaSolo_SlimyAmbush",
@@ -2325,7 +2365,8 @@
 							"ref": "Slime",
 							"shapeIdx": 2
 						}
-					]
+					],
+					"allEffectsStomped": "WrectangleSolo_TutoChara"
 				},
 				{
 					"id": "WrectangleSolo_TutoChara",
@@ -2936,7 +2977,8 @@
 							"ref": "Obstacle_Rectangle12",
 							"shapeIdx": 1
 						}
-					]
+					],
+					"allEffectsStomped": "HexaWrectangle_Meeting"
 				},
 				{
 					"id": "HexaWrectangle_Meeting",
@@ -3349,7 +3391,8 @@
 							"ref": "Wrectangle_EndPoint",
 							"shapeIdx": 1
 						}
-					]
+					],
+					"allEffectsStomped": "HexaWrectangle_Tunnel"
 				},
 				{
 					"id": "HexaWrectangle_Tunnel",
@@ -3714,7 +3757,8 @@
 							"ref": "Wrectangle_EndPoint",
 							"shapeIdx": 1
 						}
-					]
+					],
+					"allEffectsStomped": "HexaWrectangle_SlimyBrawl"
 				},
 				{
 					"id": "HexaWrectangle_SlimyBrawl",
@@ -3833,7 +3877,8 @@
 							"ref": "Obstacle_Triangle6",
 							"shapeIdx": 1
 						}
-					]
+					],
+					"allEffectsStomped": "MainMenu"
 				}
 			],
 			"separators": [],
@@ -3851,6 +3896,11 @@
 					"typeStr": "6:entity",
 					"name": "ref",
 					"kind": null
+				},
+				{
+					"typeStr": "6:level",
+					"name": "stompGoTo",
+					"opt": true
 				},
 				{
 					"typeStr": "3",
