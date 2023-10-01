@@ -71,6 +71,7 @@ class EntityEnt {
     var hoverGraphic: h2d.Graphics;
     var previewGraphic: h2d.Graphics;
     var debGraphic: h2d.Graphics;
+    var bitmap: h2d.Bitmap;
 
     public var isSelected(get, never): Bool;
     function get_isSelected() {
@@ -107,6 +108,12 @@ class EntityEnt {
         hoverGraphic = new h2d.Graphics(Board.inst.gridCont);
         previewGraphic = new h2d.Graphics(Board.inst.gridCont);
         debGraphic = new h2d.Graphics(Board.inst.gridCont);
+        if (inf.gfx != null) {
+            // TODO TOMORROW sort them for depth
+            bitmap = new h2d.Bitmap(inf.gfx.toTile(), Board.inst.entitiesCont);
+            bitmap.scale(0.5);
+            updatePos();
+        }
     }
 
     inline function dontinline(a: Dynamic) {}
@@ -221,12 +228,30 @@ class EntityEnt {
         }
     }
 
-    // public function getPossibleMovements() {}
+    public function draw(g: h2d.Graphics) {
+        shape.draw(g);
+        updatePos();
+    }
+
+    function updatePos() {
+        if (bitmap != null) {
+            var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
+            var c2 = Const.toIso(center.add(new Point(x, y)));
+
+            bitmap.x = c2.x + (inf.props.gfxOffsetx ?? 0);
+            bitmap.y = c2.y + (inf.props.gfxOffsety ?? 0);
+        }
+    }
+
+    // public function getPossibleMovements() {
+    //     var verts  =
+    // }
 
     public function onRemove() {
         hoverGraphic.remove();
         previewGraphic.remove();
         debGraphic.remove();
+        bitmap.remove();
     }
     public function saveData() {
         return {
@@ -432,6 +457,7 @@ class Board {
     public var fullUi : BoardUi;
 
 	public var gridCont : SceneObject;
+	public var entitiesCont : SceneObject;
 	var gridGraphics : h2d.Graphics;
 	var entityGraphics : h2d.Graphics;
     var selectGraphic: h2d.Graphics;
@@ -472,6 +498,8 @@ class Board {
 		gridCont = new SceneObject(boardRoot);
         boardRoot.getProperties(gridCont).paddingLeft = 10;
         // boardRoot.getProperties(gridPlatform).paddingTop = 30;
+
+        entitiesCont = new SceneObject(gridCont);
 
 		gridGraphics = new h2d.Graphics(gridCont);
         selectGraphic = new h2d.Graphics(gridCont);
@@ -551,14 +579,14 @@ class Board {
         entityGraphics.clear();
         for (e in entities) {
             entityGraphics.lineStyle(3, e.inf.color ?? 0x00AACC);
-            e.shape.draw(entityGraphics);
+            e.draw(entityGraphics);
             #if debug
             e.shape.drawDebug(debugGraphic);
             #end
         }
         for (e in sideEntities) {
             entityGraphics.lineStyle(3, e.inf.color ?? 0x00AACC);
-            e.shape.draw(entityGraphics);
+            e.draw(entityGraphics);
             #if debug
             e.shape.drawDebug(debugGraphic);
             #end
