@@ -424,16 +424,18 @@ class Board {
 
         var gridPlatform = new h2d.Bitmap(hxd.Res.platform_A.toTile(), boardRoot);
         gridPlatform.setScale(0.5);
-        boardRoot.getProperties(gridPlatform).paddingLeft = 41;
-        boardRoot.getProperties(gridPlatform).paddingTop = 17;
+        // boardRoot.getProperties(gridPlatform).paddingLeft = -5;
+        // boardRoot.getProperties(gridPlatform).paddingTop = 40;
 
 		gridCont = new SceneObject(boardRoot);
+        boardRoot.getProperties(gridCont).paddingLeft = 10;
+        // boardRoot.getProperties(gridPlatform).paddingTop = 30;
 
 		gridGraphics = new h2d.Graphics(gridCont);
         selectGraphic = new h2d.Graphics(gridCont);
         entityGraphics = new h2d.Graphics(gridCont);
         debugGraphic = new h2d.Graphics(gridCont);
-        startLevel(Empty);
+        startLevel(Data.level.all[0].id);
 
 		boardObj = new SceneObject(gridCont);
 		boardObj.dom.addClass("board");
