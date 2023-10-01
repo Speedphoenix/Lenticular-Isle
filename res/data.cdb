@@ -1459,6 +1459,39 @@
 					"color": 14572893
 				},
 				{
+					"id": "Cyclope",
+					"shapes": [
+						{
+							"ref": "Triangle6_A"
+						},
+						{
+							"ref": "Triangle6_B"
+						}
+					],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 2
+						},
+						{
+							"idx": 3
+						},
+						{
+							"idx": 4
+						},
+						{
+							"idx": 5
+						}
+					],
+					"color": 14572893,
+					"group": 1
+				},
+				{
 					"id": "Obstacle_Hexa36",
 					"shapes": [
 						{
@@ -1481,7 +1514,7 @@
 					],
 					"selectionEdges": [],
 					"group": 2,
-					"color": 14593627
+					"color": 0
 				},
 				{
 					"id": "Obstacle_Triangle6",
@@ -1495,7 +1528,37 @@
 					],
 					"selectionEdges": [],
 					"group": 2,
-					"color": 14593627
+					"color": 0
+				},
+				{
+					"id": "Hexachad_EndPoint",
+					"shapes": [
+						{
+							"ref": "Hexagone36"
+						}
+					],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 2
+						},
+						{
+							"idx": 3
+						},
+						{
+							"idx": 4
+						},
+						{
+							"idx": 5
+						}
+					],
+					"color": 152064,
+					"group": 3
 				},
 				{
 					"id": "Grid0",
@@ -1556,7 +1619,7 @@
 							"idx": 17
 						}
 					],
-					"group": 3
+					"group": 4
 				},
 				{
 					"id": "Grid1",
@@ -1581,7 +1644,7 @@
 							"idx": 15
 						}
 					],
-					"group": 3
+					"group": 4
 				},
 				{
 					"id": "Grid2",
@@ -1606,7 +1669,7 @@
 							"idx": 5
 						}
 					],
-					"group": 3
+					"group": 4
 				},
 				{
 					"id": "Grid3",
@@ -1637,7 +1700,7 @@
 							"idx": 17
 						}
 					],
-					"group": 3
+					"group": 4
 				},
 				{
 					"id": "Grid4",
@@ -1680,7 +1743,7 @@
 							"idx": 17
 						}
 					],
-					"group": 3
+					"group": 4
 				}
 			],
 			"separators": [
@@ -1695,6 +1758,10 @@
 				{
 					"title": "Obstacle",
 					"id": "Obstacle_Hexa36"
+				},
+				{
+					"title": "GroundEffects",
+					"id": "Hexachad_EndPoint"
 				},
 				{
 					"title": "DebugGrids",
@@ -1771,6 +1838,10 @@
 							"offsety": 0
 						}
 					]
+				},
+				{
+					"id": "TutoHexaSolo",
+					"entities": [{"offsetx":2,"offsety":0,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":6,"offsety":2,"ref":"Hexachad","shapeIdx":0},{"offsetx":6,"offsety":0,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":8,"offsety":0,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":9,"offsety":1,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":0,"offsety":2,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":0,"offsety":4,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":0,"offsety":6,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":11,"offsety":3,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":9,"offsety":3,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":5,"offsety":5,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":6,"offsety":6,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":7,"offsety":5,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":3,"offsety":9,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":7,"offsety":9,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":9,"offsety":9,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":10,"offsety":8,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":11,"offsety":7,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":14,"offsety":8,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":17,"offsety":7,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":16,"offsety":6,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":18,"offsety":6,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":19,"offsety":9,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":17,"offsety":11,"ref":"Obstacle_Triangle6","shapeIdx":1},{"offsetx":18,"offsety":10,"ref":"Slime","shapeIdx":2},{"offsetx":20,"offsety":8,"ref":"Slime","shapeIdx":2},{"offsetx":17,"offsety":3,"ref":"Hexachad_EndPoint","shapeIdx":0},{"offsetx":15,"offsety":7,"ref":"Cyclope","shapeIdx":1}]
 				}
 			],
 			"separators": [],

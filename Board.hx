@@ -415,7 +415,7 @@ class Board {
         selectGraphic = new h2d.Graphics(gridCont);
         entityGraphics = new h2d.Graphics(gridCont);
         debugGraphic = new h2d.Graphics(gridCont);
-        startLevel(Level1);
+        startLevel(TutoHexaSolo);
 
 		boardObj = new SceneObject(gridCont);
 		boardObj.dom.addClass("board");
@@ -582,7 +582,7 @@ class Board {
         if (forceSelectionEdges != null)
     		g.lineStyle(1, 0x000000);
         else if (currentSelect != null)
-    		g.lineStyle(2, 0x000000);
+    		g.lineStyle(2, 0xA5A5A5);
         else
             g.lineStyle(0, 0x000000);
 
