@@ -3697,6 +3697,10 @@
 							"shapeIdx": 1
 						}
 					]
+				},
+				{
+					"id": "HexaWrectangle_SlimyBrawl",
+					"entities": [{"offsetx":8,"offsety":2,"ref":"Hexachad","shapeIdx":0},{"offsetx":13,"offsety":1,"ref":"Wrecktangle","shapeIdx":1},{"offsetx":9,"offsety":5,"ref":"Slime","shapeIdx":0},{"offsetx":7,"offsety":7,"ref":"Slime","shapeIdx":0},{"offsetx":5,"offsety":5,"ref":"Slime","shapeIdx":0},{"offsetx":12,"offsety":4,"ref":"Slime","shapeIdx":1},{"offsetx":9,"offsety":7,"ref":"Slime","shapeIdx":0},{"offsetx":6,"offsety":8,"ref":"Slime","shapeIdx":0},{"offsetx":4,"offsety":8,"ref":"Slime","shapeIdx":0},{"offsetx":19,"offsety":7,"ref":"Slime","shapeIdx":0},{"offsetx":11,"offsety":1,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":3,"offsety":1,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":8,"offsety":10,"ref":"Hexachad_EndPoint","shapeIdx":0},{"offsetx":12,"offsety":10,"ref":"Wrectangle_EndPoint","shapeIdx":1},{"offsetx":18,"offsety":10,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":1,"offsety":9,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":0,"offsety":2,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":18,"offsety":2,"ref":"Obstacle_Triangle6","shapeIdx":0},{"offsetx":18,"offsety":4,"ref":"Obstacle_Triangle6","shapeIdx":1}]
 				}
 			],
 			"separators": [],
