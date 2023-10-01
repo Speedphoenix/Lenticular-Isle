@@ -1323,7 +1323,8 @@
 						{
 							"idx": 15
 						}
-					]
+					],
+					"group": 0
 				},
 				{
 					"id": "Hexachad",
@@ -1351,7 +1352,8 @@
 						{
 							"idx": 5
 						}
-					]
+					],
+					"group": 0
 				},
 				{
 					"id": "Lozecannon",
@@ -1391,7 +1393,8 @@
 						{
 							"idx": 17
 						}
-					]
+					],
+					"group": 0
 				},
 				{
 					"id": "Slime",
@@ -1443,7 +1446,8 @@
 						{
 							"idx": 17
 						}
-					]
+					],
+					"group": 1
 				},
 				{
 					"id": "Obstacle_Hexa36",
@@ -1452,7 +1456,8 @@
 							"ref": "Hexagone36"
 						}
 					],
-					"selectionEdges": []
+					"selectionEdges": [],
+					"group": 2
 				},
 				{
 					"id": "Obstacle_Rectangle6",
@@ -1464,7 +1469,33 @@
 							"ref": "Rectangle6_B"
 						}
 					],
-					"selectionEdges": []
+					"selectionEdges": [],
+					"group": 2
+				},
+				{
+					"id": "Grid1",
+					"shapes": [],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 15
+						}
+					],
+					"group": 3
 				}
 			],
 			"separators": [
@@ -1479,9 +1510,15 @@
 				{
 					"title": "Obstacle",
 					"id": "Obstacle_Hexa36"
+				},
+				{
+					"title": "Debug",
+					"id": "Grid1"
 				}
 			],
-			"props": {}
+			"props": {
+				"hasGroup": true
+			}
 		},
 		{
 			"name": "entity@shapes",
