@@ -101,12 +101,11 @@ class EntityEnt {
     }
 
     public function update(dt: Float) {
-        var window = hxd.Window.getInstance();
-        var mousePos = new Point(window.mouseX, window.mouseY);
+        var gridMousePos = Board.inst.getGridMousePos();
         hoverGraphic.clear();
         hoverGraphic.lineStyle(4, 0x1FD346);
 
-        if (shape.contains(mousePos)) {
+        if (shape.contains(gridMousePos)) {
             shape.draw(hoverGraphic);
             // shape.drawColliders(hoverGraphic);
             if (K.isPressed(K.MOUSE_LEFT)) {
@@ -124,17 +123,15 @@ class EntityEnt {
             if (shapePreview == null)
                 shapePreview = new ShapeEnt(inf.shapes[0].refId, x, y);
 
-            var verts = Const.getVertexOffsets(shape.inf.firstTriangle);
-            var center = verts[0].add(verts[1]).add(verts[2]).multiply(1 / 3);
-            center.x *= Const.HEX_SIDE;
-            center.y *= Const.HEX_HEIGHT;
+            var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
 
-            var offsetToOffset = center.add(mousePos);
-            var mouseOffset = new IPoint(Math.round(offsetToOffset.x / Const.HEX_SIDE), Math.round(offsetToOffset.y / Const.HEX_HEIGHT));
+            var offsetToOffset = center.add(gridMousePos);
+            var mouseOffset = new IPoint(Math.round(offsetToOffset.x), Math.round(offsetToOffset.y));
             if ((mouseOffset.x & 1) != (mouseOffset.y & 1)) {
                 mouseOffset.x--;
             }
             dontinline(mouseOffset);
+            dontinline(gridMousePos);
             dontinline(center);
             dontinline(offsetToOffset);
 
@@ -169,18 +166,17 @@ class EntityEnt {
                     default:
                 }
                 #end
-                var verts = Const.getVertexOffsets(inf.shapes[i].ref.firstTriangle);
-                var center = verts[0].add(verts[1]).add(verts[2]).multiply(1 / 3);
+                var center = Const.getCenter(inf.shapes[i].ref.firstTriangle, inf.shapes[i].ref.firstTriangleCenter);
                 for (j in 0...nearOffsets.length) {
                     var o = nearOffsets[j];
                     var c = center.add(o.toPoint());
                     dontinline(c);
-                    c.x *= Const.HEX_SIDE;
-                    c.y *= Const.HEX_HEIGHT;
                     #if debug
-                    debGraphic.drawCircle(c.x, c.y, 5);
+                    var debCenter = Const.toIso(c);
+                    dontinline(debCenter);
+                    debGraphic.drawCircle(debCenter.x, debCenter.y, 5);
                     #end
-                    var d = c.distanceSq(mousePos);
+                    var d = c.distanceSq(gridMousePos);
                     if (nearest == null || nearest.distSq > d) {
                         nearest = {
                             shape: i,
@@ -301,16 +297,15 @@ class ShapeEnt {
     public function drawColliders(g: h2d.Graphics) {
         for (c in colliders) {
             for (i in 0...c.length) {
-                g.moveTo(c[i].x, c[i].y);
-                g.lineTo(c[(i+1) % c.length].x, c[(i+1) % c.length].y);
+                Board.drawEdgeRaw(c[i], c[(i + 1) % c.length], g);
             }
         }
     }
 
     public function contains(p: Point) {
         var actual = p.clone();
-        actual.x -= x * Const.HEX_SIDE;
-        actual.y -= y * Const.HEX_HEIGHT;
+        actual.x -= x;
+        actual.y -= y;
         return colliders.any(c -> c.contains(actual));
     }
 }
@@ -343,9 +338,6 @@ class Triangle {
         for (v in verts) {
             v.x += offset.x;
             v.y += offset.y;
-
-            v.x *= Const.HEX_SIDE;
-            v.y *= Const.HEX_HEIGHT;
         }
         return verts;
     }
@@ -417,6 +409,11 @@ class Board {
         }
     }
 
+    public inline function getGridMousePos() {
+        var mousePos = new Point(window.mouseX, window.mouseY);
+        return Const.fromIso(mousePos);
+    }
+
     var prevSelect = null;
     public function update(dt: Float) {
         debugGraphic.clear();
@@ -461,9 +458,9 @@ class Board {
 
 		g.lineStyle(2, 0x222222);
         drawEdgeRaw(new Point(0, 0), new Point(0, Const.BOARD_HEIGHT), g);
-        drawEdgeRaw(new Point(0, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2, Const.BOARD_HEIGHT), g);
-        drawEdgeRaw(new Point(Const.BOARD_WIDTH * 2, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2, 0), g);
-        drawEdgeRaw(new Point(Const.BOARD_WIDTH * 2, 0), new Point(0, 0), g);
+        drawEdgeRaw(new Point(0, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2 + 2, Const.BOARD_HEIGHT), g);
+        drawEdgeRaw(new Point(Const.BOARD_WIDTH * 2 + 2, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2 + 2, 0), g);
+        drawEdgeRaw(new Point(Const.BOARD_WIDTH * 2 + 2, 0), new Point(0, 0), g);
 
         if (currentSelect != null)
     		g.lineStyle(2, 0x000000);
@@ -482,8 +479,8 @@ class Board {
         drawEdgeRaw(c, a, g);
     }
     public static inline function drawEdgeRaw(a: Point, b: Point, g: h2d.Graphics) {
-        var a2 = Const.ISO_MATRIX.transform(a);
-        var b2 = Const.ISO_MATRIX.transform(b);
+        var a2 = Const.toIso(a);
+        var b2 = Const.toIso(b);
         g.moveTo(a2.x, a2.y);
         g.lineTo(b2.x, b2.y);
     }

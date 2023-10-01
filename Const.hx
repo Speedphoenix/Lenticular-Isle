@@ -23,11 +23,11 @@ using Extensions;
         // ISO_MATRIX.a = HEX_SIDE;    ISO_MATRIX.b = 0;           ISO_MATRIX.x = 0;
         // ISO_MATRIX.c = 0;           ISO_MATRIX.d = HEX_HEIGHT;  ISO_MATRIX.y + 0;
 
-        ISO_MATRIX.a = 70;  ISO_MATRIX.b = -42; ISO_MATRIX.x = 0;
-        ISO_MATRIX.c = 122;  ISO_MATRIX.d = 70;  ISO_MATRIX.y = 500;
+        // ISO_MATRIX.a = 70;  ISO_MATRIX.b = -42; ISO_MATRIX.x = 0;
+        // ISO_MATRIX.c = 122;  ISO_MATRIX.d = 70;  ISO_MATRIX.y = 500;
 
         ISO_MATRIX.a = 122;  ISO_MATRIX.b = 70; ISO_MATRIX.x = 0;
-        ISO_MATRIX.c = 70;  ISO_MATRIX.d = -42;  ISO_MATRIX.y = 450;
+        ISO_MATRIX.c = 70;  ISO_MATRIX.d = -42; ISO_MATRIX.y = 450;
 
         ISO_MATRIX.a /= 2;
         ISO_MATRIX.b /= 2;
@@ -39,8 +39,16 @@ using Extensions;
         ISO_MATRIX.c = Math.round(ISO_MATRIX.c * SQRT_3);
         ISO_MATRIX.d = Math.round(ISO_MATRIX.d * SQRT_3);
 
-        INV_ISO_MATRIX.inverse(ISO_MATRIX);
+        INV_ISO_MATRIX = ISO_MATRIX.clone();
+        INV_ISO_MATRIX.invert();
         return true;
+    }
+
+    static inline function toIso(p) {
+        return ISO_MATRIX.transform(p);
+    }
+    static inline function fromIso(p) {
+        return INV_ISO_MATRIX.transform(p);
     }
 
     static final BASE_VERTICES = [
@@ -168,19 +176,22 @@ using Extensions;
         return ret;
     }
 
-    static inline function getVertexIndices(triIdx) {
-        var edges = getEdges(triIdx);
-        var ret = [];
-        ret.push(edges[0].a);
-        ret.push(edges[0].b);
+    static inline function getCenter(triIdx, vertexIdx = -1) {
+        var verts = getVertexOffsets(triIdx);
+        if (vertexIdx < 0)
+            return verts[0].add(verts[1]).add(verts[2]).multiply(1 / 3);
 
         var tri = BASE_TRIANGLES[triIdx];
-        var firstEdge = BASE_EDGES[tri[0].v];
-        var otherEdge = BASE_EDGES[tri[1].v];
-        var vert = otherEdge.findIndex(v -> v.v != firstEdge[0].v && v.v != firstEdge[1].v);
-        ret.push(vert == 0 ? edges[1].a : edges[1].b);
-
-        return ret;
+        var edges = getEdges(triIdx);
+        if (BASE_EDGES[tri[0].v][0].v == vertexIdx)
+            return edges[0].a;
+        if (BASE_EDGES[tri[0].v][1].v == vertexIdx)
+            return edges[0].b;
+        if (BASE_EDGES[tri[1].v][0].v == vertexIdx)
+            return edges[1].a;
+        if (BASE_EDGES[tri[1].v][1].v == vertexIdx)
+            return edges[1].b;
+        return verts[0].add(verts[1]).add(verts[2]).multiply(1 / 3);
     }
     static inline function getVertexOffsets(triIdx) {
         var edges = getEdges(triIdx);
