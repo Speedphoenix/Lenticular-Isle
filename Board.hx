@@ -219,6 +219,11 @@ class EntityEnt {
             }
         }
     }
+
+    public function checkMovement() {
+
+    }
+
     public function onRemove() {
         hoverGraphic.remove();
         previewGraphic.remove();
@@ -354,8 +359,15 @@ class Triangle {
             if (Board.inst.forceSelectionEdges != null) {
                 if (!Board.inst.forceSelectionEdges.selectionEdges.any(e2 -> e2.idx == e.idx))
                     continue;
-            } else if (Board.inst.currentSelect?.inf?.grid != null && !Board.inst.currentSelect.inf.grid.selectionEdges.any(e2 -> e2.idx == e.idx))
-                continue;
+            } else {
+                var s = Board.inst.currentSelect;
+                if (s != null) {
+                    if (s.inf.grid != null && !s.inf.grid.selectionEdges.any(e2 -> e2.idx == e.idx))
+                        continue;
+                    if (s.inf.flags.has(NoSelection))
+                        continue;
+                }
+            }
 
             Board.drawEdgeRaw(e.a.add(offset.toPoint()), e.b.add(offset.toPoint()), g);
         }
@@ -408,6 +420,12 @@ class Board {
         boardRoot.backgroundTile = h2d.Tile.fromColor(0xFFFFFF);
         boardRoot.fillWidth = true;
         boardRoot.fillHeight = true;
+        boardRoot.layout = Stack;
+
+        var gridPlatform = new h2d.Bitmap(hxd.Res.platform_A.toTile(), boardRoot);
+        gridPlatform.setScale(0.5);
+        boardRoot.getProperties(gridPlatform).paddingLeft = 41;
+        boardRoot.getProperties(gridPlatform).paddingTop = 17;
 
 		gridCont = new SceneObject(boardRoot);
 
@@ -458,7 +476,7 @@ class Board {
         var x = Const.BOARD_WIDTH * 2 + 4;
         var y = i * 2;
         if (i >= 9) {
-            x = (i - 10) * 2;
+            x = (i - 9) * 2;
             y = Const.BOARD_HEIGHT;
         }
         return new EntityEnt(k, 0, x, y);

@@ -51,6 +51,62 @@ using Extensions;
         return INV_ISO_MATRIX.transform(p);
     }
 
+    static /* inline */ function toGrid(p: IPoint, g: Data.GridKind) {
+        switch (g) {
+            case Base, None:
+                return p;
+            case TriangleZeroes:
+                var oddLine = p.y & 1 != 0;
+                var ret = new IPoint(Math.round((p.x - (oddLine ? 1 : 0)) / 2), p.y);
+                return ret;
+            default:
+                return p;
+        }
+    }
+    static /* inline */ function fromGrid(p: IPoint, g: Data.GridKind) {
+        switch (g) {
+            case Base, None:
+                return p;
+            case TriangleZeroes:
+                var oddLine = p.y & 1 != 0;
+                var ret = new IPoint(Math.round((p.x + (oddLine ? 1 : 0)) / 2), p.y);
+                return ret;
+            default:
+                return p;
+        }
+    }
+    static /* inline */ function getGridAdjacent(p: IPoint, g: Data.GridKind) {
+        switch (g) {
+            case Base, None:
+                return [
+                    new IPoint(-2, 0),
+                    new IPoint(2, 0),
+                    new IPoint(-1, -1),
+                    new IPoint(1, 1),
+                    new IPoint(-1, 1),
+                    new IPoint(1, -1),
+                ];
+            case TriangleZeroes:
+                return [
+                    new IPoint(-1, 0),
+                    new IPoint(1, 0),
+                    new IPoint(0, -1),
+                    new IPoint(0, 1),
+                    new IPoint(-1, 1),
+                    new IPoint(1, -1),
+                ];
+            default:
+                return [
+                    new IPoint(-2, 0),
+                    new IPoint(2, 0),
+                    new IPoint(-1, -1),
+                    new IPoint(1, 1),
+                    new IPoint(-1, 1),
+                    new IPoint(1, -1),
+                ];
+        }
+    }
+
     static final BASE_VERTICES = [
         new Point(0, 0),        // 0
         new Point(1, 0),        // 1
