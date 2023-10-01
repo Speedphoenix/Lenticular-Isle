@@ -1469,7 +1469,8 @@
 							"ref": "Rectangle6_B"
 						}
 					],
-					"selectionEdges": []
+					"selectionEdges": [],
+					"group": 2
 				},
 				{
 					"id": "Obstacle_Triangle6",
@@ -1483,6 +1484,67 @@
 					],
 					"selectionEdges": [],
 					"group": 2
+				},
+				{
+					"id": "Grid0",
+					"shapes": [],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 2
+						},
+						{
+							"idx": 3
+						},
+						{
+							"idx": 4
+						},
+						{
+							"idx": 5
+						},
+						{
+							"idx": 6
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 15
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					],
+					"group": 3
 				},
 				{
 					"id": "Grid1",
@@ -1508,6 +1570,105 @@
 						}
 					],
 					"group": 3
+				},
+				{
+					"id": "Grid2",
+					"shapes": [],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 2
+						},
+						{
+							"idx": 3
+						},
+						{
+							"idx": 4
+						},
+						{
+							"idx": 5
+						}
+					],
+					"group": 3
+				},
+				{
+					"id": "Grid3",
+					"shapes": [],
+					"selectionEdges": [
+						{
+							"idx": 6
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					],
+					"group": 3
+				},
+				{
+					"id": "Grid4",
+					"shapes": [],
+					"selectionEdges": [
+						{
+							"idx": 6
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 15
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					],
+					"group": 3
 				}
 			],
 			"separators": [
@@ -1524,13 +1685,84 @@
 					"id": "Obstacle_Hexa36"
 				},
 				{
-					"title": "Debug",
-					"id": "Grid1"
+					"title": "DebugGrids",
+					"id": "Grid0"
 				}
 			],
 			"props": {
 				"hasGroup": true
 			}
+		},
+		{
+			"name": "level",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "8",
+					"name": "entities",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"id": "Empty",
+					"entities": []
+				},
+				{
+					"id": "Level1",
+					"entities": [
+						{
+							"offsetx": 5,
+							"offsety": 7,
+							"ref": "Wrecktangle",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 16,
+							"offsety": 4,
+							"ref": "Wrecktangle",
+							"shapeIdx": 0
+						}
+					]
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "level@entities",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:entity",
+					"name": "ref",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "shapeIdx",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "offsetx",
+					"documentation": "must have the same parity as offsety"
+				},
+				{
+					"typeStr": "3",
+					"name": "offsety",
+					"documentation": "must have the same parity as offsetx"
+				}
+			]
 		},
 		{
 			"name": "entity@shapes",
