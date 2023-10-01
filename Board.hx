@@ -424,10 +424,12 @@ class Board {
 
         var gridPlatform = new h2d.Bitmap(hxd.Res.platform_A.toTile(), boardRoot);
         gridPlatform.setScale(0.5);
-        boardRoot.getProperties(gridPlatform).paddingLeft = 41;
-        boardRoot.getProperties(gridPlatform).paddingTop = 17;
+        // boardRoot.getProperties(gridPlatform).paddingLeft = -5;
+        // boardRoot.getProperties(gridPlatform).paddingTop = 40;
 
 		gridCont = new SceneObject(boardRoot);
+        boardRoot.getProperties(gridCont).paddingLeft = 10;
+        // boardRoot.getProperties(gridPlatform).paddingTop = 30;
 
 		gridGraphics = new h2d.Graphics(gridCont);
         selectGraphic = new h2d.Graphics(gridCont);

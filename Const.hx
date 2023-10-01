@@ -26,8 +26,11 @@ using Extensions;
         // ISO_MATRIX.a = 70;  ISO_MATRIX.b = -42; ISO_MATRIX.x = 0;
         // ISO_MATRIX.c = 122;  ISO_MATRIX.d = 70;  ISO_MATRIX.y = 500;
 
-        ISO_MATRIX.a = 122;  ISO_MATRIX.b = 70; ISO_MATRIX.x = 0;
-        ISO_MATRIX.c = 70;  ISO_MATRIX.d = -42; ISO_MATRIX.y = 450;
+        // ISO_MATRIX.a = 122;  ISO_MATRIX.b = 70; ISO_MATRIX.x = 0;
+        // ISO_MATRIX.c = 70;  ISO_MATRIX.d = -42; ISO_MATRIX.y = 450;
+
+        ISO_MATRIX.a = 110.624762;  ISO_MATRIX.b = 63.492381; ISO_MATRIX.x = 0;
+        ISO_MATRIX.c = 65.2;  ISO_MATRIX.d = -39.1; ISO_MATRIX.y = 410;
 
         ISO_MATRIX.a /= 2;
         ISO_MATRIX.b /= 2;
