@@ -171,7 +171,8 @@ class EntityEnt {
                 #end
                 var verts = Const.getVertexOffsets(inf.shapes[i].ref.firstTriangle);
                 var center = verts[0].add(verts[1]).add(verts[2]).multiply(1 / 3);
-                for (o in nearOffsets) {
+                for (j in 0...nearOffsets.length) {
+                    var o = nearOffsets[j];
                     var c = center.add(o.toPoint());
                     dontinline(c);
                     c.x *= Const.HEX_SIDE;
@@ -189,6 +190,8 @@ class EntityEnt {
                     }
                 }
             }
+            // TODO sometimes the offset picked is wrong (does not take the one that's actually below the mouse)
+            // Check with debug, with the small rectangles
 
             shapePreview.kind = inf.shapes[nearest.shape].refId;
             if (nearest.offset.x != x || nearest.offset.y != y) {
@@ -456,11 +459,10 @@ class Board {
 		g.clear();
 
 		g.lineStyle(2, 0x222222);
-		// g.moveTo(0, Const.BOARD_TOP_EXTRA * Const.SIDE);
-		g.lineTo(0, Const.BOARD_FULL_HEIGHT);
-		g.lineTo(Const.BOARD_FULL_WIDTH, Const.BOARD_FULL_HEIGHT);
-		g.lineTo(Const.BOARD_FULL_WIDTH, 0);
-		g.lineTo(0, 0);
+        drawEdgeRaw(new Point(0, 0), new Point(0, Const.BOARD_HEIGHT), g);
+        drawEdgeRaw(new Point(0, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2, Const.BOARD_HEIGHT), g);
+        drawEdgeRaw(new Point(Const.BOARD_WIDTH * 2, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2, 0), g);
+        drawEdgeRaw(new Point(Const.BOARD_WIDTH * 2, 0), new Point(0, 0), g);
 
         if (currentSelect != null)
     		g.lineStyle(2, 0x000000);
@@ -472,6 +474,19 @@ class Board {
         }
 		g.lineStyle();
 	}
+
+    public static inline function drawTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
+        drawEdgeRaw(a, b, g);
+        drawEdgeRaw(b, c, g);
+        drawEdgeRaw(c, a, g);
+    }
+    public static inline function drawEdgeRaw(a: Point, b: Point, g: h2d.Graphics) {
+        var a2 = Const.ISO_MATRIX.transform(a);
+        var b2 = Const.ISO_MATRIX.transform(b);
+        g.moveTo(a2.x, a2.y);
+        g.lineTo(b2.x, b2.y);
+    }
+
     function drawLargeTriangle(i, j, g: h2d.Graphics) {
         var a = new Point(i, j);
         var b = new Point(i + 2, j);
@@ -484,17 +499,6 @@ class Board {
         var c = new Point(i - 1, j + 1);
         drawLargeTriangleRaw(a, b, c, g);
     }
-
-    public inline static function drawTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
-        drawEdgeRaw(a, b, g);
-        drawEdgeRaw(b, c, g);
-        drawEdgeRaw(c, a, g);
-    }
-    public inline static function drawEdgeRaw(a: Point, b: Point, g: h2d.Graphics) {
-        g.moveTo(a.x * Const.HEX_SIDE, a.y * Const.HEX_HEIGHT);
-        g.lineTo(b.x * Const.HEX_SIDE, b.y * Const.HEX_HEIGHT);
-    }
-
     public inline static function drawLargeTriangleRaw(a: Point, b: Point, c: Point, g: h2d.Graphics) {
         drawTriangleRaw(a, b, c, g);
 
