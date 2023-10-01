@@ -18,6 +18,12 @@
 					"typeStr": "3",
 					"name": "firstTriangle",
 					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "firstTriangleCenter",
+					"kind": null,
+					"documentation": "Which vertex of the firstTriangle is used as the shape's center\n-1 will use the triangle's center"
 				}
 			],
 			"lines": [
@@ -53,7 +59,8 @@
 							"edge3": "A"
 						}
 					],
-					"firstTriangle": 10
+					"firstTriangle": 10,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Rectangle6_A",
@@ -89,7 +96,8 @@
 							"edge1": "C"
 						}
 					],
-					"firstTriangle": 4
+					"firstTriangle": 4,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Rectangle6_B",
@@ -125,7 +133,8 @@
 							"edge1": "C"
 						}
 					],
-					"firstTriangle": 7
+					"firstTriangle": 7,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Rectangle12_A",
@@ -195,7 +204,8 @@
 							"edge1": "J"
 						}
 					],
-					"firstTriangle": 8
+					"firstTriangle": 8,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Rectangle12_B",
@@ -265,7 +275,8 @@
 							"edge1": "J"
 						}
 					],
-					"firstTriangle": 3
+					"firstTriangle": 3,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Triangle6_A",
@@ -301,7 +312,8 @@
 							"edge3": "A"
 						}
 					],
-					"firstTriangle": 0
+					"firstTriangle": 0,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Triangle6_B",
@@ -337,7 +349,8 @@
 							"edge3": "A"
 						}
 					],
-					"firstTriangle": 6
+					"firstTriangle": 6,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Hexagone12_A",
@@ -409,7 +422,8 @@
 							"edge2": "F"
 						}
 					],
-					"firstTriangle": 0
+					"firstTriangle": 0,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Hexagone12_B",
@@ -481,7 +495,8 @@
 							"edge2": "F"
 						}
 					],
-					"firstTriangle": 6
+					"firstTriangle": 6,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Hexagone12_C",
@@ -547,7 +562,8 @@
 							"edge2": "InnerA"
 						}
 					],
-					"firstTriangle": 0
+					"firstTriangle": 0,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Star24_C",
@@ -685,7 +701,8 @@
 							"edge3": "InnerL"
 						}
 					],
-					"firstTriangle": 0
+					"firstTriangle": 0,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Hexagone36",
@@ -895,7 +912,8 @@
 							"edge1": "MidL"
 						}
 					],
-					"firstTriangle": 0
+					"firstTriangle": 0,
+					"firstTriangleCenter": 0
 				},
 				{
 					"id": "Losange4_A",
@@ -921,7 +939,8 @@
 							"edge2": "A"
 						}
 					],
-					"firstTriangle": 0
+					"firstTriangle": 0,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Losange4_B",
@@ -945,7 +964,8 @@
 							"edge2": "C"
 						}
 					],
-					"firstTriangle": 2
+					"firstTriangle": 2,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Losange4_C",
@@ -969,7 +989,8 @@
 							"edge2": "C"
 						}
 					],
-					"firstTriangle": 8
+					"firstTriangle": 8,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Losange16_A",
@@ -1059,7 +1080,8 @@
 							"edge2": "OuterF"
 						}
 					],
-					"firstTriangle": 0
+					"firstTriangle": 0,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Losange16_B",
@@ -1151,7 +1173,8 @@
 							"edge3": "RigC"
 						}
 					],
-					"firstTriangle": 0
+					"firstTriangle": 0,
+					"firstTriangleCenter": -1
 				},
 				{
 					"id": "Losange16_C",
@@ -1243,7 +1266,8 @@
 							"edge3": "RigC"
 						}
 					],
-					"firstTriangle": 6
+					"firstTriangle": 6,
+					"firstTriangleCenter": -1
 				}
 			],
 			"separators": [],
@@ -1299,7 +1323,8 @@
 						{
 							"idx": 15
 						}
-					]
+					],
+					"group": 0
 				},
 				{
 					"id": "Hexachad",
@@ -1327,7 +1352,8 @@
 						{
 							"idx": 5
 						}
-					]
+					],
+					"group": 0
 				},
 				{
 					"id": "Lozecannon",
@@ -1367,7 +1393,8 @@
 						{
 							"idx": 17
 						}
-					]
+					],
+					"group": 0
 				},
 				{
 					"id": "Slime",
@@ -1419,7 +1446,8 @@
 						{
 							"idx": 17
 						}
-					]
+					],
+					"group": 1
 				},
 				{
 					"id": "Obstacle_Hexa36",
@@ -1428,7 +1456,8 @@
 							"ref": "Hexagone36"
 						}
 					],
-					"selectionEdges": []
+					"selectionEdges": [],
+					"group": 2
 				},
 				{
 					"id": "Obstacle_Rectangle6",
@@ -1452,7 +1481,33 @@
 							"ref": "Triangle6_B"
 						}
 					],
-					"selectionEdges": []
+					"selectionEdges": [],
+					"group": 2
+				},
+				{
+					"id": "Grid1",
+					"shapes": [],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 15
+						}
+					],
+					"group": 3
 				}
 			],
 			"separators": [
@@ -1467,9 +1522,15 @@
 				{
 					"title": "Obstacle",
 					"id": "Obstacle_Hexa36"
+				},
+				{
+					"title": "Debug",
+					"id": "Grid1"
 				}
 			],
-			"props": {}
+			"props": {
+				"hasGroup": true
+			}
 		},
 		{
 			"name": "entity@shapes",
