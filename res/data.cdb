@@ -97,7 +97,7 @@
 						}
 					],
 					"firstTriangle": 4,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 3
 				},
 				{
 					"id": "Rectangle6_B",
@@ -134,7 +134,7 @@
 						}
 					],
 					"firstTriangle": 7,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 2
 				},
 				{
 					"id": "Rectangle12_A",
@@ -205,7 +205,7 @@
 						}
 					],
 					"firstTriangle": 8,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 4
 				},
 				{
 					"id": "Rectangle12_B",
@@ -276,7 +276,7 @@
 						}
 					],
 					"firstTriangle": 3,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 5
 				},
 				{
 					"id": "Triangle6_A",
@@ -313,7 +313,7 @@
 						}
 					],
 					"firstTriangle": 0,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 4
 				},
 				{
 					"id": "Triangle6_B",
@@ -350,7 +350,7 @@
 						}
 					],
 					"firstTriangle": 6,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 5
 				},
 				{
 					"id": "Hexagone12_A",
@@ -423,7 +423,7 @@
 						}
 					],
 					"firstTriangle": 0,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 4
 				},
 				{
 					"id": "Hexagone12_B",
@@ -496,7 +496,7 @@
 						}
 					],
 					"firstTriangle": 6,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 5
 				},
 				{
 					"id": "Hexagone12_C",
@@ -563,7 +563,7 @@
 						}
 					],
 					"firstTriangle": 0,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 0
 				},
 				{
 					"id": "Star24_C",
@@ -702,7 +702,7 @@
 						}
 					],
 					"firstTriangle": 0,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 0
 				},
 				{
 					"id": "Hexagone36",
@@ -940,7 +940,7 @@
 						}
 					],
 					"firstTriangle": 0,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 1
 				},
 				{
 					"id": "Losange4_B",
@@ -1081,7 +1081,7 @@
 						}
 					],
 					"firstTriangle": 0,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 0
 				},
 				{
 					"id": "Losange16_B",
@@ -1174,7 +1174,7 @@
 						}
 					],
 					"firstTriangle": 0,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 4
 				},
 				{
 					"id": "Losange16_C",
@@ -1267,7 +1267,7 @@
 						}
 					],
 					"firstTriangle": 6,
-					"firstTriangleCenter": -1
+					"firstTriangleCenter": 5
 				}
 			],
 			"separators": [],
@@ -1725,8 +1725,38 @@
 						{
 							"offsetx": 16,
 							"offsety": 4,
-							"ref": "Wrecktangle",
+							"ref": "Hexachad",
 							"shapeIdx": 0
+						},
+						{
+							"ref": "Lozecannon",
+							"shapeIdx": 0,
+							"offsetx": 0,
+							"offsety": 0
+						},
+						{
+							"ref": "Obstacle_Hexa36",
+							"shapeIdx": 0,
+							"offsetx": 0,
+							"offsety": 0
+						},
+						{
+							"ref": "Obstacle_Rectangle6",
+							"shapeIdx": 0,
+							"offsetx": 0,
+							"offsety": 0
+						},
+						{
+							"ref": "Obstacle_Triangle6",
+							"shapeIdx": 0,
+							"offsetx": 0,
+							"offsety": 0
+						},
+						{
+							"ref": "Slime",
+							"shapeIdx": 0,
+							"offsetx": 0,
+							"offsety": 0
 						}
 					]
 				}
