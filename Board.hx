@@ -354,7 +354,7 @@ class Triangle {
             if (Board.inst.forceSelectionEdges != null) {
                 if (!Board.inst.forceSelectionEdges.selectionEdges.any(e2 -> e2.idx == e.idx))
                     continue;
-            } else if (Board.inst.currentSelect != null && !Board.inst.currentSelect.inf.selectionEdges.any(e2 -> e2.idx == e.idx))
+            } else if (Board.inst.currentSelect?.inf?.grid != null && !Board.inst.currentSelect.inf.grid.selectionEdges.any(e2 -> e2.idx == e.idx))
                 continue;
 
             Board.drawEdgeRaw(e.a.add(offset.toPoint()), e.b.add(offset.toPoint()), g);
@@ -393,7 +393,7 @@ class Board {
 
     public var currentSelect: EntityEnt = null;
 
-    public var forceSelectionEdges: Data.Entity = null;
+    public var forceSelectionEdges: Data.Grid = null;
 
     var grid = [];
 
@@ -448,8 +448,6 @@ class Board {
 
         var i = 0;
         for (e in Data.entity.all) {
-            if (e.group == DebugGrids)
-                continue;
             sideEntities.push(makeSide(e.id, i));
             i++;
         }
@@ -517,15 +515,14 @@ class Board {
             }
         }
         if (K.isPressed(K.F6)) {
-            var grids = Data.entity.all.filter(e -> e.group == DebugGrids);
             if (forceSelectionEdges == null) {
-                forceSelectionEdges = grids[0];
+                forceSelectionEdges = Data.grid.all[0];
             } else {
-                var i = grids.indexOf(forceSelectionEdges);
-                if (i == grids.length - 1)
+                var i = Data.grid.all.indexOf(forceSelectionEdges);
+                if (i == Data.grid.all.length - 1)
                     forceSelectionEdges = null;
                 else
-                    forceSelectionEdges = grids[i + 1];
+                    forceSelectionEdges = Data.grid.all[i + 1];
             }
             gridChanged = true;
         }

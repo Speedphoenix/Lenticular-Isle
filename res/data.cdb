@@ -1293,8 +1293,13 @@
 					"kind": null
 				},
 				{
-					"typeStr": "8",
-					"name": "selectionEdges",
+					"typeStr": "6:grid",
+					"name": "grid",
+					"kind": null
+				},
+				{
+					"typeStr": "10:NoSelection",
+					"name": "flags",
 					"kind": null
 				}
 			],
@@ -1309,28 +1314,10 @@
 							"ref": "Rectangle12_B"
 						}
 					],
-					"selectionEdges": [
-						{
-							"idx": 0
-						},
-						{
-							"idx": 1
-						},
-						{
-							"idx": 7
-						},
-						{
-							"idx": 10
-						},
-						{
-							"idx": 12
-						},
-						{
-							"idx": 15
-						}
-					],
 					"group": 0,
-					"color": 6348381
+					"color": 6348381,
+					"grid": "Grid2",
+					"flags": 0
 				},
 				{
 					"id": "Hexachad",
@@ -1339,28 +1326,10 @@
 							"ref": "Hexagone36"
 						}
 					],
-					"selectionEdges": [
-						{
-							"idx": 0
-						},
-						{
-							"idx": 1
-						},
-						{
-							"idx": 2
-						},
-						{
-							"idx": 3
-						},
-						{
-							"idx": 4
-						},
-						{
-							"idx": 5
-						}
-					],
 					"group": 0,
-					"color": 6348381
+					"color": 6348381,
+					"grid": "TriangleZeroes",
+					"flags": 0
 				},
 				{
 					"id": "Lozecannon",
@@ -1375,34 +1344,10 @@
 							"ref": "Losange16_C"
 						}
 					],
-					"selectionEdges": [
-						{
-							"idx": 6
-						},
-						{
-							"idx": 8
-						},
-						{
-							"idx": 9
-						},
-						{
-							"idx": 11
-						},
-						{
-							"idx": 13
-						},
-						{
-							"idx": 14
-						},
-						{
-							"idx": 16
-						},
-						{
-							"idx": 17
-						}
-					],
 					"group": 0,
-					"color": 6348381
+					"color": 6348381,
+					"grid": "Grid3",
+					"flags": 0
 				},
 				{
 					"id": "Slime",
@@ -1417,46 +1362,10 @@
 							"ref": "Hexagone12_C"
 						}
 					],
-					"selectionEdges": [
-						{
-							"idx": 6
-						},
-						{
-							"idx": 7
-						},
-						{
-							"idx": 8
-						},
-						{
-							"idx": 9
-						},
-						{
-							"idx": 10
-						},
-						{
-							"idx": 11
-						},
-						{
-							"idx": 12
-						},
-						{
-							"idx": 13
-						},
-						{
-							"idx": 14
-						},
-						{
-							"idx": 15
-						},
-						{
-							"idx": 16
-						},
-						{
-							"idx": 17
-						}
-					],
 					"group": 1,
-					"color": 14572893
+					"color": 14572893,
+					"grid": "Grid4",
+					"flags": 0
 				},
 				{
 					"id": "Cyclope",
@@ -1468,28 +1377,10 @@
 							"ref": "Triangle6_B"
 						}
 					],
-					"selectionEdges": [
-						{
-							"idx": 0
-						},
-						{
-							"idx": 1
-						},
-						{
-							"idx": 2
-						},
-						{
-							"idx": 3
-						},
-						{
-							"idx": 4
-						},
-						{
-							"idx": 5
-						}
-					],
 					"color": 14572893,
-					"group": 1
+					"group": 1,
+					"grid": "TriangleZeroes",
+					"flags": 0
 				},
 				{
 					"id": "Obstacle_Hexa36",
@@ -1498,9 +1389,10 @@
 							"ref": "Hexagone36"
 						}
 					],
-					"selectionEdges": [],
 					"group": 2,
-					"color": 14593627
+					"color": 14593627,
+					"grid": "None",
+					"flags": 1
 				},
 				{
 					"id": "Obstacle_Rectangle6",
@@ -1512,9 +1404,10 @@
 							"ref": "Rectangle6_B"
 						}
 					],
-					"selectionEdges": [],
 					"group": 2,
-					"color": 0
+					"color": 0,
+					"grid": "None",
+					"flags": 1
 				},
 				{
 					"id": "Obstacle_Triangle6",
@@ -1526,9 +1419,10 @@
 							"ref": "Triangle6_B"
 						}
 					],
-					"selectionEdges": [],
 					"group": 2,
-					"color": 0
+					"color": 0,
+					"grid": "None",
+					"flags": 1
 				},
 				{
 					"id": "Hexachad_EndPoint",
@@ -1537,213 +1431,10 @@
 							"ref": "Hexagone36"
 						}
 					],
-					"selectionEdges": [
-						{
-							"idx": 0
-						},
-						{
-							"idx": 1
-						},
-						{
-							"idx": 2
-						},
-						{
-							"idx": 3
-						},
-						{
-							"idx": 4
-						},
-						{
-							"idx": 5
-						}
-					],
 					"color": 152064,
-					"group": 3
-				},
-				{
-					"id": "Grid0",
-					"shapes": [],
-					"selectionEdges": [
-						{
-							"idx": 0
-						},
-						{
-							"idx": 1
-						},
-						{
-							"idx": 2
-						},
-						{
-							"idx": 3
-						},
-						{
-							"idx": 4
-						},
-						{
-							"idx": 5
-						},
-						{
-							"idx": 6
-						},
-						{
-							"idx": 7
-						},
-						{
-							"idx": 8
-						},
-						{
-							"idx": 9
-						},
-						{
-							"idx": 10
-						},
-						{
-							"idx": 11
-						},
-						{
-							"idx": 12
-						},
-						{
-							"idx": 13
-						},
-						{
-							"idx": 14
-						},
-						{
-							"idx": 15
-						},
-						{
-							"idx": 16
-						},
-						{
-							"idx": 17
-						}
-					],
-					"group": 4
-				},
-				{
-					"id": "Grid1",
-					"shapes": [],
-					"selectionEdges": [
-						{
-							"idx": 0
-						},
-						{
-							"idx": 1
-						},
-						{
-							"idx": 7
-						},
-						{
-							"idx": 10
-						},
-						{
-							"idx": 12
-						},
-						{
-							"idx": 15
-						}
-					],
-					"group": 4
-				},
-				{
-					"id": "Grid2",
-					"shapes": [],
-					"selectionEdges": [
-						{
-							"idx": 0
-						},
-						{
-							"idx": 1
-						},
-						{
-							"idx": 2
-						},
-						{
-							"idx": 3
-						},
-						{
-							"idx": 4
-						},
-						{
-							"idx": 5
-						}
-					],
-					"group": 4
-				},
-				{
-					"id": "Grid3",
-					"shapes": [],
-					"selectionEdges": [
-						{
-							"idx": 6
-						},
-						{
-							"idx": 8
-						},
-						{
-							"idx": 9
-						},
-						{
-							"idx": 11
-						},
-						{
-							"idx": 13
-						},
-						{
-							"idx": 14
-						},
-						{
-							"idx": 16
-						},
-						{
-							"idx": 17
-						}
-					],
-					"group": 4
-				},
-				{
-					"id": "Grid4",
-					"shapes": [],
-					"selectionEdges": [
-						{
-							"idx": 6
-						},
-						{
-							"idx": 7
-						},
-						{
-							"idx": 8
-						},
-						{
-							"idx": 9
-						},
-						{
-							"idx": 10
-						},
-						{
-							"idx": 11
-						},
-						{
-							"idx": 12
-						},
-						{
-							"idx": 13
-						},
-						{
-							"idx": 14
-						},
-						{
-							"idx": 15
-						},
-						{
-							"idx": 16
-						},
-						{
-							"idx": 17
-						}
-					],
-					"group": 4
+					"group": 3,
+					"grid": "TriangleZeroes",
+					"flags": 0
 				}
 			],
 			"separators": [
@@ -1762,15 +1453,225 @@
 				{
 					"title": "GroundEffects",
 					"id": "Hexachad_EndPoint"
-				},
-				{
-					"title": "DebugGrids",
-					"id": "Grid0"
 				}
 			],
 			"props": {
 				"hasGroup": true
 			}
+		},
+		{
+			"name": "grid",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "8",
+					"name": "selectionEdges",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"id": "None",
+					"selectionEdges": []
+				},
+				{
+					"id": "Base",
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 2
+						},
+						{
+							"idx": 3
+						},
+						{
+							"idx": 4
+						},
+						{
+							"idx": 5
+						},
+						{
+							"idx": 6
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 15
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					]
+				},
+				{
+					"id": "TriangleZeroes",
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 2
+						},
+						{
+							"idx": 3
+						},
+						{
+							"idx": 4
+						},
+						{
+							"idx": 5
+						}
+					]
+				},
+				{
+					"id": "Grid2",
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 15
+						}
+					]
+				},
+				{
+					"id": "Grid3",
+					"selectionEdges": [
+						{
+							"idx": 6
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					]
+				},
+				{
+					"id": "Grid4",
+					"selectionEdges": [
+						{
+							"idx": 6
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 15
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					]
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "grid@selectionEdges",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "idx",
+					"kind": null
+				}
+			]
 		},
 		{
 			"name": "level",
@@ -2330,21 +2231,6 @@
 				{
 					"typeStr": "6:shape",
 					"name": "ref",
-					"kind": null
-				}
-			]
-		},
-		{
-			"name": "entity@selectionEdges",
-			"props": {
-				"hide": true
-			},
-			"separators": [],
-			"lines": [],
-			"columns": [
-				{
-					"typeStr": "3",
-					"name": "idx",
 					"kind": null
 				}
 			]
