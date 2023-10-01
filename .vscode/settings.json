@@ -1,3 +1,6 @@
 {
     "less.validate": false,
+    "files.associations": {
+        "*.cdb": "json",
+    },
 }
