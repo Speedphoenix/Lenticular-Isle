@@ -112,7 +112,7 @@ class EntityEnt {
     public function update(dt: Float) {
         var gridMousePos = Board.inst.getGridMousePos();
         hoverGraphic.clear();
-        hoverGraphic.lineStyle(4, 0x1FD346);
+        hoverGraphic.lineStyle(5, inf.color ?? 0x1FD346);
 
         if (shape.contains(gridMousePos)) {
             shape.draw(hoverGraphic);
@@ -124,7 +124,7 @@ class EntityEnt {
         }
         hoverGraphic.lineStyle();
 
-        function dontinline(a: Dynamic) {}
+        inline function dontinline(a: Dynamic) {}
 
         previewGraphic.clear();
         debGraphic.clear();
@@ -179,6 +179,8 @@ class EntityEnt {
                 for (j in 0...nearOffsets.length) {
                     var o = nearOffsets[j];
                     var c = center.add(o.toPoint());
+                    if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
+                        continue;
                     dontinline(c);
                     #if debug
                     var debCenter = Const.toIso(c);
@@ -198,18 +200,21 @@ class EntityEnt {
             // TODO sometimes the offset picked is wrong (does not take the one that's actually below the mouse)
             // Check with debug, with the small rectangles
 
-            shapePreview.kind = inf.shapes[nearest.shape].refId;
-            if (nearest.offset.x != x || nearest.offset.y != y) {
-                if (K.isPressed(K.MOUSE_LEFT)) {
-                    this.x = nearest.offset.x;
-                    this.y = nearest.offset.y;
-                    setShapeIdx(nearest.shape);
-                    Board.inst.onSelect(null);
-                } else {
-                    shapePreview.x = nearest.offset.x;
-                    shapePreview.y = nearest.offset.y;
-                    hoverGraphic.lineStyle(2, 0x1FD346);
-                    shapePreview.draw(hoverGraphic);
+            if (nearest != null) {
+                shapePreview.kind = inf.shapes[nearest.shape].refId;
+                if (nearest.offset.x != x || nearest.offset.y != y) {
+                    if (K.isPressed(K.MOUSE_LEFT)) {
+                        this.x = nearest.offset.x;
+                        this.y = nearest.offset.y;
+                        setShapeIdx(nearest.shape);
+                        Board.inst.onSelect(null);
+                        Board.inst.onMove(this);
+                    } else {
+                        shapePreview.x = nearest.offset.x;
+                        shapePreview.y = nearest.offset.y;
+                        hoverGraphic.lineStyle(2, inf.color ?? 0x1FD346);
+                        shapePreview.draw(hoverGraphic);
+                    }
                 }
             }
         }
@@ -382,6 +387,7 @@ class Board {
     var window: hxd.Window;
 
     var entities: Array<EntityEnt> = [];
+    var sideEntities: Array<EntityEnt> = [];
 
     var level: Data.LevelKind;
 
@@ -428,19 +434,26 @@ class Board {
         createGrid();
 		drawGrid(gridGraphics);
 
+        for (e in entities)
+            e.onRemove();
         entities.clear();
         for (e in inf.entities) {
             entities.push(new EntityEnt(e.refId, e.shapeIdx, e.offsetx, e.offsety));
         }
-        // entities = [
-        //     new EntityEnt(Wrecktangle, 0, 2, 6),
-        //     new EntityEnt(Hexachad, 0, 9, 3),
-        //     new EntityEnt(Lozecannon, 0, 15, 5),
-        //     new EntityEnt(Slime, 0, 12, 6),
-        //     new EntityEnt(Obstacle_Rectangle6, 0, 0, 2),
-        //     new EntityEnt(Obstacle_Rectangle6, 0, 0, 4),
-        //     new EntityEnt(Obstacle_Rectangle6, 0, 0, 6),
-        // ];
+
+        #if !release
+        for (e in sideEntities)
+            e.onRemove();
+        sideEntities.clear();
+
+        var i = 0;
+        for (e in Data.entity.all) {
+            if (e.group == DebugGrids)
+                continue;
+            sideEntities.push(new EntityEnt(e.id, 0, Const.BOARD_WIDTH * 2 + 2, i * 2));
+            i++;
+        }
+        #end
     }
 
     function createGrid() {
@@ -466,8 +479,15 @@ class Board {
         debugGraphic.lineStyle(1, 0xFF0000);
 
         entityGraphics.clear();
-        entityGraphics.lineStyle(3, 0x00AACC);
         for (e in entities) {
+            entityGraphics.lineStyle(3, e.inf.color ?? 0x00AACC);
+            e.shape.draw(entityGraphics);
+            #if debug
+            e.shape.drawDebug(debugGraphic);
+            #end
+        }
+        for (e in sideEntities) {
+            entityGraphics.lineStyle(3, e.inf.color ?? 0x00AACC);
             e.shape.draw(entityGraphics);
             #if debug
             e.shape.drawDebug(debugGraphic);
@@ -480,7 +500,7 @@ class Board {
             onSelect(null);
         #if !release
         if (K.isPressed(K.DELETE)) {
-            if (currentSelect != null) {
+            if (currentSelect != null && entities.has(currentSelect)) {
                 currentSelect.onRemove();
                 entities.remove(currentSelect);
                 currentSelect = null;
@@ -512,6 +532,8 @@ class Board {
 
         for (e in entities)
             e.update(dt);
+        for (e in sideEntities)
+            e.update(dt);
 
         selectGraphic.clear();
         selectGraphic.lineStyle(4, 0x1FD346);
@@ -530,6 +552,14 @@ class Board {
         currentSelect = e;
     }
 
+    public function onMove(e: EntityEnt) {
+        var i = sideEntities.indexOf(e);
+        if (i >= 0) {
+            sideEntities[i] = new EntityEnt(e.kind, 0, Const.BOARD_WIDTH * 2 + 2, i * 2);
+            entities.push(e);
+        }
+    }
+
 	function drawGrid(g: h2d.Graphics) {
 		g.clear();
 
@@ -544,7 +574,7 @@ class Board {
         else if (currentSelect != null)
     		g.lineStyle(2, 0x000000);
         else
-            g.lineStyle(#if debug 1 #else 0 #end, 0x000000);
+            g.lineStyle(0, 0x000000);
 
         for (t in grid) {
             t.draw(g);
