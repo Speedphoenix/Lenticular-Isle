@@ -450,10 +450,20 @@ class Board {
         for (e in Data.entity.all) {
             if (e.group == DebugGrids)
                 continue;
-            sideEntities.push(new EntityEnt(e.id, 0, Const.BOARD_WIDTH * 2 + 2, i * 2));
+            sideEntities.push(makeSide(e.id, i));
             i++;
         }
         #end
+    }
+
+    function makeSide(k: Data.EntityKind, i) {
+        var x = Const.BOARD_WIDTH * 2 + 4;
+        var y = i * 2;
+        if (i >= 9) {
+            x = (i - 10) * 2;
+            y = Const.BOARD_HEIGHT;
+        }
+        return new EntityEnt(k, 0, x, y);
     }
 
     function createGrid() {
@@ -555,7 +565,7 @@ class Board {
     public function onMove(e: EntityEnt) {
         var i = sideEntities.indexOf(e);
         if (i >= 0) {
-            sideEntities[i] = new EntityEnt(e.kind, 0, Const.BOARD_WIDTH * 2 + 2, i * 2);
+            sideEntities[i] = makeSide(e.kind, i);
             entities.push(e);
         }
     }
