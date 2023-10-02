@@ -13,7 +13,7 @@ using Extensions;
 @:publicFields class Const {
 
     static final TITLE = "Triangle assault";
-
+ 
     static final SQRT_3 = 1.73205080757;
 
     static final HEX_SIDE = 50;
@@ -62,8 +62,19 @@ using Extensions;
             case SmallTriangle:
                 var ret = new IPoint(p.x,Math.round((3*p.y-p.x)/2));
                 return ret;
-            default:
+
+            case SmallLozange: // TODO
                 return p;
+        }
+    }
+    static inline function getGridOffset(p: IPoint, g: Data.GridKind) {
+        switch (g) {
+            case SmallRectangle:
+                if ((p.x & 1) != (p.y & 1))
+                    return new IPoint(1, 0);
+                return new IPoint(0, 0);
+            case None, Base, TriangleZeroes, SmallLozange, SmallTriangle:
+                return new IPoint(0, 0);
         }
     }
     static inline function fromGrid(p: IPoint, g: Data.GridKind) {
@@ -76,8 +87,27 @@ using Extensions;
             case SmallTriangle:
                 var ret = new IPoint(p.x,Math.round((2*p.y+p.x)/3));
                 return ret;
-            default:
+            case SmallRectangle:
+                var off = getGridOffset(p, g);
+                return p.sub(off);
+            case SmallLozange: // TODO
                 return p;
+        }
+    }
+    // can return floating points/different parity
+    static inline function fromGridFloat(p: IPoint, g: Data.GridKind) {
+        switch (g) {
+            case Base, None:
+                return p.toPoint();
+            case TriangleZeroes:
+                var ret = new Point((p.x * 2) + (p.y & 1), p.y);
+                return ret;
+            case SmallRectangle:
+                return p.toPoint();
+            case SmallTriangle: // TODO
+                return p.toPoint();
+            case SmallLozange: // TODO
+                return p.toPoint();
         }
     }
     static inline function getGridAdjacent(p: IPoint, g: Data.GridKind) {
@@ -134,7 +164,7 @@ using Extensions;
                     new IPoint(-1, 1),
                     new IPoint(0, 1),
                 ];
-            default:
+            case SmallLozange: // TODO
                 return [
                     new IPoint(-2, 0),
                     new IPoint(2, 0),

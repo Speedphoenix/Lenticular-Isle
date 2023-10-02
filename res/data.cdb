@@ -1327,10 +1327,14 @@
 					"id": "Wrecktangle",
 					"shapes": [
 						{
-							"ref": "Rectangle12_A"
+							"ref": "Rectangle12_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Rectangle12_B"
+							"ref": "Rectangle12_B",
+							"gridx": 1,
+							"gridy": 0
 						}
 					],
 					"group": 0,
@@ -1344,7 +1348,9 @@
 					"id": "Hexachad",
 					"shapes": [
 						{
-							"ref": "Hexagone36"
+							"ref": "Hexagone36",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"group": 0,
@@ -1358,13 +1364,19 @@
 					"id": "Lozecannon",
 					"shapes": [
 						{
-							"ref": "Losange16_A"
+							"ref": "Losange16_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Losange16_B"
+							"ref": "Losange16_B",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Losange16_C"
+							"ref": "Losange16_C",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"group": 0,
@@ -1389,13 +1401,19 @@
 					"id": "Slime",
 					"shapes": [
 						{
-							"ref": "Hexagone12_A"
+							"ref": "Hexagone12_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Hexagone12_B"
+							"ref": "Hexagone12_B",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Hexagone12_C"
+							"ref": "Hexagone12_C",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"group": 1,
@@ -1409,10 +1427,14 @@
 					"id": "Cyclope",
 					"shapes": [
 						{
-							"ref": "Triangle6_A"
+							"ref": "Triangle6_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Triangle6_B"
+							"ref": "Triangle6_B",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"color": 14572893,
@@ -1426,7 +1448,9 @@
 					"id": "Obstacle_Hexa36",
 					"shapes": [
 						{
-							"ref": "Hexagone36"
+							"ref": "Hexagone36",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"group": 2,
@@ -1451,10 +1475,14 @@
 					"id": "Obstacle_Rectangle12",
 					"shapes": [
 						{
-							"ref": "Rectangle12_A"
+							"ref": "Rectangle12_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Rectangle12_B"
+							"ref": "Rectangle12_B",
+							"gridx": 1,
+							"gridy": 0
 						}
 					],
 					"grid": "SmallRectangle",
@@ -1468,10 +1496,14 @@
 					"id": "Obstacle_Rectangle6",
 					"shapes": [
 						{
-							"ref": "Rectangle6_A"
+							"ref": "Rectangle6_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Rectangle6_B"
+							"ref": "Rectangle6_B",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"group": 2,
@@ -1485,10 +1517,14 @@
 					"id": "Obstacle_Triangle6",
 					"shapes": [
 						{
-							"ref": "Triangle6_A"
+							"ref": "Triangle6_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Triangle6_B"
+							"ref": "Triangle6_B",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"group": 2,
@@ -1502,13 +1538,19 @@
 					"id": "Obstacle_Hexa12",
 					"shapes": [
 						{
-							"ref": "Hexagone12_A"
+							"ref": "Hexagone12_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Hexagone12_B"
+							"ref": "Hexagone12_B",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Hexagone12_C"
+							"ref": "Hexagone12_C",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"grid": "None",
@@ -1533,7 +1575,9 @@
 					"id": "Hexachad_EndPoint",
 					"shapes": [
 						{
-							"ref": "Hexagone36"
+							"ref": "Hexagone36",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"color": 152064,
@@ -1547,10 +1591,14 @@
 					"id": "Wrectangle_EndPoint",
 					"shapes": [
 						{
-							"ref": "Rectangle12_A"
+							"ref": "Rectangle12_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Rectangle12_B"
+							"ref": "Rectangle12_B",
+							"gridx": 1,
+							"gridy": 0
 						}
 					],
 					"grid": "SmallRectangle",
@@ -1564,13 +1612,19 @@
 					"id": "Lozecannon_Endpoint",
 					"shapes": [
 						{
-							"ref": "Losange16_A"
+							"ref": "Losange16_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Losange16_B"
+							"ref": "Losange16_B",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Losange16_C"
+							"ref": "Losange16_C",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"grid": "SmallLozange",
@@ -1584,13 +1638,19 @@
 					"id": "EndPoint_Level1",
 					"shapes": [
 						{
-							"ref": "Losange16_A"
+							"ref": "Losange16_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Losange16_B"
+							"ref": "Losange16_B",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Losange16_C"
+							"ref": "Losange16_C",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"grid": "SmallLozange",
@@ -1614,10 +1674,14 @@
 					"id": "Deco_GameTitle",
 					"shapes": [
 						{
-							"ref": "Rectangle6_A"
+							"ref": "Rectangle6_A",
+							"gridx": 0,
+							"gridy": 0
 						},
 						{
-							"ref": "Rectangle6_B"
+							"ref": "Rectangle6_B",
+							"gridx": 0,
+							"gridy": 0
 						}
 					],
 					"grid": "None",
@@ -1924,8 +1988,8 @@
 						{
 							"ref": "Wrecktangle",
 							"shapeIdx": 0,
-							"offsetx": 0,
-							"offsety": 0
+							"offsetx": 5,
+							"offsety": 5
 						},
 						{
 							"ref": "Hexachad",
@@ -3942,6 +4006,16 @@
 				{
 					"typeStr": "6:shape",
 					"name": "ref",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "gridx",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "gridy",
 					"kind": null
 				}
 			]

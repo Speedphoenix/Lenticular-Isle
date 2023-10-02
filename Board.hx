@@ -74,6 +74,7 @@ class EntityEnt {
     var previewGraphic: h2d.Graphics;
     var debGraphic: h2d.Graphics;
     var rangeGraphic: h2d.Graphics;
+    var rangeGraphic2: h2d.Graphics;
     var bitmap: h2d.Bitmap;
     var possibleMovements: Array<{pos: IPoint, shapeIdx: Int}> = [];
 
@@ -113,6 +114,9 @@ class EntityEnt {
         previewGraphic = new h2d.Graphics(Board.inst.gridCont);
         debGraphic = new h2d.Graphics(Board.inst.gridCont);
         rangeGraphic = new h2d.Graphics(Board.inst.gridCont);
+        rangeGraphic2 = new h2d.Graphics(Board.inst.gridCont);
+        if (getColor() > 0)
+            rangeGraphic2.tile = h2d.Tile.fromColor(getColor());
         if (inf.gfx != null) {
             // TODO TOMORROW sort them for depth
             bitmap = new h2d.Bitmap(inf.gfx.toTile(), Board.inst.entitiesCont);
@@ -288,15 +292,25 @@ class EntityEnt {
         possibleMovements = possible.positions;
 
         if (getColor() >= 0) {
+            rangeGraphic.clear();
             rangeGraphic.lineStyle(5, getColor(), 0.5);
             for (i in 0...possible.hull.length) {
                 Board.drawEdgeRaw(possible.hull[i], possible.hull[(i + 1) % possible.hull.length], rangeGraphic);
             }
+            rangeGraphic2.clear();
+            rangeGraphic2.beginFill(getColor(), 0.2);
+            for (i in 0...possible.hull.length) {
+                var p = Const.toIso(possible.hull[i]);
+                rangeGraphic2.addVertex(p.x, p.y, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+            }
+            var p = Const.toIso(possible.hull[0]);
+            rangeGraphic2.addVertex(p.x, p.y, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
         }
     }
 
     public function onDeselect() {
         rangeGraphic.clear();
+        rangeGraphic2.clear();
     }
 
     public function draw(g: h2d.Graphics) {
@@ -314,19 +328,40 @@ class EntityEnt {
         }
     }
 
+    public /* inline */ function getGridPos() {
+        var p = Const.toGrid(new IPoint(x, y), inf.gridId);
+        p.x += inf.shapes[shapeIdx].gridx;
+        p.y += inf.shapes[shapeIdx].gridy;
+        return p;
+    }
+    public /* inline */ function fromGridPos(p: IPoint) {
+        var gridOff = Const.getGridOffset(p, inf.gridId);
+        var newP = Const.fromGrid(p, inf.gridId);
+        var s = inf.shapes.findIndex(s -> s.gridx == gridOff.x && s.gridy == gridOff.y);
+        if (s < 0)
+            throw 'Missing shape with grid offset ${gridOff} on entity $kind';
+        return {
+            pos: newP,
+            shapeIdx: s,
+        };
+    }
+
     // TODO TOMORROW take the right shape coming back from fromGrid, and specify it to isposvalid
     public /* inline */ function getPossibleMovements(count: Int) {
         var checked = [];
         var ret = [];
 
+        var start = getGridPos();
+        checked.push(start);
+
+        var worldFloatStart = Const.fromGridFloat(start, inf.gridId);
+
         final baseVerts = shape.vertices;
         var verts = baseVerts.toIPolygon(Const.POLY_SCALE);
         for (i in 0...verts.length) {
+            // verts[i] = verts[i].add(worldFloatStart.toIPoint(Const.POLY_SCALE));
             verts[i] = verts[i].add(new IPoint(x, y).multiply(Const.POLY_SCALE));
         }
-
-        var start = Const.toGrid(new IPoint(x, y), inf.gridId);
-        checked.push(start);
 
         var nextAdjacents = Const.getGridAdjacent(new IPoint(x, y), inf.gridId);
 
@@ -340,23 +375,22 @@ class EntityEnt {
                 if (checked.any(p -> p.equals(curr)))
                     continue;
                 checked.push(curr);
-                var currWorld = Const.fromGrid(curr, inf.gridId);
+                var currWorld = fromGridPos(curr);
 
-                if (!isPosValid(currWorld))
+                if (!isPosValid(currWorld.pos))
                     continue;
-                ret.push({
-                    pos: currWorld,
-                    shapeIdx: 0, // TODO, smarter shapes
-                });
-                for (i in 0...inf.shapes.length) { // TODO, smarter shapes
-                    ret.push({
-                        pos: currWorld,
-                        shapeIdx: i,
-                    });
-                }
+                ret.push(currWorld);
+                // for (i in 0...inf.shapes.length) { // TODO, smarter shapes
+                //     ret.push({
+                //         pos: currWorld,
+                //         shapeIdx: i,
+                //     });
+                // }
                 var currVerts: h2d.col.Polygon = baseVerts.copy();
+                var currWorldFloat = Const.fromGridFloat(curr, inf.gridId);
                 for (i in 0...currVerts.length) {
-                    currVerts[i] = currVerts[i].add(currWorld.toPoint());
+                    // currVerts[i] = currVerts[i].add(currWorldFloat);
+                    currVerts[i] = currVerts[i].add(currWorld.pos.toPoint());
                 }
                 verts = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false)[0];
 
