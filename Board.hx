@@ -36,7 +36,9 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
             layout={h2d.Flow.FlowLayout.Stack}
 		>
 			<flow class="board-cont" id public/>
-			<flow id="hud" public/>
+			<flow id="hud" public>
+                <button("Next turn") id="nextTurnBtn" public/>
+            </flow>
 		</flow>
 	</board-ui>
 	public static var panelBG = null;
@@ -120,6 +122,8 @@ class EntityEnt {
         if (inf.gfx != null) {
             // TODO TOMORROW sort them for depth
             bitmap = new h2d.Bitmap(inf.gfx.toTile(), Board.inst.entitiesCont);
+            bitmap.dom = domkit.Properties.create("bitmap", bitmap);
+
             bitmap.scale(0.5);
             updatePos();
         }

@@ -94,7 +94,6 @@ class MainMenu extends h2d.Flow implements h2d.domkit.Object {
 					/>
 					<text text={"Speedphoenix"}/>
 					<text text={"Jean-Phénix De"}/>
-					<text text={"PloucPhoenix"}/>
 				</flow>
 			</flow>
 		</flow>
@@ -147,6 +146,8 @@ class Main extends hxd.App {
 
 	public static var font: h2d.Font;
 
+	public static var style : h2d.domkit.Style;
+
 	override function init() {
 		inst = this;
 		var cdbData = hxd.Res.data.entry.getText();
@@ -161,6 +162,12 @@ class Main extends hxd.App {
 
 		board = new Board();
 		board.init(s2d);
+
+		style = new h2d.domkit.Style();
+		style.allowInspect = #if debug true #else false #end;
+		style.load(hxd.Res.style, true);
+		style.addObject(board.fullUi);
+		// dom.addClass("root");
 
 		onResize();
 	}

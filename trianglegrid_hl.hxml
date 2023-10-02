@@ -12,5 +12,6 @@
 -hl trianglegrid.hl
 -main Main
 -cp .
+--macro domkit.Macros.registerComponentsPath("$")
 
 -dce full
