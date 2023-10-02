@@ -2862,8 +2862,8 @@
 						{
 							"offsetx": 2,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6_Black",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 6,
