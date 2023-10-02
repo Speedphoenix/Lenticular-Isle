@@ -1335,7 +1335,7 @@
 					],
 					"group": 0,
 					"color": 6348381,
-					"grid": "Grid2",
+					"grid": "SmallRectangle",
 					"flags": 4,
 					"props": {},
 					"actionPerTurn": 1
@@ -1369,7 +1369,7 @@
 					],
 					"group": 0,
 					"color": 6348381,
-					"grid": "Grid3",
+					"grid": "SmallLozange",
 					"flags": 4,
 					"props": {
 						"gfxOffsetx": -81,
@@ -1383,7 +1383,7 @@
 						"width": 343,
 						"height": 337
 					},
-					"actionPerTurn": 1
+					"actionPerTurn": 5
 				},
 				{
 					"id": "Slime",
@@ -1400,7 +1400,7 @@
 					],
 					"group": 1,
 					"color": 14572893,
-					"grid": "Grid4",
+					"grid": "SmallTriangle",
 					"flags": 1,
 					"props": {},
 					"actionPerTurn": 1
@@ -1457,7 +1457,7 @@
 							"ref": "Rectangle12_B"
 						}
 					],
-					"grid": "Grid2",
+					"grid": "SmallRectangle",
 					"flags": 1,
 					"color": 14593627,
 					"group": 2,
@@ -1553,7 +1553,7 @@
 							"ref": "Rectangle12_B"
 						}
 					],
-					"grid": "Grid2",
+					"grid": "SmallRectangle",
 					"flags": 3,
 					"color": 152064,
 					"group": 3,
@@ -1573,7 +1573,7 @@
 							"ref": "Losange16_C"
 						}
 					],
-					"grid": "Grid3",
+					"grid": "SmallLozange",
 					"flags": 3,
 					"color": 152064,
 					"group": 3,
@@ -1593,7 +1593,7 @@
 							"ref": "Losange16_C"
 						}
 					],
-					"grid": "Grid3",
+					"grid": "SmallLozange",
 					"actionPerTurn": 0,
 					"flags": 3,
 					"props": {
@@ -1767,7 +1767,7 @@
 					]
 				},
 				{
-					"id": "Grid2",
+					"id": "SmallRectangle",
 					"selectionEdges": [
 						{
 							"idx": 0
@@ -1790,7 +1790,7 @@
 					]
 				},
 				{
-					"id": "Grid3",
+					"id": "SmallLozange",
 					"selectionEdges": [
 						{
 							"idx": 6
@@ -1819,7 +1819,7 @@
 					]
 				},
 				{
-					"id": "Grid4",
+					"id": "SmallTriangle",
 					"selectionEdges": [
 						{
 							"idx": 6
@@ -1920,6 +1920,18 @@
 							"offsety": 3,
 							"ref": "Lozecannon",
 							"shapeIdx": 1
+						},
+						{
+							"ref": "Wrecktangle",
+							"shapeIdx": 0,
+							"offsetx": 0,
+							"offsety": 0
+						},
+						{
+							"ref": "Hexachad",
+							"shapeIdx": 0,
+							"offsetx": 3,
+							"offsety": 3
 						}
 					],
 					"allEffectsStomped": "HexaSolo_TutoChara"
