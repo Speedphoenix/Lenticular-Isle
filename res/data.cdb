@@ -1330,12 +1330,20 @@
 						{
 							"ref": "Rectangle12_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {
+								"gfxOffsetx": -55,
+								"gfxOffsety": -136
+							}
 						},
 						{
 							"ref": "Rectangle12_B",
 							"gridx": 1,
-							"gridy": 0
+							"gridy": 0,
+							"props": {
+								"gfxOffsetx": -74,
+								"gfxOffsety": -124
+							}
 						}
 					],
 					"group": 0,
@@ -1343,7 +1351,15 @@
 					"grid": "SmallRectangle",
 					"flags": 4,
 					"props": {},
-					"actionPerTurn": 3
+					"actionPerTurn": 3,
+					"gfx": {
+						"file": "tiles/chara_carre.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 257,
+						"height": 330
+					}
 				},
 				{
 					"id": "Hexachad",
@@ -1351,15 +1367,27 @@
 						{
 							"ref": "Hexagone36",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"group": 0,
 					"color": 6348381,
 					"grid": "TriangleZeroes",
 					"flags": 4,
-					"props": {},
-					"actionPerTurn": 3
+					"props": {
+						"gfxOffsetx": -96,
+						"gfxOffsety": -183
+					},
+					"actionPerTurn": 3,
+					"gfx": {
+						"file": "tiles/chara_hexa.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 527,
+						"height": 469
+					}
 				},
 				{
 					"id": "Lozecannon",
@@ -1367,17 +1395,20 @@
 						{
 							"ref": "Losange16_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Losange16_B",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Losange16_C",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"group": 0,
@@ -1386,14 +1417,14 @@
 					"flags": 4,
 					"props": {
 						"gfxOffsetx": -81,
-						"gfxOffsety": -130
+						"gfxOffsety": -131
 					},
 					"gfx": {
 						"file": "tiles/chara_losange.png",
 						"size": 1,
 						"x": 0,
 						"y": 0,
-						"width": 343,
+						"width": 342,
 						"height": 337
 					},
 					"actionPerTurn": 5
@@ -1404,17 +1435,20 @@
 						{
 							"ref": "Hexagone12_A",
 							"gridx": 1,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Hexagone12_B",
 							"gridx": 2,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Hexagone12_C",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"group": 1,
@@ -1430,12 +1464,14 @@
 						{
 							"ref": "Triangle6_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Triangle6_B",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"color": 14572893,
@@ -1451,7 +1487,8 @@
 						{
 							"ref": "Hexagone36",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"group": 2,
@@ -1467,10 +1504,38 @@
 						"size": 1,
 						"x": 0,
 						"y": 0,
-						"width": 357,
-						"height": 331
+						"width": 358,
+						"height": 332
 					},
 					"actionPerTurn": 0
+				},
+				{
+					"id": "Obstacle_Hexa37",
+					"shapes": [
+						{
+							"ref": "Hexagone36",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "TriangleZeroes",
+					"actionPerTurn": 0,
+					"flags": 1,
+					"props": {
+						"gfxOffsetx": -91,
+						"gfxOffsety": -109
+					},
+					"gfx": {
+						"file": "tiles/movable_hammer.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 358,
+						"height": 331
+					},
+					"color": 14593627,
+					"group": 2
 				},
 				{
 					"id": "Obstacle_Rectangle12",
@@ -1478,12 +1543,14 @@
 						{
 							"ref": "Rectangle12_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Rectangle12_B",
 							"gridx": 1,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"grid": "SmallRectangle",
@@ -1499,12 +1566,14 @@
 						{
 							"ref": "Rectangle6_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Rectangle6_B",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"group": 2,
@@ -1520,12 +1589,14 @@
 						{
 							"ref": "Triangle6_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Triangle6_B",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"group": 2,
@@ -1541,17 +1612,20 @@
 						{
 							"ref": "Hexagone12_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Hexagone12_B",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Hexagone12_C",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"grid": "None",
@@ -1578,7 +1652,8 @@
 						{
 							"ref": "Hexagone36",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"color": 152064,
@@ -1594,12 +1669,14 @@
 						{
 							"ref": "Rectangle12_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Rectangle12_B",
 							"gridx": 1,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"grid": "SmallRectangle",
@@ -1615,17 +1692,20 @@
 						{
 							"ref": "Losange16_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Losange16_B",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Losange16_C",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"grid": "SmallLozange",
@@ -1641,17 +1721,20 @@
 						{
 							"ref": "Losange16_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Losange16_B",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Losange16_C",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"grid": "SmallLozange",
@@ -1677,12 +1760,14 @@
 						{
 							"ref": "Rectangle6_A",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						},
 						{
 							"ref": "Rectangle6_B",
 							"gridx": 0,
-							"gridy": 0
+							"gridy": 0,
+							"props": {}
 						}
 					],
 					"grid": "None",
@@ -4017,6 +4102,34 @@
 				{
 					"typeStr": "3",
 					"name": "gridy",
+					"kind": null
+				},
+				{
+					"typeStr": "17",
+					"name": "props",
+					"kind": null
+				}
+			]
+		},
+		{
+			"name": "entity@shapes@props",
+			"props": {
+				"hide": true,
+				"isProps": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "gfxOffsetx",
+					"opt": true,
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "gfxOffsety",
+					"opt": true,
 					"kind": null
 				}
 			]

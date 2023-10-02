@@ -228,11 +228,11 @@ using Extensions;
                     new IPoint(-3, -3),
 
                     new IPoint(-1, 2),
-                    new IPoint(-2, 4),
-                    new IPoint(-3, 6),
+                        new IPoint(-2, 4),
+                            new IPoint(-3, 6),
                     new IPoint(1, -2),
-                    new IPoint(2, -4),
-                    new IPoint(3, -6),
+                        new IPoint(2, -4),
+                            new IPoint(3, -6),
                 ];
             case SmallLozange: // TODO
                 return [
