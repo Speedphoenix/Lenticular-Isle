@@ -1477,7 +1477,7 @@
 						"gfxOffsetx": -53,
 						"gfxOffsety": -69
 					},
-					"movePerTurn": 1,
+					"movePerTurn": 0,
 					"attackPerTurn": 1,
 					"gfx": {
 						"file": "tiles/foe_slimeNormal.png",
@@ -1486,7 +1486,8 @@
 						"y": 0,
 						"width": 211,
 						"height": 198
-					}
+					},
+					"attackGrid": "SmallTriangle"
 				},
 				{
 					"id": "Slime2",
@@ -1511,7 +1512,7 @@
 						}
 					],
 					"grid": "SmallTriangle",
-					"movePerTurn": 1,
+					"movePerTurn": 0,
 					"attackPerTurn": 1,
 					"flags": 41,
 					"props": {
@@ -1527,7 +1528,8 @@
 						"height": 198
 					},
 					"color": 14572893,
-					"group": 1
+					"group": 1,
+					"attackGrid": "SmallTriangle"
 				},
 				{
 					"id": "Slime3",
@@ -1552,7 +1554,7 @@
 						}
 					],
 					"grid": "SmallTriangle",
-					"movePerTurn": 1,
+					"movePerTurn": 0,
 					"attackPerTurn": 1,
 					"flags": 41,
 					"props": {
@@ -1568,7 +1570,8 @@
 						"height": 198
 					},
 					"color": 14572893,
-					"group": 1
+					"group": 1,
+					"attackGrid": "SmallTriangle"
 				},
 				{
 					"id": "Cyclope",
@@ -1921,7 +1924,8 @@
 					"flags": 3,
 					"props": {
 						"gfxOffsetx": -65,
-						"gfxOffsety": -37
+						"gfxOffsety": -37,
+						"onStompLevel": "HexaSolo_TutoChara"
 					},
 					"group": 3,
 					"gfx": {
@@ -2703,8 +2707,7 @@
 							"offsetx": 9,
 							"offsety": 9,
 							"ref": "EndPoint_Level1",
-							"shapeIdx": 0,
-							"stompGoTo": "HexaSolo_TutoChara"
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 9,
@@ -4701,11 +4704,6 @@
 					"kind": null
 				},
 				{
-					"typeStr": "6:level",
-					"name": "stompGoTo",
-					"opt": true
-				},
-				{
 					"typeStr": "3",
 					"name": "shapeIdx",
 					"kind": null
@@ -4795,6 +4793,11 @@
 					"name": "gfxOffsety",
 					"opt": true,
 					"kind": null
+				},
+				{
+					"typeStr": "6:level",
+					"name": "onStompLevel",
+					"opt": true
 				}
 			]
 		},

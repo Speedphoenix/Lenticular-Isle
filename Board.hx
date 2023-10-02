@@ -12,6 +12,13 @@ typedef MoveInfo = {
     ?dist: Int,
 }
 
+typedef EntityData = {
+    ref: Data.EntityKind,
+    shapeIdx: Int,
+    offsetx: Int,
+    offsety: Int,
+}
+
 class SceneObject extends h2d.Object implements h2d.domkit.Object {
 	public function new(?parent) {
 		super(parent);
@@ -88,6 +95,8 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
                     />
                 </flow>
                 <button("Attack [A]") id="attackBtn" public/>
+                <button("Restart level [R]") id="restartBtn" public/>
+                <button("Previous turn [P]") id="revertBtn" public/>
             </flow>
 		</flow>
 	</board-ui>
@@ -653,7 +662,7 @@ class EntityEnt {
         if (previewObj != null)
             previewObj.remove();
     }
-    public function saveData() {
+    public function saveData(): EntityData {
         return {
             ref: kind,
             shapeIdx: shapeIdx,
@@ -889,6 +898,7 @@ class Board {
     var window: hxd.Window;
 
     public var entities: Array<EntityEnt> = [];
+    var entityHistory: Array<Array<EntityData>> = [];
     var sideEntities: Array<EntityEnt> = [];
 
     public var level: Data.LevelKind;
@@ -919,6 +929,12 @@ class Board {
         fullUi.attackBtn.onClick = function() {
             toggleAttack();
         }
+        fullUi.restartBtn.onClick = function() {
+            startLevel(level);
+        }
+        fullUi.revertBtn.onClick = function() {
+            startLevel(level, entityHistory.pop());
+        }
         boardRoot.fillWidth = true;
         boardRoot.fillHeight = true;
         boardRoot.layout = Stack;
@@ -948,7 +964,7 @@ class Board {
 		boardObj.dom.addClass("boardObj");
 	}
 
-    function startLevel(lv: Data.LevelKind) {
+    function startLevel(lv: Data.LevelKind, ?data: Array<EntityData>) {
         level = lv;
         var inf = Data.level.get(level);
 
@@ -964,15 +980,23 @@ class Board {
         for (e in entities)
             e.onRemove();
         entities.clear();
-        for (e in inf.entities) {
-            var ent = new EntityEnt(e.refId, e.shapeIdx, e.offsetx, e.offsety);
-            ent.fabLine = e;
-            entities.push(ent);
+        if (data != null) {
+            for (e in data) {
+                var ent = new EntityEnt(e.ref, e.shapeIdx, e.offsetx, e.offsety);
+                entities.push(ent);
+            }
+        } else {
+            for (e in inf.entities) {
+                var ent = new EntityEnt(e.refId, e.shapeIdx, e.offsetx, e.offsety);
+                ent.fabLine = e;
+                entities.push(ent);
+            }
+            entityHistory.clear();
+            entityHistory.push(entities.map(e -> e.saveData()));
         }
 
         currTurn = 0;
-        select(null);
-        fullUi.turnCount.text = "Turn: " + currTurn;
+        nextTurn(true);
 
         #if admin
         for (e in sideEntities)
@@ -987,13 +1011,17 @@ class Board {
         #end
     }
 
-    function nextTurn() {
+    function nextTurn(isFirst = false) {
         select(null);
-        currTurn++;
-        fullUi.turnCount.text = "Turn: " + currTurn;
-        for (e in entities) {
-            e.nextTurn();
+
+        if (!isFirst) {
+            currTurn++;
+            for (e in entities) {
+                e.nextTurn();
+            }
+            entityHistory.push(entities.map(e -> e.saveData()));
         }
+        fullUi.turnCount.text = "Turn: " + currTurn;
     }
 
     function makeSide(k: Data.EntityKind, i) {
@@ -1105,8 +1133,12 @@ class Board {
             select(null);
         if (K.isPressed(K.ENTER) || K.isPressed(K.NUMPAD_ENTER))
             nextTurn();
-        if (K.isPressed(K.A) || K.isPressed(K.NUMPAD_ENTER))
+        if (K.isPressed(K.A))
             toggleAttack();
+        if (K.isPressed(K.R))
+            startLevel(level);
+        if (K.isPressed(K.P))
+            startLevel(level, entityHistory.pop());
         #if !release
         if (K.isPressed(K.DELETE)) {
             if (currentSelect != null && entities.has(currentSelect)) {
@@ -1163,8 +1195,8 @@ class Board {
                             if (e.inf.flags.has(HasEffect)) {
                                 if (c.any(e2 -> e2 != e && e2.shape.kind == e.shape.kind)) {
                                     activeEffects++;
-                                    if (e.fabLine != null && e.fabLine.stompGoToId != null) {
-                                        startLevel(e.fabLine.stompGoToId);
+                                    if (e.inf.props.onStompLevelId != null) {
+                                        startLevel(e.inf.props.onStompLevelId);
                                         return;
                                     }
                                 } else {

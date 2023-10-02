@@ -8,8 +8,9 @@ using Extensions;
 // les points d'action/mouvement
 // collisions des déplacements
 
+// make adjacent dependencies
 // restart button
-// prev action button
+// prev action/turn button
 // attack by entity
 
 // game title
