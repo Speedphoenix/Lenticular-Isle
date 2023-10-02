@@ -1612,8 +1612,8 @@
 					"grid": "TriangleZeroes",
 					"flags": 65,
 					"props": {
-						"gfxOffsetx": -91,
-						"gfxOffsety": -109
+						"gfxOffsetx": -90,
+						"gfxOffsety": -114
 					},
 					"gfx": {
 						"file": "tiles/movable_hexagon.png",
@@ -3020,12 +3020,6 @@
 							"shapeIdx": 0,
 							"offsetx": 3,
 							"offsety": 3
-						},
-						{
-							"ref": "Obstacle_Hexa12_C",
-							"shapeIdx": 0,
-							"offsetx": 12,
-							"offsety": 2
 						}
 					],
 					"allEffectsStomped": "HexaSolo_TutoChara"
