@@ -59,6 +59,9 @@ using Extensions;
                 return ret;
             case SmallRectangle:
                 return p;
+            case SmallTriangle:
+                var ret = new IPoint(p.x,Math.round((3*p.y-p.x)/2));
+                return ret;
             default:
                 return p;
         }
@@ -69,6 +72,9 @@ using Extensions;
                 return p;
             case TriangleZeroes:
                 var ret = new IPoint((p.x * 2) + (p.y & 1), p.y);
+                return ret;
+            case SmallTriangle:
+                var ret = new IPoint(p.x,Math.round((2*p.y+p.x)/3));
                 return ret;
             default:
                 return p;
@@ -115,6 +121,17 @@ using Extensions;
                     new IPoint(1, 0),
 
                     new IPoint(0, -1),
+                    new IPoint(0, 1),
+                ];
+            case SmallTriangle:
+                return [
+                    new IPoint(-1, 0),
+                    new IPoint(1, 0),
+
+                    new IPoint(0, -1),
+                    new IPoint(1, -1),
+
+                    new IPoint(-1, 1),
                     new IPoint(0, 1),
                 ];
             default:
