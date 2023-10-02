@@ -178,7 +178,7 @@ class EntityEnt {
         return this.y = v;
     }
 
-    function setShapeIdx(v: Int) {
+    public function setShapeIdx(v: Int) {
         shapeIdx = v;
     }
 
@@ -510,7 +510,16 @@ class EntityEnt {
             } else if (getRemainingAttacks() > 0 && inf.attackGrid != null) {
                 var possible = getPossibleMovements(getRemainingAttacks(), true);
                 var possibleAttacks = possible.positions;
-                var choice = possibleAttacks.pickRandom();
+                var choice = null;
+                var min = 100;
+                for (p in possibleAttacks){
+                    var relativePoint = getGridPos(p.pos,true);
+                    var val = Board.inst.slimeAIgrid[relativePoint.x][relativePoint.y+Board.inst.OFFSET_AIGRID];
+                    if (val>=0 && val < min){
+                        min = val;
+                        choice = p;
+                    }
+                }
                 if (choice != null)
                     attackTo(choice);
             }
@@ -519,15 +528,18 @@ class EntityEnt {
         turnAttacks = 0;
     }
 
-    public inline function getGridPos() {
-        var p = Const.toGrid(new IPoint(x, y), inf.grid);
-        p.x += inf.shapes[shapeIdx].gridx;
-        p.y += inf.shapes[shapeIdx].gridy;
-        return p;
+    public inline function getGridPos(?p: IPoint, isAttack = false) {
+        var grid = isAttack ? inf.attackGrid : inf.grid;
+        var p2 = p ?? new IPoint(x, y);
+        var p3 = Const.toGrid(p2, grid);
+        p3.x += inf.shapes[shapeIdx].gridx;
+        p3.y += inf.shapes[shapeIdx].gridy;
+        return p3;
     }
-    public inline function fromGridPos(p: IPoint): MoveInfo {
-        var gridOff = Const.getGridOffset(p, inf.grid);
-        var newP = Const.fromGrid(p, inf.grid);
+    public inline function fromGridPos(p: IPoint, isAttack = false): MoveInfo {
+        var grid = isAttack ? inf.attackGrid : inf.grid;
+        var gridOff = Const.getGridOffset(p, grid);
+        var newP = Const.fromGrid(p, grid);
         var s = inf.shapes.findIndex(s -> s.gridx == gridOff.x && s.gridy == gridOff.y);
         if (s < 0)
             throw 'Missing shape with grid offset ${gridOff} on entity $kind';
@@ -604,7 +616,7 @@ class EntityEnt {
 
     // TODO TOMORROW grid border and chasm for different shapes.
     // They stay on the same grid though, so should check with floating pos?
-    function isPosValid(p: IPoint, sidx: Int, isAttack: Bool) {
+    public function isPosValid(p: IPoint, sidx: Int, isAttack: Bool) {
         var shape = shapes[sidx];
         var center = Const.getCenter(inf.shapes[sidx].ref.firstTriangle, inf.shapes[sidx].ref.firstTriangleCenter);
         var c = center.add(p.toPoint());
@@ -1042,6 +1054,7 @@ class Board {
             i++;
         }
         #end
+        initAIgrid();
     }
 
     function nextTurn(isFirst = false) {
@@ -1049,12 +1062,78 @@ class Board {
 
         if (!isFirst) {
             currTurn++;
+            computeDijkstra();
             for (e in entities) {
                 e.nextTurn();
             }
             entityHistory.push(entities.map(e -> e.saveData()));
         }
         fullUi.turnCount.text = "Turns: " + currTurn;
+    }
+
+    public var slimeAIgrid = [];
+    public final OFFSET_AIGRID = 15;
+    var dijNextSteps = [];
+
+    function initAIgrid() {
+        for (i in 0...30) {
+            var k = [];
+            for(j in 0...40){
+                k.push(-1);
+            }
+            slimeAIgrid.push(k);
+        }
+    }
+
+    function startDijkstra(e:EntityEnt){
+
+        for(i in 0...slimeAIgrid.length){
+            for(j in 0...slimeAIgrid[i].length){
+                var moveInfo = e.fromGridPos(new IPoint(i, j-OFFSET_AIGRID));
+
+                e.x = moveInfo.pos.x;
+                e.y = moveInfo.pos.y;
+                e.setShapeIdx(moveInfo.shapeIdx);
+
+                if (e.isPosValid(moveInfo.pos, moveInfo.shapeIdx, true)) {
+                    if (e.isPosValid(moveInfo.pos, moveInfo.shapeIdx, false)) {
+                        slimeAIgrid[i][j] = -1;
+                    }
+                    else{
+                        slimeAIgrid[i][j] = 0;
+                        dijNextSteps.push(new IPoint(i,j));
+                    }
+                }
+                else{
+                    slimeAIgrid[i][j] = -2;
+                }
+            }
+        }
+    }
+
+    function computeDijkstra(){
+        var e = new EntityEnt(Slime, 0, 0, 0);
+        startDijkstra(e);
+        while(dijNextSteps.length != 0){
+            var currentSteps = dijNextSteps.pop();
+            var adjacents = Const.getGridAdjacent(currentSteps,e.inf.grid);
+            for(p in adjacents){
+                p.x += currentSteps.x;
+                p.y += currentSteps.y;
+                if (slimeAIgrid[p.x] != null && p.y>=0 && p.y < slimeAIgrid[p.x].length && slimeAIgrid[p.x][p.y]==-1){
+                    slimeAIgrid[p.x][p.y] = slimeAIgrid[currentSteps.x][currentSteps.y]+1;
+                    dijNextSteps.unshift(p);
+                }
+            }
+        }
+        e.onRemove();
+        e = null;
+    }
+
+    function testDijkstra(){
+        for(i in 0...slimeAIgrid.length){
+            trace(slimeAIgrid[i]);
+        }
     }
 
     function makeSide(k: Data.EntityKind, i) {

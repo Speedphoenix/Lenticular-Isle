@@ -1487,7 +1487,7 @@
 						"width": 211,
 						"height": 198
 					},
-					"attackGrid": "SmallTriangle"
+					"attackGrid": "SlimeAttack"
 				},
 				{
 					"id": "Slime2",
@@ -1529,7 +1529,7 @@
 					},
 					"color": 14572893,
 					"group": 1,
-					"attackGrid": "SmallTriangle"
+					"attackGrid": "SlimeAttack"
 				},
 				{
 					"id": "Slime3",
@@ -1571,7 +1571,7 @@
 					},
 					"color": 14572893,
 					"group": 1,
-					"attackGrid": "SmallTriangle"
+					"attackGrid": "SlimeAttack"
 				},
 				{
 					"id": "Cyclope",
@@ -2443,6 +2443,37 @@
 							"y": 0
 						},
 						{
+							"x": 0,
+							"y": -1
+						},
+						{
+							"x": 0,
+							"y": 1
+						},
+						{
+							"x": 1,
+							"y": -1
+						},
+						{
+							"x": -1,
+							"y": 1
+						}
+					],
+					"type": 4
+				},
+				{
+					"id": "SlimeAttack",
+					"type": 4,
+					"adjacents": [
+						{
+							"x": -1,
+							"y": 0
+						},
+						{
+							"x": 1,
+							"y": 0
+						},
+						{
 							"x": -2,
 							"y": 0
 						},
@@ -2627,7 +2658,44 @@
 							"y": -6
 						}
 					],
-					"type": 4
+					"selectionEdges": [
+						{
+							"idx": 6
+						},
+						{
+							"idx": 7
+						},
+						{
+							"idx": 8
+						},
+						{
+							"idx": 9
+						},
+						{
+							"idx": 10
+						},
+						{
+							"idx": 11
+						},
+						{
+							"idx": 12
+						},
+						{
+							"idx": 13
+						},
+						{
+							"idx": 14
+						},
+						{
+							"idx": 15
+						},
+						{
+							"idx": 16
+						},
+						{
+							"idx": 17
+						}
+					]
 				}
 			],
 			"separators": [],
