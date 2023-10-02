@@ -15,6 +15,12 @@ using Extensions;
 
 // game title
 
+typedef AdjacentDesc = {
+    pos: IPoint,
+    ?id: Data.Grid_adjacentsKind,
+    ?dependsOn: AdjacentDesc,
+}
+
 @:publicFields class Const {
 
     static final TITLE = "Triangle assault";
@@ -126,8 +132,8 @@ using Extensions;
                 return p.toPoint();
         }
     }
-    static inline function getGridAdjacent(p: IPoint, g: Data.Grid) {
-        var ret = [];
+    static /* inline */ function getGridAdjacent(p: IPoint, g: Data.Grid) {
+        var ret: Array<AdjacentDesc> = [];
         for (a in g.adjacents) {
             if (a.flags != null) {
                 if (a.flags.has(EvenY) && (p.y & 1) != 0)
@@ -135,7 +141,20 @@ using Extensions;
                 if (a.flags.has(OddY) && (p.y & 1) == 0)
                     continue;
             }
-            ret.push(new IPoint(a.x, a.y));
+            var depend = null;
+            if (a.dependsOnId != null) {
+                depend = ret.find(a2 -> a2.id == a.dependsOnId);
+                #if !release
+                if (depend == null)
+                    throw 'Dangling adjacent dependency in grid ${g.id}: ${a.dependsOnId}';
+                #end
+
+            }
+            ret.push({
+                id: a.id,
+                dependsOn: depend,
+                pos: new IPoint(a.x, a.y),
+            });
         }
         return ret;
     }

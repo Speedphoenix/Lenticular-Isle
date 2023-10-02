@@ -2494,11 +2494,13 @@
 					"adjacents": [
 						{
 							"x": -1,
-							"y": 0
+							"y": 0,
+							"id": "A"
 						},
 						{
 							"x": 1,
-							"y": 0
+							"y": 0,
+							"id": "B"
 						},
 						{
 							"x": 0,
@@ -2525,43 +2527,59 @@
 					"adjacents": [
 						{
 							"x": -1,
-							"y": 0
+							"y": 0,
+							"id": "A"
 						},
 						{
 							"x": 1,
-							"y": 0
+							"y": 0,
+							"id": "B"
 						},
 						{
 							"x": -2,
-							"y": 0
+							"y": 0,
+							"id": "A2",
+							"dependsOn": "A"
 						},
 						{
 							"x": 2,
-							"y": 0
+							"y": 0,
+							"id": "B2",
+							"dependsOn": "B"
 						},
 						{
 							"x": -3,
-							"y": 0
+							"y": 0,
+							"id": "A3",
+							"dependsOn": "A2"
 						},
 						{
 							"x": 3,
-							"y": 0
+							"y": 0,
+							"id": "B3",
+							"dependsOn": "B2"
 						},
 						{
 							"x": -4,
-							"y": 0
+							"y": 0,
+							"id": "A4",
+							"dependsOn": "A3"
 						},
 						{
 							"x": 4,
-							"y": 0
+							"y": 0,
+							"id": "B4",
+							"dependsOn": "B3"
 						},
 						{
 							"x": -5,
-							"y": 0
+							"y": 0,
+							"dependsOn": "A4"
 						},
 						{
 							"x": 5,
-							"y": 0
+							"y": 0,
+							"dependsOn": "B4"
 						},
 						{
 							"x": -1,
@@ -2768,6 +2786,12 @@
 			"lines": [],
 			"columns": [
 				{
+					"typeStr": "0",
+					"name": "id",
+					"scope": 1,
+					"opt": true
+				},
+				{
 					"typeStr": "3",
 					"name": "x",
 					"kind": null
@@ -2776,6 +2800,12 @@
 					"typeStr": "3",
 					"name": "y",
 					"kind": null
+				},
+				{
+					"typeStr": "6:grid@adjacents",
+					"name": "dependsOn",
+					"opt": true,
+					"documentation": "Must be referenced higher up"
 				},
 				{
 					"typeStr": "10:EvenY,OddY",

@@ -514,8 +514,8 @@ class EntityEnt {
                 var min = 100;
                 for (p in possibleAttacks){
                     var relativePoint = getGridPos(p.pos,true);
-                    var val = Board.inst.slimeAIgrid[relativePoint.x][relativePoint.y+Board.inst.OFFSET_AIGRID];
-                    if (val>=0 && val < min){
+                    var val = Board.inst.slimeAIgrid[relativePoint.x][relativePoint.y + Board.inst.OFFSET_AIGRID];
+                    if (val >= 0 && val < min){
                         min = val;
                         choice = p;
                     }
@@ -568,6 +568,7 @@ class EntityEnt {
         }
 
         var nextAdjacents = Const.getGridAdjacent(new IPoint(x, y), grid);
+        var workingAdj: Array<Const.AdjacentDesc> = [];
 
         for (i in 0...count) {
             if (nextAdjacents.isEmpty())
@@ -575,8 +576,10 @@ class EntityEnt {
             var currAdjacents = nextAdjacents.copy();
             nextAdjacents.clear();
             for (a in currAdjacents) {
-                var curr = start.add(a);
+                var curr = start.add(a.pos);
                 if (checked.any(p -> p.equals(curr)))
+                    continue;
+                if (a.dependsOn != null && !workingAdj.any(a2 -> a2 == a.dependsOn))
                     continue;
                 checked.push(curr);
                 var currWorld = fromGridPos(curr);
@@ -587,6 +590,7 @@ class EntityEnt {
                 currWorld.deb = currVerts;
                 currWorld.dist = i + 1;
                 ret.push(currWorld);
+                workingAdj.push(a);
                 var currWorldFloat = Const.fromGridFloat(curr, grid);
                 for (j in 0...currVerts.length) {
                     // currVerts[j] = currVerts[j].add(currWorldFloat);
@@ -600,9 +604,11 @@ class EntityEnt {
                 // verts = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false)[0];
 
                 for (a2 in Const.getGridAdjacent(curr, grid)) {
-                    var next = a.add(a2);
-                    if (!checked.any(p -> p.equals(start.add(next))) && !nextAdjacents.any(p -> p.equals(next)))
-                        nextAdjacents.push(next);
+                    var next = a.pos.add(a2.pos);
+                    if (!checked.any(p -> p.equals(start.add(next))) && !nextAdjacents.any(p -> p.pos.equals(next))) {
+                        a2.pos = next;
+                        nextAdjacents.push(a2);
+                    }
                 }
             }
         }
@@ -621,7 +627,7 @@ class EntityEnt {
         var center = Const.getCenter(inf.shapes[sidx].ref.firstTriangle, inf.shapes[sidx].ref.firstTriangleCenter);
         var c = center.add(p.toPoint());
 
-        if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
+        if (p.x < 0 || p.y < 0 || c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
             return false;
 
         if (isAttack) {
@@ -645,7 +651,7 @@ class EntityEnt {
                 if (e != this && !e.inf.flags.has(HasEffect) && shape.collides(e.shape, p.x, p.y)) {
                     if (!isAttack)
                         return false;
-                    if (inf.flags.has(IsEnemy) && e.inf.flags.has(IsEnemy))
+                    if (this.inf.flags.has(IsEnemy) && e.inf.flags.has(IsEnemy))
                         return false;
                     switch (kind) {
                         case Hexachad, Slime, Slime2, Slime3:
@@ -1118,11 +1124,11 @@ class Board {
             var currentSteps = dijNextSteps.pop();
             var adjacents = Const.getGridAdjacent(currentSteps,e.inf.grid);
             for(p in adjacents){
-                p.x += currentSteps.x;
-                p.y += currentSteps.y;
-                if (slimeAIgrid[p.x] != null && p.y>=0 && p.y < slimeAIgrid[p.x].length && slimeAIgrid[p.x][p.y]==-1){
-                    slimeAIgrid[p.x][p.y] = slimeAIgrid[currentSteps.x][currentSteps.y]+1;
-                    dijNextSteps.unshift(p);
+                p.pos.x += currentSteps.x;
+                p.pos.y += currentSteps.y;
+                if (slimeAIgrid[p.pos.x] != null && p.pos.y>=0 && p.pos.y < slimeAIgrid[p.pos.x].length && slimeAIgrid[p.pos.x][p.pos.y]==-1){
+                    slimeAIgrid[p.pos.x][p.pos.y] = slimeAIgrid[currentSteps.x][currentSteps.y]+1;
+                    dijNextSteps.unshift(p.pos);
                 }
             }
         }
