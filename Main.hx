@@ -169,6 +169,8 @@ class Main extends hxd.App {
 		style.addObject(board.fullUi);
 		// dom.addClass("root");
 
+		hxd.Window.getInstance().title = Const.TITLE;
+
 		onResize();
 	}
 	static function main() {
