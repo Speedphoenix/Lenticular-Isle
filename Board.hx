@@ -297,6 +297,16 @@ class EntityEnt {
             for (i in 0...possible.hull.length) {
                 Board.drawEdgeRaw(possible.hull[i], possible.hull[(i + 1) % possible.hull.length], rangeGraphic);
             }
+
+            // TODO TOREMOVE
+            // This is meant as debug info, but possible.hull is a bit broken
+            rangeGraphic.lineStyle(1, 0xff0000);
+            for (i in possible.positions) {
+                for (j in 0...i.deb.length) {
+                    Board.drawEdgeRaw(i.deb[j], i.deb[(j + 1) % i.deb.length], rangeGraphic);
+                }
+            }
+
             rangeGraphic2.clear();
             rangeGraphic2.beginFill(getColor(), 0.2);
             for (i in 0...possible.hull.length) {
@@ -328,13 +338,13 @@ class EntityEnt {
         }
     }
 
-    public /* inline */ function getGridPos() {
+    public inline function getGridPos() {
         var p = Const.toGrid(new IPoint(x, y), inf.gridId);
         p.x += inf.shapes[shapeIdx].gridx;
         p.y += inf.shapes[shapeIdx].gridy;
         return p;
     }
-    public /* inline */ function fromGridPos(p: IPoint) {
+    public inline function fromGridPos(p: IPoint): {pos: IPoint, shapeIdx: Int, deb: Array<Point>} {
         var gridOff = Const.getGridOffset(p, inf.gridId);
         var newP = Const.fromGrid(p, inf.gridId);
         var s = inf.shapes.findIndex(s -> s.gridx == gridOff.x && s.gridy == gridOff.y);
@@ -343,6 +353,7 @@ class EntityEnt {
         return {
             pos: newP,
             shapeIdx: s,
+            deb: null,
         };
     }
 
@@ -380,25 +391,25 @@ class EntityEnt {
                 if (!isPosValid(currWorld.pos))
                     continue;
                 ret.push(currWorld);
-                // for (i in 0...inf.shapes.length) { // TODO, smarter shapes
-                //     ret.push({
-                //         pos: currWorld,
-                //         shapeIdx: i,
-                //     });
-                // }
                 var currVerts: h2d.col.Polygon = baseVerts.copy();
                 var currWorldFloat = Const.fromGridFloat(curr, inf.gridId);
                 for (i in 0...currVerts.length) {
                     // currVerts[i] = currVerts[i].add(currWorldFloat);
                     currVerts[i] = currVerts[i].add(currWorld.pos.toPoint());
                 }
-                verts = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false)[0];
+                var unionRet = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false);
+                if (unionRet.isEmpty()) {
+                    trace("null verts", shape.vertices.length, baseVerts.length, verts.length, currVerts.length);
+                } else
+                    verts = unionRet[0];
+                // verts = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false)[0];
 
                 for (a2 in Const.getGridAdjacent(curr, inf.gridId)) {
                     var next = a.add(a2);
                     if (!checked.any(p -> p.equals(start.add(next))) && !nextAdjacents.any(p -> p.equals(next)))
                         nextAdjacents.push(next);
                 }
+                currWorld.deb = currVerts;
             }
         }
 
@@ -528,12 +539,15 @@ class ShapeEnt {
         var e = allEdges.pop();
         ret.push(e.a);
         ret.push(e.b);
+        var first = ret[0];
         while (!allEdges.isEmpty()) {
             var top = ret.last();
             var e = allEdges.find(e2 -> e2.a.equals(top) || e2.b.equals(top));
             if (e == null) {
                 throw "Unclosed shape " + kind.toString();
             }
+            if (e.a.equals(first) || e.b.equals(first))
+                break;
             if (e.a.equals(top))
                 ret.push(e.b);
             else if (e.b.equals(top))
