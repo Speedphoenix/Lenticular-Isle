@@ -6,12 +6,12 @@ using Extensions;
 // Fix les bords de la grille
 // fix le zoffset des bitmaps
 // les points d'action/mouvement
-// collisions des déplacements
 
 // make adjacent dependencies
-// restart button
-// prev action/turn button
 // attack by entity
+
+// feedback on entities that can still attack/move
+// feedback on nextTurn & restart lv buttons
 
 // game title
 

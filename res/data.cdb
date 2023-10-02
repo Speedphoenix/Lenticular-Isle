@@ -1472,7 +1472,7 @@
 					"group": 1,
 					"color": 14572893,
 					"grid": "SmallTriangle",
-					"flags": 41,
+					"flags": 40,
 					"props": {
 						"gfxOffsetx": -53,
 						"gfxOffsety": -69
@@ -1721,7 +1721,7 @@
 					"grid": "None",
 					"movePerTurn": 0,
 					"attackPerTurn": 0,
-					"flags": 1,
+					"flags": 129,
 					"props": {
 						"gfxOffsetx": 0,
 						"gfxOffsety": 0

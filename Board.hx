@@ -120,6 +120,10 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 }
 
 class EntityEnt {
+    static var nextId = 0;
+
+    public var id = 0;
+
     public var kind(default, set): Data.EntityKind;
     public var inf: Data.Entity;
     public var x(default, set): Int;
@@ -179,6 +183,9 @@ class EntityEnt {
     }
 
     public function new(kind: Data.EntityKind, shapeIdx: Int, x: Int, y: Int) {
+        this.id = nextId;
+        nextId++;
+
         this.x = x;
         this.y = y;
         this.kind = kind;
@@ -205,6 +212,8 @@ class EntityEnt {
         return inf.attackGrid != null;
     }
     public inline function canBeSelected() {
+        if (Board.inst.currentSelect != null)
+            return false;
         #if admin
         return true;
         #else
@@ -255,7 +264,7 @@ class EntityEnt {
             var nearest = getPossibleDest(gridMousePos);
             #end
 
-            if (nearest != null) {
+            if (nearest != null && nearest.distMouseSq <= 4) {
                 if (isAttacking) {
                     switch (this.kind) {
                         case Hexachad:
@@ -302,21 +311,34 @@ class EntityEnt {
         }
         Board.inst.onMove(this);
     }
+    // TODO fxs
     public function attackTo(info: MoveInfo) {
         switch (kind) {
-            case Wrecktangle: // TODO
+            case Wrecktangle:
+                var toKill = getAttackColliding(info);
+                for (e in toKill) {
+                    trace('entity $kind ($id) kills ${e.kind} (${e.id})');
+                    Board.inst.deleteEntity(e);
+                }
+                Board.inst.onMove();
             case Hexachad:
 
                 var spawned = new EntityEnt(Obstacle_Hexa_Hammer, info.shapeIdx, info.pos.x, info.pos.y);
                 Board.inst.entities.push(spawned);
                 var toKill = getAttackColliding(info);
                 for (e in toKill) {
+                    trace('entity $kind ($id) kills ${e.kind} (${e.id})');
                     Board.inst.deleteEntity(e);
                 }
                 Board.inst.onMove();
-                // fx
             case Lozecannon: // TODO
-            case Slime: // TODO
+            case Slime, Slime2, Slime3:
+                var toKill = getAttackColliding(info);
+                for (e in toKill) {
+                    trace('entity $kind ($id) kills ${e.kind} (${e.id})');
+                    Board.inst.deleteEntity(e);
+                }
+                moveTo(info);
             case Cyclope: // TODO
             default:
         }
@@ -480,13 +502,19 @@ class EntityEnt {
 
     public function nextTurn() {
         if (inf.flags.has(AutoAction)) {
-            if (getRemainingMove() > 0) {
+            if (getRemainingMove() > 0 && inf.grid != null) {
                 var possible = getPossibleMovements(getRemainingMove());
                 possibleMovements = possible.positions;
                 var choice = possibleMovements.pickRandom();
                 moveTo(choice);
+            } else if (getRemainingAttacks() > 0 && inf.attackGrid != null) {
+                var possible = getPossibleMovements(getRemainingAttacks(), true);
+                var possibleAttacks = possible.positions;
+                var choice = possibleAttacks.pickRandom();
+                if (choice != null)
+                    attackTo(choice);
+            }
         }
-    }
         turnMovements = 0;
         turnAttacks = 0;
     }
@@ -606,8 +634,11 @@ class EntityEnt {
                     if (!isAttack)
                         return false;
                     switch (kind) {
-                        case Hexachad:
+                        case Hexachad, Slime, Slime2, Slime3:
                             if (!e.inf.flags.has(Killable))
+                                return false;
+                        case Wrecktangle:
+                            if (!e.inf.flags.has(Killable) && !e.inf.flags.has(Breakable))
                                 return false;
                         default:
                             return false;
@@ -993,9 +1024,9 @@ class Board {
             }
             entityHistory.clear();
             entityHistory.push(entities.map(e -> e.saveData()));
+            currTurn = 0;
         }
 
-        currTurn = 0;
         nextTurn(true);
 
         #if admin
@@ -1021,7 +1052,7 @@ class Board {
             }
             entityHistory.push(entities.map(e -> e.saveData()));
         }
-        fullUi.turnCount.text = "Turn: " + currTurn;
+        fullUi.turnCount.text = "Turns: " + currTurn;
     }
 
     function makeSide(k: Data.EntityKind, i) {
