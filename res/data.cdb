@@ -1350,7 +1350,10 @@
 					"color": 6348381,
 					"grid": "SmallRectangle",
 					"flags": 4,
-					"props": {},
+					"props": {
+						"gfxOffsetx": 0,
+						"gfxOffsety": 0
+					},
 					"actionPerTurn": 3,
 					"gfx": {
 						"file": "tiles/chara_carre.png",
@@ -1510,7 +1513,7 @@
 					"actionPerTurn": 0
 				},
 				{
-					"id": "Obstacle_Hexa37",
+					"id": "Obstacle_Hexa_Hammer",
 					"shapes": [
 						{
 							"ref": "Hexagone36",
@@ -2082,6 +2085,12 @@
 							"shapeIdx": 0,
 							"offsetx": 3,
 							"offsety": 3
+						},
+						{
+							"ref": "Obstacle_Hexa_Hammer",
+							"shapeIdx": 0,
+							"offsetx": 13,
+							"offsety": 5
 						}
 					],
 					"allEffectsStomped": "HexaSolo_TutoChara"

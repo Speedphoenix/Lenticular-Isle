@@ -338,8 +338,8 @@ class EntityEnt {
             var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
             var c2 = Const.toIso(center.add(new Point(x, y)));
 
-            bitmap.x = c2.x + (inf.props.gfxOffsetx ?? 0); // + (inf.shapes[shapeIdx].props.gfxOffsetx ?? 0);
-            bitmap.y = c2.y + (inf.props.gfxOffsety ?? 0); // + (inf.shapes[shapeIdx].props.gfxOffsety ?? 0);
+            bitmap.x = c2.x + (inf.props.gfxOffsetx ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsetx ?? 0);
+            bitmap.y = c2.y + (inf.props.gfxOffsety ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsety ?? 0);
         }
     }
 
