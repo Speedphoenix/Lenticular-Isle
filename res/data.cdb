@@ -1762,7 +1762,7 @@
 					"attackPerTurn": 0
 				},
 				{
-					"id": "Obstacle_Triangle6",
+					"id": "Obstacle_Triangle6_Black",
 					"shapes": [
 						{
 							"ref": "Triangle6_A",
@@ -1784,6 +1784,64 @@
 					"props": {},
 					"movePerTurn": 0,
 					"attackPerTurn": 0
+				},
+				{
+					"id": "Obstacle_Triangle6_A",
+					"shapes": [
+						{
+							"ref": "Triangle6_A",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "None",
+					"movePerTurn": 0,
+					"attackPerTurn": 0,
+					"flags": 129,
+					"props": {
+						"gfxOffsetx": -44,
+						"gfxOffsety": -107
+					},
+					"color": 0,
+					"group": 2,
+					"gfx": {
+						"file": "tiles/immovable_triangle2.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 166,
+						"height": 276
+					}
+				},
+				{
+					"id": "Obstacle_Triangle6_B",
+					"shapes": [
+						{
+							"ref": "Triangle6_B",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "None",
+					"movePerTurn": 0,
+					"attackPerTurn": 0,
+					"flags": 129,
+					"props": {
+						"gfxOffsetx": -35,
+						"gfxOffsety": -113
+					},
+					"color": 0,
+					"group": 2,
+					"gfx": {
+						"file": "tiles/immovable_triangle1.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 160,
+						"height": 287
+					}
 				},
 				{
 					"id": "Obstacle_Hexa12",
@@ -2804,7 +2862,7 @@
 						{
 							"offsetx": 2,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_Black",
 							"shapeIdx": 1
 						},
 						{
@@ -2816,134 +2874,134 @@
 						{
 							"offsetx": 6,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 8,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 9,
 							"offsety": 1,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 0,
 							"offsety": 2,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 0,
 							"offsety": 4,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 0,
 							"offsety": 6,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 11,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 9,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
 							"offsety": 5,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 6,
 							"offsety": 6,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 7,
 							"offsety": 5,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 3,
 							"offsety": 9,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 7,
 							"offsety": 9,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 9,
 							"offsety": 9,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 10,
 							"offsety": 8,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 11,
 							"offsety": 7,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 14,
 							"offsety": 8,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 17,
 							"offsety": 7,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 16,
 							"offsety": 6,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 18,
 							"offsety": 6,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 19,
 							"offsety": 9,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 17,
 							"offsety": 11,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 18,
@@ -2984,92 +3042,92 @@
 						{
 							"offsetx": -1,
 							"offsety": 1,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 2,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 4,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": -1,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 0,
 							"offsety": 4,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 2,
 							"offsety": 6,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 0,
 							"offsety": 8,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 0,
 							"offsety": 10,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 1,
 							"offsety": 11,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
 							"offsety": 11,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 6,
 							"offsety": 10,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
 							"offsety": 9,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 4,
 							"offsety": 8,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 8,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 10,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
@@ -3110,61 +3168,61 @@
 						{
 							"offsetx": 14,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 16,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 18,
 							"offsety": 0,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 19,
 							"offsety": 1,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 18,
 							"offsety": 2,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 17,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 13,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 11,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 11,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 9,
 							"offsety": 7,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -3176,56 +3234,56 @@
 						{
 							"offsetx": 13,
 							"offsety": 11,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 15,
 							"offsety": 11,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 16,
 							"offsety": 10,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 17,
 							"offsety": 9,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 16,
 							"offsety": 8,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 14,
 							"offsety": 8,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 17,
 							"offsety": 7,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 19,
 							"offsety": 7,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 18,
 							"offsety": 4,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 20,
@@ -4076,37 +4134,37 @@
 						{
 							"offsetx": 5,
 							"offsety": 5,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 9,
 							"offsety": 5,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 4,
 							"offsety": 4,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 2,
 							"offsety": 4,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 3,
 							"offsety": 1,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 1,
 							"offsety": 1,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -4370,7 +4428,7 @@
 						{
 							"offsetx": 1,
 							"offsety": 5,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -4400,13 +4458,13 @@
 						{
 							"offsetx": -1,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -4418,13 +4476,13 @@
 						{
 							"offsetx": 2,
 							"offsety": 6,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
 							"offsety": 7,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -4454,13 +4512,13 @@
 						{
 							"offsetx": 11,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 11,
 							"offsety": 3,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -4562,7 +4620,7 @@
 						{
 							"offsetx": 8,
 							"offsety": 6,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -4610,13 +4668,13 @@
 						{
 							"offsetx": 14,
 							"offsety": 6,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 8,
 							"offsety": 8,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -4700,13 +4758,13 @@
 						{
 							"offsetx": 11,
 							"offsety": 1,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 3,
 							"offsety": 1,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
@@ -4724,32 +4782,32 @@
 						{
 							"offsetx": 18,
 							"offsety": 10,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 1,
 							"offsety": 9,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 0,
 							"offsety": 2,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 18,
 							"offsety": 2,
-							"ref": "Obstacle_Triangle6",
+							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 18,
 							"offsety": 4,
-							"ref": "Obstacle_Triangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
 						}
 					],
 					"allEffectsStomped": "MainMenu"
