@@ -59,7 +59,7 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 		>
 			<flow class="board-cont" id public/>
 			<flow id="hud" public>
-                <button("Next turn [SPACE]") id="nextTurnBtn" public/>
+                <button("Next turn [ENTER]") id="nextTurnBtn" public/>
                 <flow class="turn-count-cont">
                     <text id="turnCount" public
                         font={Main.font}
@@ -403,14 +403,14 @@ class EntityEnt {
     }
 
     public inline function getGridPos() {
-        var p = Const.toGrid(new IPoint(x, y), inf.gridId);
+        var p = Const.toGrid(new IPoint(x, y), inf.grid);
         p.x += inf.shapes[shapeIdx].gridx;
         p.y += inf.shapes[shapeIdx].gridy;
         return p;
     }
     public inline function fromGridPos(p: IPoint): MoveInfo {
-        var gridOff = Const.getGridOffset(p, inf.gridId);
-        var newP = Const.fromGrid(p, inf.gridId);
+        var gridOff = Const.getGridOffset(p, inf.grid);
+        var newP = Const.fromGrid(p, inf.grid);
         var s = inf.shapes.findIndex(s -> s.gridx == gridOff.x && s.gridy == gridOff.y);
         if (s < 0)
             throw 'Missing shape with grid offset ${gridOff} on entity $kind';
@@ -428,7 +428,7 @@ class EntityEnt {
         var start = getGridPos();
         checked.push(start);
 
-        var worldFloatStart = Const.fromGridFloat(start, inf.gridId);
+        var worldFloatStart = Const.fromGridFloat(start, inf.grid);
 
         final baseVerts = shape.vertices;
         var verts = baseVerts.toIPolygon(Const.POLY_SCALE);
@@ -437,7 +437,7 @@ class EntityEnt {
             verts[i] = verts[i].add(new IPoint(x, y).multiply(Const.POLY_SCALE));
         }
 
-        var nextAdjacents = Const.getGridAdjacent(new IPoint(x, y), inf.gridId);
+        var nextAdjacents = Const.getGridAdjacent(new IPoint(x, y), inf.grid);
 
         for (i in 0...count) {
             if (nextAdjacents.isEmpty())
@@ -457,7 +457,7 @@ class EntityEnt {
                 currWorld.deb = currVerts;
                 currWorld.dist = i + 1;
                 ret.push(currWorld);
-                var currWorldFloat = Const.fromGridFloat(curr, inf.gridId);
+                var currWorldFloat = Const.fromGridFloat(curr, inf.grid);
                 for (j in 0...currVerts.length) {
                     // currVerts[j] = currVerts[j].add(currWorldFloat);
                     currVerts[j] = currVerts[j].add(currWorld.pos.toPoint());
@@ -469,7 +469,7 @@ class EntityEnt {
                     verts = unionRet[0];
                 // verts = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false)[0];
 
-                for (a2 in Const.getGridAdjacent(curr, inf.gridId)) {
+                for (a2 in Const.getGridAdjacent(curr, inf.grid)) {
                     var next = a.add(a2);
                     if (!checked.any(p -> p.equals(start.add(next))) && !nextAdjacents.any(p -> p.equals(next)))
                         nextAdjacents.push(next);

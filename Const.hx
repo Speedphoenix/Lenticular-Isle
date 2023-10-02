@@ -50,9 +50,9 @@ using Extensions;
         return INV_ISO_MATRIX.transform(p);
     }
 
-    static inline function toGrid(p: IPoint, g: Data.GridKind) {
-        switch (g) {
-            case Base, None:
+    static inline function toGrid(p: IPoint, g: Data.Grid) {
+        switch (g.type) {
+            case Base:
                 return p;
             case TriangleZeroes:
                 var ret = new IPoint(Math.round((p.x - (p.y & 1)) / 2), p.y);
@@ -67,8 +67,8 @@ using Extensions;
                 return p;
         }
     }
-    static inline function getGridOffset(p: IPoint, g: Data.GridKind) {
-        switch (g) {
+    static inline function getGridOffset(p: IPoint, g: Data.Grid) {
+        switch (g.type) {
             case SmallRectangle:
                 if ((p.x & 1) != (p.y & 1))
                     return new IPoint(1, 0);
@@ -82,13 +82,13 @@ using Extensions;
                 } else{
                     return new IPoint(2, 0);
                 }
-            case None, Base, TriangleZeroes, SmallLozange:
+            case Base, TriangleZeroes, SmallLozange:
                 return new IPoint(0, 0);
         }
     }
-    static inline function fromGrid(p: IPoint, g: Data.GridKind) {
-        switch (g) {
-            case Base, None:
+    static inline function fromGrid(p: IPoint, g: Data.Grid) {
+        switch (g.type) {
+            case Base:
                 return p;
             case TriangleZeroes:
                 var ret = new IPoint((p.x * 2) + (p.y & 1), p.y);
@@ -106,9 +106,9 @@ using Extensions;
         }
     }
     // can return floating points/different parity
-    static inline function fromGridFloat(p: IPoint, g: Data.GridKind) {
-        switch (g) {
-            case Base, None:
+    static inline function fromGridFloat(p: IPoint, g: Data.Grid) {
+        switch (g.type) {
+            case Base:
                 return p.toPoint();
             case TriangleZeroes:
                 var ret = new Point((p.x * 2) + (p.y & 1), p.y);
@@ -121,127 +121,18 @@ using Extensions;
                 return p.toPoint();
         }
     }
-    static inline function getGridAdjacent(p: IPoint, g: Data.GridKind) {
-        switch (g) {
-            case Base, None:
-                return [
-                    new IPoint(-2, 0),
-                    new IPoint(2, 0),
-                    new IPoint(-1, -1),
-                    new IPoint(1, 1),
-                    new IPoint(-1, 1),
-                    new IPoint(1, -1),
-                ];
-            case TriangleZeroes:
-                if ((p.y & 1) == 0) {
-                    return [
-                        new IPoint(-1, 0),
-                        new IPoint(1, 0),
-
-                        new IPoint(0, -1),
-                        new IPoint(0, 1),
-
-                        new IPoint(-1, 1),
-                        new IPoint(-1, -1),
-                    ];
-                } else {
-                    return [
-                        new IPoint(-1, 0),
-                        new IPoint(1, 0),
-
-                        new IPoint(0, -1),
-                        new IPoint(0, 1),
-
-                        new IPoint(1, -1),
-                        new IPoint(1, 1),
-                    ];
-                }
-            case SmallRectangle:
-                return [
-                    new IPoint(-1, 0),
-                    new IPoint(1, 0),
-
-                    new IPoint(0, -1),
-                    new IPoint(0, 1),
-                ];
-            case SmallTriangle:
-                return [
-                    new IPoint(-1, 0),
-                    new IPoint(1, 0),
-
-                    new IPoint(-2, 0),
-                    new IPoint(2, 0),
-
-                    new IPoint(-3, 0),
-                    new IPoint(3, 0),
-
-                    new IPoint(-4, 0),
-                    new IPoint(4, 0),
-
-                    new IPoint(-5, 0),
-                    new IPoint(5, 0),
-
-                    new IPoint(-1, 1),
-                    new IPoint(0, 1),
-
-                    new IPoint(-2, 2),
-                    new IPoint(0, 2),
-
-                    new IPoint(-3, 3),
-                    new IPoint(0, 3),
-
-                    new IPoint(-4, 4),
-                    new IPoint(0, 4),
-
-                    new IPoint(-5, 5),
-                    new IPoint(0, 5),
-
-                    new IPoint(0, -1),
-                    new IPoint(1, -1),
-
-                    new IPoint(0, -2),
-                    new IPoint(2, -2),
-
-                    new IPoint(0, -3),
-                    new IPoint(3, -3),
-
-                    new IPoint(0, -4),
-                    new IPoint(4, -4),
-
-                    new IPoint(0,-5),
-                    new IPoint(5, -5),
-
-                    new IPoint(2, -1),
-                    new IPoint(4, -2),
-                    new IPoint(6, -3),
-                    new IPoint(-2, 1),
-                    new IPoint(-4, 2),
-                    new IPoint(-6, 3),
-
-                    new IPoint(1, 1),
-                    new IPoint(2, 2),
-                    new IPoint(3, 3),
-                    new IPoint(-1, -1),
-                    new IPoint(-2, -2),
-                    new IPoint(-3, -3),
-
-                    new IPoint(-1, 2),
-                        new IPoint(-2, 4),
-                            new IPoint(-3, 6),
-                    new IPoint(1, -2),
-                        new IPoint(2, -4),
-                            new IPoint(3, -6),
-                ];
-            case SmallLozange: // TODO
-                return [
-                    new IPoint(-2, 0),
-                    new IPoint(2, 0),
-                    new IPoint(-1, -1),
-                    new IPoint(1, 1),
-                    new IPoint(-1, 1),
-                    new IPoint(1, -1),
-                ];
+    static inline function getGridAdjacent(p: IPoint, g: Data.Grid) {
+        var ret = [];
+        for (a in g.adjacents) {
+            if (a.flags != null) {
+                if (a.flags.has(EvenY) && (p.y & 1) != 0)
+                    continue;
+                if (a.flags.has(OddY) && (p.y & 1) == 0)
+                    continue;
+            }
+            ret.push(new IPoint(a.x, a.y));
         }
+        return ret;
     }
 
     static final BASE_VERTICES = [
