@@ -388,7 +388,7 @@ class EntityEnt {
                 checked.push(curr);
                 var currWorld = fromGridPos(curr);
 
-                if (!isPosValid(currWorld.pos))
+                if (!isPosValid(currWorld.pos, currWorld.shapeIdx))
                     continue;
                 ret.push(currWorld);
                 var currVerts: h2d.col.Polygon = baseVerts.copy();
@@ -420,15 +420,30 @@ class EntityEnt {
         };
     }
 
-    // TODO TOMORROW for different shapes. They stay on the same grid though, so should check with floating pos?
-    inline function isPosValid(p: IPoint) {
-        // var center = Const.getCenter(inf.shapes[i].ref.firstTriangle, inf.shapes[i].ref.firstTriangleCenter);
-        var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
-
+    // TODO TOMORROW grid border and chasm for different shapes.
+    // They stay on the same grid though, so should check with floating pos?
+    function isPosValid(p: IPoint, sidx: Int) {
+        var center = Const.getCenter(inf.shapes[sidx].ref.firstTriangle, inf.shapes[sidx].ref.firstTriangleCenter);
         var c = center.add(p.toPoint());
 
         if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
             return false;
+
+        var checkOffsets = [];
+        for (t in shape.triangles) {
+            if (!checkOffsets.any(o -> o.x == t.offset.x && o.y == t.offset.y))
+                checkOffsets.push(t.offset);
+        }
+        for (o in checkOffsets) {
+            var ents = Board.inst.getEntitiesAt(o.x + p.x, o.y + p.y);
+            if (ents == null)
+                continue;
+            for (e in ents) {
+                if (e != this && !e.inf.flags.has(HasEffect) && shape.collides(e.shape, p.x, p.y)) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -457,7 +472,7 @@ class ShapeEnt {
     public var x: Int;
     public var y: Int;
 
-    var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: IPoint}> = [];
+    public var triangles: Array<{id : Data.Shape_trianglesKind, triIndex: Int, offset: IPoint}> = [];
 
     var colliders: Array<h2d.col.Polygon> = [];
     public var vertices: h2d.col.Polygon = [];
@@ -477,6 +492,25 @@ class ShapeEnt {
         if ((x & 1) != (y & 1))
             throw 'Invalid offset ${x},${y}';
         this.kind = kind;
+    }
+
+    public function collides(other: ShapeEnt, ?x: Int, ?y: Int) {
+        if (x == null)
+            x = this.x;
+        if (y == null)
+            y = this.y;
+        for (t in triangles) {
+            var tx = x + t.offset.x;
+            var ty = y + t.offset.y;
+            for (t2 in other.triangles) {
+                var t2x = other.x + t2.offset.x;
+                var t2y = other.y + t2.offset.y;
+                if (tx == t2x && ty == t2y && t.triIndex == t2.triIndex) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public function initTriangles() {
@@ -601,7 +635,7 @@ class ShapeEnt {
 
 class Triangle {
     var idx: Int;
-    var offset: IPoint;
+    public var offset: IPoint;
 
     public function new(idx, offset: IPoint) {
         this.idx = idx;
@@ -667,7 +701,8 @@ class Board {
     public var forceSelectionEdges: Data.Grid = null;
 
     var grid = [];
-    var worldGrid: Array<Array<Array<EntityEnt>>> = [];
+    public var worldFirstGrid: Array<Array<Array<EntityEnt>>> = [];
+    public var worldGrid: Array<Array<Array<EntityEnt>>> = [];
 
 	public function new() {}
 
@@ -765,29 +800,56 @@ class Board {
         return Const.fromIso(mousePos);
     }
 
+    public function refreshWorldGrid() {
+        function clear(arr: Array<Array<Array<EntityEnt>>>) {
+            for (l in arr) {
+                if (l != null) {
+                    for (c in l) {
+                        if (c != null)
+                            c.clear();
+                    }
+                }
+            }
+        }
+        clear(worldFirstGrid);
+        clear(worldGrid);
+
+        function addTo(arr: Array<Array<Array<EntityEnt>>>, x, y, e) {
+            x += Const.BOARD_HEIGHT;
+            y += Const.BOARD_HEIGHT;
+            if (arr[x] == null)
+                arr[x] = [];
+            if (arr[x][y] == null)
+                arr[x][y] = [];
+            arr[x][y].pushUnique(e);
+        }
+
+        for (e in entities) {
+            addTo(worldFirstGrid, e.x, e.y, e);
+            for (t in e.shape.triangles) {
+                addTo(worldGrid, t.offset.x + e.x, t.offset.y + e.y, e);
+            }
+        }
+    }
+    public function getEntitiesAt(x: Int, y: Int) {
+        x += Const.BOARD_HEIGHT;
+        y += Const.BOARD_HEIGHT;
+        if (worldGrid[x] == null)
+            return null;
+        if (worldGrid[x][y] == null)
+            return null;
+        return worldGrid[x][y];
+    }
+
     var prevSelect = null;
     public function update(dt: Float) {
         debugGraphic.clear();
         debugGraphic.lineStyle(1, 0xFF0000);
 
-        for (l in worldGrid) {
-            if (l != null) {
-                for (c in l) {
-                    if (c != null)
-                        c.clear();
-                }
-            }
-        }
+        refreshWorldGrid();
 
         entityGraphics.clear();
         for (e in entities) {
-            if (e.x >= 0 && e.y >= 0) {
-                if (worldGrid[e.x] == null)
-                    worldGrid[e.x] = [];
-                if (worldGrid[e.x][e.y] == null)
-                    worldGrid[e.x][e.y] = [];
-                worldGrid[e.x][e.y].push(e);
-            }
             if (e.getColor() >= 0) {
                 entityGraphics.lineStyle(3, e.getColor());
                 e.draw(entityGraphics);
@@ -858,7 +920,7 @@ class Board {
 
         var missingEffects = 0;
         var activeEffects = 0;
-        for (l in worldGrid) {
+        for (l in worldFirstGrid) {
             if (l != null) {
                 for (c in l) {
                     if (c != null) {
@@ -900,6 +962,8 @@ class Board {
             sideEntities[i] = makeSide(e.kind, i);
             entities.push(e);
         }
+
+        refreshWorldGrid();
     }
 
 	function drawGrid(g: h2d.Graphics) {
@@ -919,6 +983,18 @@ class Board {
             g.lineStyle(0, 0x000000);
 
         for (t in grid) {
+            #if debug
+            if (t.offset.x == 0 && t.offset.y == 0) {
+                g.lineStyle(1, 0xD8980F);
+            } else {
+                if (forceSelectionEdges != null)
+                    g.lineStyle(1, 0x000000);
+                else if (currentSelect != null)
+                    g.lineStyle(2, 0xA5A5A5);
+                else
+                    g.lineStyle(0, 0x000000);
+            }
+            #end
             t.draw(g);
         }
 		g.lineStyle();

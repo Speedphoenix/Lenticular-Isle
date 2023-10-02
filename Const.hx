@@ -83,7 +83,7 @@ using Extensions;
                 } else{
                     return new IPoint(2, 0);
                 }
-            case None, Base, TriangleZeroes, SmallLozange, SmallTriangle:
+            case None, Base, TriangleZeroes, SmallLozange:
                 return new IPoint(0, 0);
         }
     }

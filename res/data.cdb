@@ -1314,7 +1314,8 @@
 				},
 				{
 					"typeStr": "10:NoSelection,HasEffect,IsPlayer",
-					"name": "flags"
+					"name": "flags",
+					"documentation": "HasEffect: will not collide and will trigger the next level when all are stomped"
 				},
 				{
 					"typeStr": "17",
@@ -1967,8 +1968,8 @@
 					"id": "MainMenu",
 					"entities": [
 						{
-							"offsetx": -2,
-							"offsety": 6,
+							"offsetx": 9,
+							"offsety": 1,
 							"ref": "Deco_GameTitle",
 							"shapeIdx": 0
 						},
