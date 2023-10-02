@@ -1403,7 +1403,8 @@
 						"height": 469
 					},
 					"movePerTurn": 3,
-					"attackPerTurn": 1
+					"attackPerTurn": 1,
+					"attackGrid": "HexaAttack"
 				},
 				{
 					"id": "Lozecannon",
@@ -1989,7 +1990,7 @@
 							"y": 0
 						},
 						{
-							"x": 1,
+							"x": -1,
 							"y": 0
 						},
 						{
@@ -2022,6 +2023,80 @@
 						}
 					],
 					"type": 1
+				},
+				{
+					"id": "HexaAttack",
+					"type": 1,
+					"adjacents": [
+						{
+							"x": 0,
+							"y": 2
+						},
+						{
+							"x": 0,
+							"y": -2
+						},
+						{
+							"x": -2,
+							"y": -1,
+							"flags": 1
+						},
+						{
+							"x": -1,
+							"y": -1,
+							"flags": 2
+						},
+						{
+							"x": 1,
+							"y": -1,
+							"flags": 1
+						},
+						{
+							"x": 2,
+							"y": -1,
+							"flags": 2
+						},
+						{
+							"x": -2,
+							"y": 1,
+							"flags": 1
+						},
+						{
+							"x": -1,
+							"y": 1,
+							"flags": 2
+						},
+						{
+							"x": 1,
+							"y": 1,
+							"flags": 1
+						},
+						{
+							"x": 2,
+							"y": 1,
+							"flags": 2
+						}
+					],
+					"selectionEdges": [
+						{
+							"idx": 0
+						},
+						{
+							"idx": 1
+						},
+						{
+							"idx": 2
+						},
+						{
+							"idx": 3
+						},
+						{
+							"idx": 4
+						},
+						{
+							"idx": 5
+						}
+					]
 				},
 				{
 					"id": "SmallRectangle",
