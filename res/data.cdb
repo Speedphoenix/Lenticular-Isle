@@ -1526,8 +1526,8 @@
 					"actionPerTurn": 0,
 					"flags": 1,
 					"props": {
-						"gfxOffsetx": -91,
-						"gfxOffsety": -109
+						"gfxOffsetx": -89,
+						"gfxOffsety": -114
 					},
 					"gfx": {
 						"file": "tiles/movable_hammer.png",
