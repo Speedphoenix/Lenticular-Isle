@@ -1844,7 +1844,7 @@
 					}
 				},
 				{
-					"id": "Obstacle_Hexa12",
+					"id": "Obstacle_Hexa12_A",
 					"shapes": [
 						{
 							"ref": "Hexagone12_A",
@@ -1868,7 +1868,7 @@
 					"grid": "None",
 					"flags": 129,
 					"props": {
-						"gfxOffsetx": -41,
+						"gfxOffsetx": -51,
 						"gfxOffsety": -34
 					},
 					"group": 2,
@@ -1877,12 +1877,94 @@
 						"size": 1,
 						"x": 0,
 						"y": 0,
-						"width": 178,
-						"height": 125
+						"width": 198,
+						"height": 144
 					},
 					"color": 0,
 					"movePerTurn": 0,
 					"attackPerTurn": 0
+				},
+				{
+					"id": "Obstacle_Hexa12_B",
+					"shapes": [
+						{
+							"ref": "Hexagone12_A",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Hexagone12_B",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Hexagone12_C",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "None",
+					"movePerTurn": 0,
+					"attackPerTurn": 0,
+					"flags": 129,
+					"props": {
+						"gfxOffsetx": -52,
+						"gfxOffsety": -144
+					},
+					"gfx": {
+						"file": "tiles/immovable_hexagonSmall2.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 200,
+						"height": 348
+					},
+					"color": 0,
+					"group": 2
+				},
+				{
+					"id": "Obstacle_Hexa12_C",
+					"shapes": [
+						{
+							"ref": "Hexagone12_A",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Hexagone12_B",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Hexagone12_C",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "None",
+					"movePerTurn": 0,
+					"attackPerTurn": 0,
+					"flags": 129,
+					"props": {
+						"gfxOffsetx": -55,
+						"gfxOffsety": -80
+					},
+					"gfx": {
+						"file": "tiles/immovable_hexagonSmall3.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 205,
+						"height": 220
+					},
+					"color": 0,
+					"group": 2
 				},
 				{
 					"id": "Hexachad_EndPoint",
@@ -2938,6 +3020,12 @@
 							"shapeIdx": 0,
 							"offsetx": 3,
 							"offsety": 3
+						},
+						{
+							"ref": "Obstacle_Hexa12_C",
+							"shapeIdx": 0,
+							"offsetx": 12,
+							"offsety": 2
 						}
 					],
 					"allEffectsStomped": "HexaSolo_TutoChara"
