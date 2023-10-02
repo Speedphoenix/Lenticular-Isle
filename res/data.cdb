@@ -1308,6 +1308,12 @@
 					"kind": null
 				},
 				{
+					"typeStr": "6:grid",
+					"name": "attackGrid",
+					"opt": true,
+					"kind": null
+				},
+				{
 					"typeStr": "3",
 					"name": "movePerTurn"
 				},
@@ -1367,7 +1373,8 @@
 						"height": 330
 					},
 					"movePerTurn": 3,
-					"attackPerTurn": 1
+					"attackPerTurn": 1,
+					"attackGrid": "SmallRectangle"
 				},
 				{
 					"id": "Hexachad",

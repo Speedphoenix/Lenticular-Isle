@@ -366,7 +366,7 @@ class EntityEnt {
         #if debug
         shape.draw(g);
         #else
-        if (bitmap == null)
+        if (obj == null)
             shape.draw(g);
         #end
         updatePos();
