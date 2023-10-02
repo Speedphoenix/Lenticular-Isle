@@ -123,6 +123,7 @@ class EntityEnt {
             // TODO TOMORROW sort them for depth
             bitmap = new h2d.Bitmap(inf.gfx.toTile(), Board.inst.entitiesCont);
             bitmap.dom = domkit.Properties.create("bitmap", bitmap);
+            bitmap.dom.addClass(kind.toString());
 
             bitmap.scale(0.5);
             updatePos();
@@ -735,10 +736,12 @@ class Board {
         // boardRoot.getProperties(gridPlatform).paddingTop = 40;
 
 		gridCont = new SceneObject(boardRoot);
+        gridCont.dom.addClass("gridCont");
         boardRoot.getProperties(gridCont).paddingLeft = 10;
         // boardRoot.getProperties(gridPlatform).paddingTop = 30;
 
         entitiesCont = new SceneObject(gridCont);
+        entitiesCont.dom.addClass("entitiesCont");
 
 		gridGraphics = new h2d.Graphics(gridCont);
         selectGraphic = new h2d.Graphics(gridCont);
@@ -747,7 +750,7 @@ class Board {
         startLevel(Data.level.all[0].id);
 
 		boardObj = new SceneObject(gridCont);
-		boardObj.dom.addClass("board");
+		boardObj.dom.addClass("boardObj");
 	}
 
     function startLevel(lv: Data.LevelKind) {
