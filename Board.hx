@@ -59,7 +59,12 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 		>
 			<flow class="board-cont" id public/>
 			<flow id="hud" public>
-                <button("Next turn") id="nextTurnBtn" public/>
+                <button("Next turn [SPACE]") id="nextTurnBtn" public/>
+                <flow class="turn-count-cont">
+                    <text id="turnCount" public
+                        font={Main.font}
+                    />
+                </flow>
             </flow>
 		</flow>
 	</board-ui>
@@ -100,7 +105,7 @@ class EntityEnt {
     var rangeGraphic: h2d.Graphics;
     var rangeGraphic2: h2d.Graphics;
     public var obj: SceneEntityObject;
-    var possibleMovements: Array<{pos: IPoint, shapeIdx: Int}> = [];
+    var possibleMovements: Array<MoveInfo> = [];
 
     var turnMovements = 0;
     var turnAttacks = 0;
@@ -200,17 +205,14 @@ class EntityEnt {
             #end
 
             if (nearest != null) {
-                shapePreview.kind = inf.shapes[nearest.shape].refId;
-                if (nearest.offset.x != x || nearest.offset.y != y || nearest.shape != shapeIdx) {
+                shapePreview.kind = inf.shapes[nearest.info.shapeIdx].refId;
+                if (nearest.info.pos.x != x || nearest.info.pos.y != y || nearest.info.shapeIdx != shapeIdx) {
                     if (K.isPressed(K.MOUSE_LEFT)) {
-                        this.x = nearest.offset.x;
-                        this.y = nearest.offset.y;
-                        setShapeIdx(nearest.shape);
+                        moveTo(nearest.info);
                         Board.inst.select(null);
-                        Board.inst.onMove(this);
                     } else if (getColor() >= 0) {
-                        shapePreview.x = nearest.offset.x;
-                        shapePreview.y = nearest.offset.y;
+                        shapePreview.x = nearest.info.pos.x;
+                        shapePreview.y = nearest.info.pos.y;
                         hoverGraphic.lineStyle(2, getColor());
                         shapePreview.draw(hoverGraphic);
                     }
@@ -219,12 +221,21 @@ class EntityEnt {
         }
     }
 
+    public function moveTo(info: MoveInfo) {
+        this.x = info.pos.x;
+        this.y = info.pos.y;
+        setShapeIdx(info.shapeIdx);
+        if (info.dist != null) {
+            turnMovements += info.dist;
+        }
+        Board.inst.onMove(this);
+    }
+
     function getPossibleDest(gridMousePos: Point) {
-        var nearest: {shape: Int, offset: IPoint, distSq: Float} = null;
+        var nearest: {info: MoveInfo, distMouseSq: Float} = null;
 
         for (i in 0...possibleMovements.length) {
             var p = possibleMovements[i];
-            var o = p.pos;
             #if debug
             switch(p.shapeIdx) {
                 case 0: debGraphic.lineStyle(2, 0x9A1FD3);
@@ -234,7 +245,7 @@ class EntityEnt {
             }
             #end
             var center = Const.getCenter(inf.shapes[p.shapeIdx].ref.firstTriangle, inf.shapes[p.shapeIdx].ref.firstTriangleCenter);
-            var c = center.add(o.toPoint());
+            var c = center.add(p.pos.toPoint());
             if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
                 continue;
             #if debug
@@ -242,11 +253,10 @@ class EntityEnt {
             debGraphic.drawCircle(debCenter.x, debCenter.y, 5);
             #end
             var d = c.distanceSq(gridMousePos);
-            if (nearest == null || nearest.distSq > d) {
+            if (nearest == null || nearest.distMouseSq > d) {
                 nearest = {
-                    shape: p.shapeIdx,
-                    offset: o,
-                    distSq: d,
+                    info: p,
+                    distMouseSq: d,
                 };
             }
         }
@@ -279,7 +289,7 @@ class EntityEnt {
             new IPoint(mouseOffset.x - 3, mouseOffset.y - 1),
             new IPoint(mouseOffset.x + 3, mouseOffset.y - 1),
         ];
-        var nearest: {shape: Int, offset: IPoint, distSq: Float} = null;
+        var nearest: {info: MoveInfo, distMouseSq: Float} = null;
 
         for (i in 0...inf.shapes.length) {
             #if debug
@@ -301,11 +311,14 @@ class EntityEnt {
                 debGraphic.drawCircle(debCenter.x, debCenter.y, 5);
                 #end
                 var d = c.distanceSq(gridMousePos);
-                if (nearest == null || nearest.distSq > d) {
+                if (nearest == null || nearest.distMouseSq > d) {
                     nearest = {
-                        shape: i,
-                        offset: o,
-                        distSq: d,
+                        info: {
+                            pos: o,
+                            shapeIdx: i,
+                            dist: 0,
+                        },
+                        distMouseSq: d,
                     };
                 }
             }
@@ -377,11 +390,16 @@ class EntityEnt {
     }
 
     public function nextTurn() {
+        if (inf.flags.has(AutoAction)) {
+            if (getRemainingMove() > 0) {
+                var possible = getPossibleMovements(getRemainingMove());
+                possibleMovements = possible.positions;
+                var choice = possibleMovements.pickRandom();
+                moveTo(choice);
+            }
+        }
         turnMovements = 0;
         turnAttacks = 0;
-        if (inf.flags.has(AutoAction)) {
-            // TODO
-        }
     }
 
     public inline function getGridPos() {
@@ -435,8 +453,10 @@ class EntityEnt {
 
                 if (!isPosValid(currWorld.pos, currWorld.shapeIdx))
                     continue;
-                ret.push(currWorld);
                 var currVerts: h2d.col.Polygon = baseVerts.copy();
+                currWorld.deb = currVerts;
+                currWorld.dist = i + 1;
+                ret.push(currWorld);
                 var currWorldFloat = Const.fromGridFloat(curr, inf.gridId);
                 for (j in 0...currVerts.length) {
                     // currVerts[j] = currVerts[j].add(currWorldFloat);
@@ -454,7 +474,6 @@ class EntityEnt {
                     if (!checked.any(p -> p.equals(start.add(next))) && !nextAdjacents.any(p -> p.equals(next)))
                         nextAdjacents.push(next);
                 }
-                currWorld.deb = currVerts;
             }
         }
 
@@ -815,6 +834,7 @@ class Board {
         }
 
         currTurn = 0;
+        fullUi.turnCount.text = "Turn: " + currTurn;
 
         #if admin
         for (e in sideEntities)
@@ -830,6 +850,9 @@ class Board {
     }
 
     function nextTurn() {
+        select(null);
+        currTurn++;
+        fullUi.turnCount.text = "Turn: " + currTurn;
         for (e in entities) {
             e.nextTurn();
         }
@@ -933,6 +956,8 @@ class Board {
         var gridChanged = false;
         if (K.isPressed(K.ESCAPE) || K.isPressed(K.MOUSE_RIGHT))
             select(null);
+        if (K.isPressed(K.ENTER) || K.isPressed(K.NUMPAD_ENTER))
+            nextTurn();
         #if !release
         if (K.isPressed(K.DELETE)) {
             if (currentSelect != null && entities.has(currentSelect)) {
