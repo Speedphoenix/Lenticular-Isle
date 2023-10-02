@@ -1473,9 +1473,102 @@
 					"color": 14572893,
 					"grid": "SmallTriangle",
 					"flags": 9,
-					"props": {},
+					"props": {
+						"gfxOffsetx": -53,
+						"gfxOffsety": -69
+					},
 					"movePerTurn": 1,
-					"attackPerTurn": 1
+					"attackPerTurn": 1,
+					"gfx": {
+						"file": "tiles/foe_slimeNormal.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 211,
+						"height": 198
+					}
+				},
+				{
+					"id": "Slime2",
+					"shapes": [
+						{
+							"ref": "Hexagone12_A",
+							"gridx": 1,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Hexagone12_B",
+							"gridx": 2,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Hexagone12_C",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "SmallTriangle",
+					"movePerTurn": 1,
+					"attackPerTurn": 1,
+					"flags": 9,
+					"props": {
+						"gfxOffsetx": -53,
+						"gfxOffsety": -69
+					},
+					"gfx": {
+						"file": "tiles/foe_slimeFlame.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 211,
+						"height": 198
+					},
+					"color": 14572893,
+					"group": 1
+				},
+				{
+					"id": "Slime3",
+					"shapes": [
+						{
+							"ref": "Hexagone12_A",
+							"gridx": 1,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Hexagone12_B",
+							"gridx": 2,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Hexagone12_C",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "SmallTriangle",
+					"movePerTurn": 1,
+					"attackPerTurn": 1,
+					"flags": 9,
+					"props": {
+						"gfxOffsetx": -53,
+						"gfxOffsety": -69
+					},
+					"gfx": {
+						"file": "tiles/foe_slimRapide.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 211,
+						"height": 198
+					},
+					"color": 14572893,
+					"group": 1
 				},
 				{
 					"id": "Cyclope",
