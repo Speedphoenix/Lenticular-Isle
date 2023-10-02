@@ -164,7 +164,7 @@ class Main extends hxd.App {
 		board.init(s2d);
 
 		style = new h2d.domkit.Style();
-		style.allowInspect = #if debug true #else false #end;
+		style.allowInspect = #if !release true #else false #end;
 		style.load(hxd.Res.style, true);
 		style.addObject(board.fullUi);
 		// dom.addClass("root");

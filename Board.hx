@@ -5,10 +5,32 @@ using Extensions;
 using Const;
 using Main;
 
+typedef MoveInfo = {
+    pos: IPoint,
+    shapeIdx: Int,
+    ?deb: Array<Point>,
+    ?dist: Int,
+}
+
 class SceneObject extends h2d.Object implements h2d.domkit.Object {
 	public function new(?parent) {
 		super(parent);
 		initComponent();
+	}
+}
+
+class SceneEntityObject extends SceneObject {
+    static var SRC = <scene-entity-object>
+        <bitmap src={inf.gfx.toTile()} id="bitmap" if(inf.gfx != null)/>
+    </scene-entity-object>
+    public var e: EntityEnt;
+	public function new(e: EntityEnt, ?parent) {
+        this.e = e;
+        var inf = e.inf;
+		super(parent);
+		initComponent();
+        dom.addClass(e.kind.toString());
+        bitmap.scale(0.5);
 	}
 }
 
@@ -77,8 +99,11 @@ class EntityEnt {
     var debGraphic: h2d.Graphics;
     var rangeGraphic: h2d.Graphics;
     var rangeGraphic2: h2d.Graphics;
-    var bitmap: h2d.Bitmap;
+    public var obj: SceneEntityObject;
     var possibleMovements: Array<{pos: IPoint, shapeIdx: Int}> = [];
+
+    var turnMovements = 0;
+    var turnAttacks = 0;
 
     public var isSelected(get, never): Bool;
     function get_isSelected() {
@@ -121,11 +146,7 @@ class EntityEnt {
             rangeGraphic2.tile = h2d.Tile.fromColor(getColor());
         if (inf.gfx != null) {
             // TODO TOMORROW sort them for depth
-            bitmap = new h2d.Bitmap(inf.gfx.toTile(), Board.inst.entitiesCont);
-            bitmap.dom = domkit.Properties.create("bitmap", bitmap);
-            bitmap.dom.addClass(kind.toString());
-
-            bitmap.scale(0.5);
+            obj = new SceneEntityObject(this, Board.inst.entitiesCont);
             updatePos();
         }
     }
@@ -293,7 +314,7 @@ class EntityEnt {
     }
 
     public function onSelect() {
-        var possible = getPossibleMovements(inf.actionPerTurn);
+        var possible = getPossibleMovements(getRemainingMove());
         possibleMovements = possible.positions;
 
         if (getColor() >= 0) {
@@ -339,12 +360,27 @@ class EntityEnt {
     }
 
     function updatePos() {
-        if (bitmap != null) {
+        if (obj != null) {
             var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
             var c2 = Const.toIso(center.add(new Point(x, y)));
 
-            bitmap.x = c2.x + (inf.props.gfxOffsetx ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsetx ?? 0);
-            bitmap.y = c2.y + (inf.props.gfxOffsety ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsety ?? 0);
+            obj.x = c2.x + (inf.props.gfxOffsetx ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsetx ?? 0);
+            obj.y = c2.y + (inf.props.gfxOffsety ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsety ?? 0);
+        }
+    }
+
+    public function getRemainingAttacks() {
+        return inf.attackPerTurn - turnAttacks;
+    }
+    public function getRemainingMove() {
+        return inf.movePerTurn - turnMovements;
+    }
+
+    public function nextTurn() {
+        turnMovements = 0;
+        turnAttacks = 0;
+        if (inf.flags.has(AutoAction)) {
+            // TODO
         }
     }
 
@@ -354,7 +390,7 @@ class EntityEnt {
         p.y += inf.shapes[shapeIdx].gridy;
         return p;
     }
-    public inline function fromGridPos(p: IPoint): {pos: IPoint, shapeIdx: Int, deb: Array<Point>} {
+    public inline function fromGridPos(p: IPoint): MoveInfo {
         var gridOff = Const.getGridOffset(p, inf.gridId);
         var newP = Const.fromGrid(p, inf.gridId);
         var s = inf.shapes.findIndex(s -> s.gridx == gridOff.x && s.gridy == gridOff.y);
@@ -363,14 +399,13 @@ class EntityEnt {
         return {
             pos: newP,
             shapeIdx: s,
-            deb: null,
         };
     }
 
     // TODO TOMORROW take the right shape coming back from fromGrid, and specify it to isposvalid
     public /* inline */ function getPossibleMovements(count: Int) {
         var checked = [];
-        var ret = [];
+        var ret: Array<MoveInfo> = [];
 
         var start = getGridPos();
         checked.push(start);
@@ -403,9 +438,9 @@ class EntityEnt {
                 ret.push(currWorld);
                 var currVerts: h2d.col.Polygon = baseVerts.copy();
                 var currWorldFloat = Const.fromGridFloat(curr, inf.gridId);
-                for (i in 0...currVerts.length) {
-                    // currVerts[i] = currVerts[i].add(currWorldFloat);
-                    currVerts[i] = currVerts[i].add(currWorld.pos.toPoint());
+                for (j in 0...currVerts.length) {
+                    // currVerts[j] = currVerts[j].add(currWorldFloat);
+                    currVerts[j] = currVerts[j].add(currWorld.pos.toPoint());
                 }
                 var unionRet = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false);
                 if (unionRet.isEmpty()) {
@@ -464,7 +499,7 @@ class EntityEnt {
         previewGraphic.remove();
         debGraphic.remove();
         rangeGraphic.remove();
-        bitmap.remove();
+        obj.remove();
     }
     public function saveData() {
         return {
@@ -704,7 +739,8 @@ class Board {
     var entities: Array<EntityEnt> = [];
     var sideEntities: Array<EntityEnt> = [];
 
-    var level: Data.LevelKind;
+    public var level: Data.LevelKind;
+    public var currTurn = 0;
 
     public var currentSelect: EntityEnt = null;
 
@@ -724,6 +760,9 @@ class Board {
         fullUi.boardCont.padding = 50;
         boardRoot = new h2d.Flow(fullUi.boardCont);
         fullUi.boardCont.backgroundTile = hxd.Res.vistaBackground.toTile();
+        fullUi.nextTurnBtn.onClick = function() {
+            nextTurn();
+        }
         boardRoot.fillWidth = true;
         boardRoot.fillHeight = true;
         boardRoot.layout = Stack;
@@ -775,6 +814,8 @@ class Board {
             entities.push(ent);
         }
 
+        currTurn = 0;
+
         #if admin
         for (e in sideEntities)
             e.onRemove();
@@ -786,6 +827,12 @@ class Board {
             i++;
         }
         #end
+    }
+
+    function nextTurn() {
+        for (e in entities) {
+            e.nextTurn();
+        }
     }
 
     function makeSide(k: Data.EntityKind, i) {
@@ -980,6 +1027,17 @@ class Board {
         }
 
         refreshWorldGrid();
+    }
+
+    public function compareObj(a: h2d.Object, b: h2d.Object) {
+        var oa = Std.downcast(a, SceneEntityObject);
+        var ob = Std.downcast(b, SceneEntityObject);
+        if (oa != null && ob != null) {
+            var enta = oa.e;
+            var entb = ob.e;
+            return enta.y - entb.y;
+        }
+        return 0;
     }
 
 	function drawGrid(g: h2d.Graphics) {

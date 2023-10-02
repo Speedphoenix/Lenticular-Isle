@@ -1309,11 +1309,15 @@
 				},
 				{
 					"typeStr": "3",
-					"name": "actionPerTurn",
+					"name": "movePerTurn"
+				},
+				{
+					"typeStr": "3",
+					"name": "attackPerTurn",
 					"kind": null
 				},
 				{
-					"typeStr": "10:NoSelection,HasEffect,IsPlayer",
+					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction",
 					"name": "flags",
 					"documentation": "HasEffect: will not collide and will trigger the next level when all are stomped"
 				},
@@ -1354,7 +1358,6 @@
 						"gfxOffsetx": 0,
 						"gfxOffsety": 0
 					},
-					"actionPerTurn": 3,
 					"gfx": {
 						"file": "tiles/chara_carre.png",
 						"size": 1,
@@ -1362,7 +1365,9 @@
 						"y": 0,
 						"width": 257,
 						"height": 330
-					}
+					},
+					"movePerTurn": 3,
+					"attackPerTurn": 1
 				},
 				{
 					"id": "Hexachad",
@@ -1382,7 +1387,6 @@
 						"gfxOffsetx": -96,
 						"gfxOffsety": -183
 					},
-					"actionPerTurn": 3,
 					"gfx": {
 						"file": "tiles/chara_hexa.png",
 						"size": 1,
@@ -1390,7 +1394,9 @@
 						"y": 0,
 						"width": 527,
 						"height": 469
-					}
+					},
+					"movePerTurn": 3,
+					"attackPerTurn": 1
 				},
 				{
 					"id": "Lozecannon",
@@ -1430,7 +1436,8 @@
 						"width": 342,
 						"height": 337
 					},
-					"actionPerTurn": 5
+					"movePerTurn": 5,
+					"attackPerTurn": 1
 				},
 				{
 					"id": "Slime",
@@ -1457,9 +1464,10 @@
 					"group": 1,
 					"color": 14572893,
 					"grid": "SmallTriangle",
-					"flags": 4,
+					"flags": 9,
 					"props": {},
-					"actionPerTurn": 1
+					"movePerTurn": 1,
+					"attackPerTurn": 1
 				},
 				{
 					"id": "Cyclope",
@@ -1480,9 +1488,10 @@
 					"color": 14572893,
 					"group": 1,
 					"grid": "TriangleZeroes",
-					"flags": 1,
+					"flags": 9,
 					"props": {},
-					"actionPerTurn": 1
+					"movePerTurn": 0,
+					"attackPerTurn": 1
 				},
 				{
 					"id": "Obstacle_Hexa36",
@@ -1510,7 +1519,8 @@
 						"width": 358,
 						"height": 332
 					},
-					"actionPerTurn": 0
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Hexa_Hammer",
@@ -1523,7 +1533,6 @@
 						}
 					],
 					"grid": "TriangleZeroes",
-					"actionPerTurn": 0,
 					"flags": 1,
 					"props": {
 						"gfxOffsetx": -89,
@@ -1538,7 +1547,9 @@
 						"height": 331
 					},
 					"color": 14593627,
-					"group": 2
+					"group": 2,
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Rectangle12",
@@ -1561,7 +1572,8 @@
 					"color": 14593627,
 					"group": 2,
 					"props": {},
-					"actionPerTurn": 0
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Rectangle6",
@@ -1584,7 +1596,8 @@
 					"grid": "None",
 					"flags": 1,
 					"props": {},
-					"actionPerTurn": 0
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Triangle6",
@@ -1607,7 +1620,8 @@
 					"grid": "None",
 					"flags": 1,
 					"props": {},
-					"actionPerTurn": 0
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Obstacle_Hexa12",
@@ -1647,7 +1661,8 @@
 						"height": 125
 					},
 					"color": 0,
-					"actionPerTurn": 0
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Hexachad_EndPoint",
@@ -1664,7 +1679,8 @@
 					"grid": "TriangleZeroes",
 					"flags": 3,
 					"props": {},
-					"actionPerTurn": 0
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Wrectangle_EndPoint",
@@ -1687,7 +1703,8 @@
 					"color": 152064,
 					"group": 3,
 					"props": {},
-					"actionPerTurn": 0
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Lozecannon_Endpoint",
@@ -1716,7 +1733,8 @@
 					"color": 152064,
 					"group": 3,
 					"props": {},
-					"actionPerTurn": 0
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "EndPoint_Level1",
@@ -1741,7 +1759,6 @@
 						}
 					],
 					"grid": "SmallLozange",
-					"actionPerTurn": 0,
 					"flags": 3,
 					"props": {
 						"gfxOffsetx": -65,
@@ -1755,7 +1772,9 @@
 						"y": 0,
 						"width": 260,
 						"height": 150
-					}
+					},
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				},
 				{
 					"id": "Deco_GameTitle",
@@ -1774,7 +1793,6 @@
 						}
 					],
 					"grid": "None",
-					"actionPerTurn": 0,
 					"flags": 1,
 					"props": {
 						"gfxOffsetx": -140,
@@ -1788,7 +1806,9 @@
 						"y": 0,
 						"width": 568,
 						"height": 369
-					}
+					},
+					"movePerTurn": 0,
+					"attackPerTurn": 0
 				}
 			],
 			"separators": [
