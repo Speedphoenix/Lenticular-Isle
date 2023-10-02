@@ -2053,8 +2053,8 @@
 					"id": "MainMenu",
 					"entities": [
 						{
-							"offsetx": 9,
-							"offsety": 1,
+							"offsetx": -2,
+							"offsety": 6,
 							"ref": "Deco_GameTitle",
 							"shapeIdx": 0
 						},

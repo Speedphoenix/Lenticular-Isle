@@ -33,10 +33,10 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 		<flow class="center-cont" id public
 			width={Const.BOARD_FULL_WIDTH}
 			height={Math.ceil(Const.BOARD_FULL_HEIGHT)}
+            layout={h2d.Flow.FlowLayout.Stack}
 		>
-			<flow class="board-cont" id public
-				position="absolute"
-			/>
+			<flow class="board-cont" id public/>
+			<flow id="hud" public/>
 		</flow>
 	</board-ui>
 	public static var panelBG = null;
@@ -333,8 +333,8 @@ class EntityEnt {
             var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
             var c2 = Const.toIso(center.add(new Point(x, y)));
 
-            bitmap.x = c2.x + (inf.props.gfxOffsetx ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsetx ?? 0);
-            bitmap.y = c2.y + (inf.props.gfxOffsety ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsety ?? 0);
+            bitmap.x = c2.x + (inf.props.gfxOffsetx ?? 0); // + (inf.shapes[shapeIdx].props.gfxOffsetx ?? 0);
+            bitmap.y = c2.y + (inf.props.gfxOffsety ?? 0); // + (inf.shapes[shapeIdx].props.gfxOffsety ?? 0);
         }
     }
 
@@ -711,13 +711,16 @@ class Board {
         window = hxd.Window.getInstance();
         fullUi = new BoardUi(root);
 
+        fullUi.boardCont.padding = 50;
         boardRoot = new h2d.Flow(fullUi.boardCont);
-        boardRoot.backgroundTile = h2d.Tile.fromColor(0xFFFFFF);
+        fullUi.boardCont.backgroundTile = hxd.Res.vistaBackground.toTile();
         boardRoot.fillWidth = true;
         boardRoot.fillHeight = true;
         boardRoot.layout = Stack;
 
         var gridPlatform = new h2d.Bitmap(hxd.Res.platform_A.toTile(), boardRoot);
+        boardRoot.getProperties(gridPlatform).paddingBottom = - 161;
+
         gridPlatform.setScale(0.5);
         // boardRoot.getProperties(gridPlatform).paddingLeft = -5;
         // boardRoot.getProperties(gridPlatform).paddingTop = 40;
@@ -797,6 +800,7 @@ class Board {
 
     public inline function getGridMousePos() {
         var mousePos = new Point(window.mouseX, window.mouseY);
+        var mousePos = boardRoot.globalToLocal(mousePos);
         return Const.fromIso(mousePos);
     }
 
