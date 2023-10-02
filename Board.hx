@@ -340,8 +340,16 @@ class EntityEnt {
                     Board.inst.deleteEntity(e);
                 }
                 moveTo(info);
-            case Cyclope: // TODO
+            case Cyclope:
+                var toKill = getAttackColliding(info);
+                for (e in toKill) {
+                    trace('entity $kind ($id) kills ${e.kind} (${e.id})');
+                    Board.inst.deleteEntity(e);
+                }
             default:
+        }
+        if (info.dist != null && !inf.flags.has(NoAttackLimit)) {
+            turnAttacks += info.dist;
         }
     }
 
@@ -527,11 +535,8 @@ class EntityEnt {
                 case Cyclope:
                     choice = possibleAttacks.find(p -> !getAttackColliding(p).isEmpty());
                     var furthest = possibleAttacks.findMaxItem(p -> p.dist);
-                    if (furthest == null) {
-                        trace("no possible attack??");
-                        var test = getPossibleMovements(getRemainingAttacks(), true);
-                    } else {
-                        attackGraphic.clear();
+                    attackGraphic.clear();
+                    if (furthest != null) {
                         attackGraphic.lineStyle(3, 0xFF0000);
                         var center = Const.getCenter(inf.shapes[shapeIdx].ref.firstTriangle, inf.shapes[shapeIdx].ref.firstTriangleCenter);
                         var from = center.add(new Point(x, y));
@@ -682,14 +687,12 @@ class EntityEnt {
                     if (this.inf.flags.has(IsEnemy) && e.inf.flags.has(IsEnemy))
                         return false;
                     switch (kind) {
-                        case Hexachad, Slime, Slime2, Slime3:
-                            if (!e.inf.flags.has(Killable))
-                                return false;
                         case Wrecktangle:
                             if (!e.inf.flags.has(Killable) && !e.inf.flags.has(Breakable))
                                 return false;
                         default:
-                            return false;
+                            if (!e.inf.flags.has(Killable))
+                                return false;
                     }
                 }
             }
@@ -1398,11 +1401,11 @@ class Board {
                 entities.push(e);
             }
         }
+        refreshWorldGrid();
         for (e in entities) {
             e.refreshAttack();
         }
 
-        refreshWorldGrid();
         reorderBitmap();
     }
 
