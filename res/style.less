@@ -31,3 +31,19 @@ main-menu {
 		}
 	}
 }
+board-ui {
+	#hud {
+		margin: 20;
+		spacing: 10;
+		layout: vertical;
+		.turn-count-cont {
+			min-width: 50;
+			background: hgrid("button_bg.png", 3) 4 4;
+			background-tile-pos-x: 1;
+			padding: 6;
+			text {
+				scale: 2;
+			}
+		}
+	}
+}

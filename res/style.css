@@ -26,3 +26,17 @@ main-menu .menu-cont .middle-cont #buttons {
 main-menu .menu-cont .middle-cont #buttons button {
   min-width: 155;
 }
+board-ui #hud {
+  margin: 20;
+  spacing: 10;
+  layout: vertical;
+}
+board-ui #hud .turn-count-cont {
+  min-width: 50;
+  background: hgrid("button_bg.png", 3) 4 4;
+  background-tile-pos-x: 1;
+  padding: 6;
+}
+board-ui #hud .turn-count-cont text {
+  scale: 2;
+}
