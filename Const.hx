@@ -60,7 +60,8 @@ using Extensions;
             case SmallRectangle:
                 return p;
             case SmallTriangle:
-                var ret = new IPoint(p.x,Math.round((p.y-p.x)/2));
+                var ret = new IPoint(p.x, Math.round(((3 * p.y) - p.x) / 2));
+                trace("togrid ", p, "->", ret);
                 return ret;
 
             case SmallLozange: // TODO
@@ -74,10 +75,10 @@ using Extensions;
                     return new IPoint(1, 0);
                 return new IPoint(0, 0);
             case SmallTriangle:
-                var pointType=(p.x+2*p.y) & 3 ;
+                var pointType=(p.x+2*p.y) % 3 ;
                 if(pointType==0){
                     return new IPoint(0, 0);
-                } else if (pointType==1){
+                } else if (pointType==1||pointType==-2){
                     return new IPoint(1, 0);
                 } else{
                     return new IPoint(2, 0);
@@ -96,7 +97,8 @@ using Extensions;
             case SmallTriangle:
                 var off = getGridOffset(p, g);
                 var point= p.sub(off);
-                var ret = new IPoint(point.x,(2*point.y+point.x));
+                var ret = new IPoint(point.x,Math.round((2*point.y+point.x)/3));
+                trace("fromGrid ", p, "->", ret);
                 return ret;
             case SmallRectangle:
                 var off = getGridOffset(p, g);
@@ -116,7 +118,7 @@ using Extensions;
             case SmallRectangle:
                 return p.toPoint();
             case SmallTriangle: // TODO
-                return new Point(p.x,(2*p.y+p.x));
+                return new Point(p.x,(2*p.y+p.x)/3);
             case SmallLozange: // TODO
                 return p.toPoint();
         }
@@ -169,11 +171,44 @@ using Extensions;
                     new IPoint(-1, 0),
                     new IPoint(1, 0),
 
-                    new IPoint(0, -1),
-                    new IPoint(1, -1),
+                    new IPoint(-2, 0),
+                    new IPoint(2, 0),
+
+                    new IPoint(-3, 0),
+                    new IPoint(3, 0),
 
                     new IPoint(-1, 1),
                     new IPoint(0, 1),
+
+                    new IPoint(-2, 2),
+                    new IPoint(0, 2),
+
+                    new IPoint(-3, 3),
+                    new IPoint(0, 3),
+
+                    new IPoint(0, -1),
+                    new IPoint(1, -1),
+
+                    new IPoint(0, -2),
+                    new IPoint(2, -2),
+
+                    new IPoint(0, -3),
+                    new IPoint(3, -3),
+
+                    new IPoint(2, -1),
+                    new IPoint(4, -2),
+                    new IPoint(-2, 1),
+                    new IPoint(-4, 2),
+
+                    new IPoint(1, 1),
+                    new IPoint(2, 2),
+                    new IPoint(-1, -1),
+                    new IPoint(-2, -2),
+
+                    new IPoint(-1, 2),
+                    new IPoint(-2, 4),
+                    new IPoint(1, -2),
+                    new IPoint(2, -4),
                 ];
             case SmallLozange: // TODO
                 return [
