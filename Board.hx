@@ -150,6 +150,8 @@ class EntityEnt {
     public var obj: SceneEntityObject;
     var possibleMovements: Array<MoveInfo> = [];
 
+    var laserTrail: Array<EntityEnt> = [];
+
     var turnMovements = 0;
     var turnAttacks = 0;
 
@@ -340,7 +342,7 @@ class EntityEnt {
                     Board.inst.deleteEntity(e);
                 }
                 moveTo(info);
-            case Cyclope:
+            case Cyclope, CyclopeRight:
                 var toKill = getAttackColliding(info);
                 for (e in toKill) {
                     trace('entity $kind ($id) kills ${e.kind} (${e.id})');
@@ -532,17 +534,39 @@ class EntityEnt {
                             choice = p;
                         }
                     }
-                case Cyclope:
+                case Cyclope, CyclopeRight:
                     choice = possibleAttacks.find(p -> !getAttackColliding(p).isEmpty());
-                    var furthest = possibleAttacks.findMaxItem(p -> p.dist);
-                    attackGraphic.clear();
-                    if (furthest != null) {
-                        attackGraphic.lineStyle(3, 0xFF0000);
-                        var center = Const.getCenter(inf.shapes[shapeIdx].ref.firstTriangle, inf.shapes[shapeIdx].ref.firstTriangleCenter);
-                        var from = center.add(new Point(x, y));
-                        var to = center.add(furthest.pos.toPoint());
-                        Board.drawEdgeRaw(from, to, attackGraphic);
+
+                    if (possibleAttacks.length != laserTrail.length) {
+                        for (e in laserTrail) {
+                            Board.inst.deleteEntity(e);
+                        }
+                        laserTrail.clear();
+                        for (i in 0...possibleAttacks.length) {
+                            var p = possibleAttacks[i];
+                            var e = new EntityEnt(Effect_Cyclops_Laser, p.shapeIdx, p.pos.x, p.pos.y);
+                            Board.inst.entities.push(e);
+                            laserTrail.push(e);
+                        }
                     }
+                    for (i in 0...possibleAttacks.length) {
+                        var p = possibleAttacks[i];
+                        var e = laserTrail[i];
+                        e.x = p.pos.x;
+                        e.y = p.pos.y;
+                        e.setShapeIdx(p.shapeIdx);
+                    }
+
+                    // Uncomment for red line laser
+                    // var furthest = possibleAttacks.findMaxItem(p -> p.dist);
+                    // attackGraphic.clear();
+                    // if (furthest != null) {
+                    //     attackGraphic.lineStyle(3, 0xFF0000);
+                    //     var center = Const.getCenter(inf.shapes[shapeIdx].ref.firstTriangle, inf.shapes[shapeIdx].ref.firstTriangleCenter);
+                    //     var from = center.add(new Point(x, y));
+                    //     var to = center.add(furthest.pos.toPoint());
+                    //     Board.drawEdgeRaw(from, to, attackGraphic);
+                    // }
                 default:
             }
             if (choice != null)
@@ -681,7 +705,7 @@ class EntityEnt {
             if (ents == null)
                 continue;
             for (e in ents) {
-                if (e != this && !e.inf.flags.has(HasEffect) && shape.collides(e.shape, p.x, p.y)) {
+                if (e != this && !e.inf.flags.has(NoCollision) && shape.collides(e.shape, p.x, p.y)) {
                     if (!isAttack)
                         return false;
                     if (this.inf.flags.has(IsEnemy) && e.inf.flags.has(IsEnemy))
@@ -745,6 +769,9 @@ class EntityEnt {
         obj.remove();
         if (previewObj != null)
             previewObj.remove();
+        for (e in laserTrail) {
+            Board.inst.deleteEntity(e);
+        }
     }
     public function saveData(): EntityData {
         return {
@@ -1180,9 +1207,12 @@ class Board {
     function makeSide(k: Data.EntityKind, i) {
         var x = Const.BOARD_WIDTH * 2 + 4;
         var y = i * 2;
-        if (i >= 9) {
-            x = (i - 9) * 3;
+        if (i >= 17) {
+            x = (i - 17) * 3;
             y = Const.BOARD_HEIGHT + (x & 1);
+        } else if (i >= 9) {
+            x = Const.BOARD_WIDTH * 2 + 7;
+            y = (i - 8) * 2 + 1;
         }
         return new EntityEnt(k, 0, x, y);
     }
