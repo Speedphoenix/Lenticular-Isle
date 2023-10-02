@@ -21,17 +21,39 @@ class SceneObject extends h2d.Object implements h2d.domkit.Object {
 
 class SceneEntityObject extends SceneObject {
     static var SRC = <scene-entity-object>
-        <bitmap src={inf.gfx.toTile()} id="bitmap" if(inf.gfx != null)/>
+        <bitmap id="bitmap" public/>
     </scene-entity-object>
+
     public var e: EntityEnt;
-	public function new(e: EntityEnt, ?parent) {
+    public var inf: Data.Entity;
+	public function new(?e: EntityEnt, ?inf: Data.Entity, ?parent) {
         this.e = e;
-        var inf = e.inf;
+        if (e != null) {
+            inf = e.inf;
+        }
+        this.inf = inf;
 		super(parent);
 		initComponent();
-        dom.addClass(e.kind.toString());
+        setTile(inf.gfx.toTile());
+        dom.addClass(inf.id.toString());
         bitmap.scale(0.5);
+        setPos(new Point(), 0);
 	}
+    public function setTile(t: h2d.Tile) {
+        if (t == null)
+            bitmap.visible = false;
+        else
+            bitmap.tile = t;
+    }
+
+    public function setPos(p: Point, shapeIdx: Int) {
+        var s = inf.shapes[shapeIdx].ref;
+        var center = Const.getCenter(s.firstTriangle, s.firstTriangleCenter);
+        var c2 = Const.toIso(center.add(new Point(p.x, p.y)));
+
+        x = c2.x + (inf.props.gfxOffsetx ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsetx ?? 0);
+        y = c2.y + (inf.props.gfxOffsety ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsety ?? 0);
+    }
 }
 
 @:uiComp("board-ui")
@@ -65,6 +87,7 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
                         font={Main.font}
                     />
                 </flow>
+                <button("Attack [A]") id="attackBtn" public/>
             </flow>
 		</flow>
 	</board-ui>
@@ -94,13 +117,19 @@ class EntityEnt {
     public var y(default, set): Int;
 
     public var shapeIdx: Int;
-    public var shape: ShapeEnt;
+    public var shape(get, never): ShapeEnt;
+    function get_shape() {
+        return shapes[shapeIdx];
+    }
+    public var shapes: Array<ShapeEnt> = [];
     public var shapePreview: ShapeEnt = null;
 
     public var fabLine: Data.Level_entities = null;
 
     var hoverGraphic: h2d.Graphics;
     var previewGraphic: h2d.Graphics;
+    var previewObj: SceneEntityObject;
+
     var debGraphic: h2d.Graphics;
     var rangeGraphic: h2d.Graphics;
     var rangeGraphic2: h2d.Graphics;
@@ -109,6 +138,12 @@ class EntityEnt {
 
     var turnMovements = 0;
     var turnAttacks = 0;
+
+    var isAttacking(get, never): Bool;
+
+    function get_isAttacking() {
+        return isSelected && Board.inst.isAttacking;
+    }
 
     public var isSelected(get, never): Bool;
     function get_isSelected() {
@@ -120,20 +155,18 @@ class EntityEnt {
         return this.kind = k;
     }
     function set_x(v) {
-        if (shape != null)
-            shape.x = v;
+        for (s in shapes)
+            s.x = v;
         return this.x = v;
     }
     function set_y(v) {
-        if (shape != null)
-            shape.y = v;
+        for (s in shapes)
+            s.y = v;
         return this.y = v;
     }
 
     function setShapeIdx(v: Int) {
         shapeIdx = v;
-        if (shape != null)
-            shape.kind = inf.shapes[v].refId;
     }
 
     public function new(kind: Data.EntityKind, shapeIdx: Int, x: Int, y: Int) {
@@ -141,7 +174,9 @@ class EntityEnt {
         this.y = y;
         this.kind = kind;
         this.shapeIdx = shapeIdx;
-        shape = new ShapeEnt(inf.shapes[shapeIdx].refId, x, y);
+        for (i in 0...inf.shapes.length) {
+            shapes.push(new ShapeEnt(inf.shapes[i].refId, x, y));
+        }
         hoverGraphic = new h2d.Graphics(Board.inst.gridCont);
         previewGraphic = new h2d.Graphics(Board.inst.gridCont);
         debGraphic = new h2d.Graphics(Board.inst.gridCont);
@@ -150,7 +185,6 @@ class EntityEnt {
         if (getColor() > 0)
             rangeGraphic2.tile = h2d.Tile.fromColor(getColor());
         if (inf.gfx != null) {
-            // TODO TOMORROW sort them for depth
             obj = new SceneEntityObject(this, Board.inst.entitiesCont);
             updatePos();
         }
@@ -158,6 +192,9 @@ class EntityEnt {
 
     inline function dontinline(a: Dynamic) {}
 
+    public inline function canAttack() {
+        return inf.attackGrid != null;
+    }
     public inline function canBeSelected() {
         #if admin
         return true;
@@ -197,6 +234,11 @@ class EntityEnt {
         if (isSelected) {
             if (shapePreview == null)
                 shapePreview = new ShapeEnt(inf.shapes[0].refId, x, y);
+            if (previewObj == null) {
+                previewObj = new SceneEntityObject(this, Board.inst.entitiesCont);
+                previewObj.bitmap.alpha = 0.5;
+            }
+
 
             #if admin
             var nearest = getMouseDest(gridMousePos);
@@ -205,10 +247,31 @@ class EntityEnt {
             #end
 
             if (nearest != null) {
+                if (isAttacking) {
+                    switch (this.kind) {
+                        case Hexachad:
+                            previewObj.inf = Data.entity.get(Obstacle_Hexa_Hammer);
+                            previewObj.setPos(nearest.info.pos.toPoint(), nearest.info.shapeIdx);
+                            previewObj.visible = true;
+                            previewObj.setTile(previewObj.inf.gfx.toTile());
+                        default:
+                            previewObj.visible = false;
+                    }
+                } else {
+                    previewObj.inf = inf;
+                    previewObj.setPos(nearest.info.pos.toPoint(), nearest.info.shapeIdx);
+                    previewObj.visible = true;
+                    previewObj.setTile(inf.gfx.toTile());
+                }
                 shapePreview.kind = inf.shapes[nearest.info.shapeIdx].refId;
+
                 if (nearest.info.pos.x != x || nearest.info.pos.y != y || nearest.info.shapeIdx != shapeIdx) {
                     if (K.isPressed(K.MOUSE_LEFT)) {
-                        moveTo(nearest.info);
+                        if (isAttacking) {
+                            attackTo(nearest.info);
+                        } else {
+                            moveTo(nearest.info);
+                        }
                         Board.inst.select(null);
                     } else if (getColor() >= 0) {
                         shapePreview.x = nearest.info.pos.x;
@@ -229,6 +292,25 @@ class EntityEnt {
             turnMovements += info.dist;
         }
         Board.inst.onMove(this);
+    }
+    public function attackTo(info: MoveInfo) {
+        switch (kind) {
+            case Wrecktangle: // TODO
+            case Hexachad:
+
+                var spawned = new EntityEnt(Obstacle_Hexa_Hammer, info.shapeIdx, info.pos.x, info.pos.y);
+                Board.inst.entities.push(spawned);
+                var toKill = getAttackColliding(info);
+                for (e in toKill) {
+                    Board.inst.deleteEntity(e);
+                }
+                Board.inst.onMove();
+                // fx
+            case Lozecannon: // TODO
+            case Slime: // TODO
+            case Cyclope: // TODO
+            default:
+        }
     }
 
     function getPossibleDest(gridMousePos: Point) {
@@ -327,7 +409,7 @@ class EntityEnt {
     }
 
     public function onSelect() {
-        var possible = getPossibleMovements(getRemainingMove());
+        var possible = getPossibleMovements(isAttacking ? getRemainingAttacks() : getRemainingMove(), isAttacking);
         possibleMovements = possible.positions;
 
         if (getColor() >= 0) {
@@ -360,6 +442,8 @@ class EntityEnt {
     public function onDeselect() {
         rangeGraphic.clear();
         rangeGraphic2.clear();
+        if (previewObj != null)
+            previewObj.visible = false;
     }
 
     public function draw(g: h2d.Graphics) {
@@ -374,11 +458,7 @@ class EntityEnt {
 
     function updatePos() {
         if (obj != null) {
-            var center = Const.getCenter(shape.inf.firstTriangle, shape.inf.firstTriangleCenter);
-            var c2 = Const.toIso(center.add(new Point(x, y)));
-
-            obj.x = c2.x + (inf.props.gfxOffsetx ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsetx ?? 0);
-            obj.y = c2.y + (inf.props.gfxOffsety ?? 0) + (inf.shapes[shapeIdx].props.gfxOffsety ?? 0);
+            obj.setPos(new Point(x, y), shapeIdx);
         }
     }
 
@@ -420,15 +500,16 @@ class EntityEnt {
         };
     }
 
-    // TODO TOMORROW take the right shape coming back from fromGrid, and specify it to isposvalid
-    public /* inline */ function getPossibleMovements(count: Int) {
+    public /* inline */ function getPossibleMovements(count: Int, isAttack = false) {
         var checked = [];
         var ret: Array<MoveInfo> = [];
+
+        var grid = isAttack ? inf.attackGrid : inf.grid;
 
         var start = getGridPos();
         checked.push(start);
 
-        var worldFloatStart = Const.fromGridFloat(start, inf.grid);
+        var worldFloatStart = Const.fromGridFloat(start, grid);
 
         final baseVerts = shape.vertices;
         var verts = baseVerts.toIPolygon(Const.POLY_SCALE);
@@ -437,7 +518,7 @@ class EntityEnt {
             verts[i] = verts[i].add(new IPoint(x, y).multiply(Const.POLY_SCALE));
         }
 
-        var nextAdjacents = Const.getGridAdjacent(new IPoint(x, y), inf.grid);
+        var nextAdjacents = Const.getGridAdjacent(new IPoint(x, y), grid);
 
         for (i in 0...count) {
             if (nextAdjacents.isEmpty())
@@ -451,13 +532,13 @@ class EntityEnt {
                 checked.push(curr);
                 var currWorld = fromGridPos(curr);
 
-                if (!isPosValid(currWorld.pos, currWorld.shapeIdx))
+                if (!isPosValid(currWorld.pos, currWorld.shapeIdx, isAttack))
                     continue;
                 var currVerts: h2d.col.Polygon = baseVerts.copy();
                 currWorld.deb = currVerts;
                 currWorld.dist = i + 1;
                 ret.push(currWorld);
-                var currWorldFloat = Const.fromGridFloat(curr, inf.grid);
+                var currWorldFloat = Const.fromGridFloat(curr, grid);
                 for (j in 0...currVerts.length) {
                     // currVerts[j] = currVerts[j].add(currWorldFloat);
                     currVerts[j] = currVerts[j].add(currWorld.pos.toPoint());
@@ -469,7 +550,7 @@ class EntityEnt {
                     verts = unionRet[0];
                 // verts = verts.union(currVerts.toIPolygon(Const.POLY_SCALE), false)[0];
 
-                for (a2 in Const.getGridAdjacent(curr, inf.grid)) {
+                for (a2 in Const.getGridAdjacent(curr, grid)) {
                     var next = a.add(a2);
                     if (!checked.any(p -> p.equals(start.add(next))) && !nextAdjacents.any(p -> p.equals(next)))
                         nextAdjacents.push(next);
@@ -486,12 +567,21 @@ class EntityEnt {
 
     // TODO TOMORROW grid border and chasm for different shapes.
     // They stay on the same grid though, so should check with floating pos?
-    function isPosValid(p: IPoint, sidx: Int) {
+    function isPosValid(p: IPoint, sidx: Int, isAttack: Bool) {
+        var shape = shapes[sidx];
         var center = Const.getCenter(inf.shapes[sidx].ref.firstTriangle, inf.shapes[sidx].ref.firstTriangleCenter);
         var c = center.add(p.toPoint());
 
         if (c.x < 0 || c.y < 0 || c.x > Const.BOARD_WIDTH * 2 + 1 || c.y > Const.BOARD_HEIGHT)
             return false;
+
+        if (isAttack) {
+            switch (kind) {
+                case Wrecktangle:
+                    return true;
+                default:
+            }
+        }
 
         var checkOffsets = [];
         for (t in shape.triangles) {
@@ -504,21 +594,64 @@ class EntityEnt {
                 continue;
             for (e in ents) {
                 if (e != this && !e.inf.flags.has(HasEffect) && shape.collides(e.shape, p.x, p.y)) {
-                    return false;
+                    if (!isAttack)
+                        return false;
+                    switch (kind) {
+                        case Hexachad:
+                            if (!e.inf.flags.has(Killable))
+                                return false;
+                        default:
+                            return false;
+                    }
                 }
             }
         }
         return true;
     }
 
+    public function getAttackColliding(info: MoveInfo) {
+        var shape = shapes[info.shapeIdx];
+
+        var ret = [];
+        var checked = [];
+
+        var checkOffsets = [];
+        for (t in shape.triangles) {
+            if (!checkOffsets.any(o -> o.x == t.offset.x && o.y == t.offset.y))
+                checkOffsets.push(t.offset);
+        }
+        for (o in checkOffsets) {
+            var ents = Board.inst.getEntitiesAt(o.x + info.pos.x, o.y + info.pos.y);
+            if (ents == null)
+                continue;
+            for (e in ents) {
+                if (e != this && !e.inf.flags.has(HasEffect) && !checked.has(e) && shape.collides(e.shape, info.pos.x, info.pos.y)) {
+                    checked.push(e);
+                    switch (kind) {
+                        case Wrecktangle:
+                            if (e.inf.flags.has(Killable) || e.inf.flags.has(Breakable))
+                                ret.pushUnique(e);
+                        default:
+                            if (e.inf.flags.has(Killable))
+                                ret.pushUnique(e);
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+
     public var removed = false;
     public function onRemove() {
         removed = true;
         hoverGraphic.remove();
-        previewGraphic.remove();
+        if (previewGraphic != null)
+            previewGraphic.remove();
         debGraphic.remove();
         rangeGraphic.remove();
         obj.remove();
+        if (previewObj != null)
+            previewObj.remove();
     }
     public function saveData() {
         return {
@@ -755,13 +888,14 @@ class Board {
     var boardRoot : h2d.Flow;
     var window: hxd.Window;
 
-    var entities: Array<EntityEnt> = [];
+    public var entities: Array<EntityEnt> = [];
     var sideEntities: Array<EntityEnt> = [];
 
     public var level: Data.LevelKind;
     public var currTurn = 0;
 
     public var currentSelect: EntityEnt = null;
+    public var isAttacking = false;
 
     public var forceSelectionEdges: Data.Grid = null;
 
@@ -781,6 +915,9 @@ class Board {
         fullUi.boardCont.backgroundTile = hxd.Res.vistaBackground.toTile();
         fullUi.nextTurnBtn.onClick = function() {
             nextTurn();
+        }
+        fullUi.attackBtn.onClick = function() {
+            toggleAttack();
         }
         boardRoot.fillWidth = true;
         boardRoot.fillHeight = true;
@@ -834,6 +971,7 @@ class Board {
         }
 
         currTurn = 0;
+        select(null);
         fullUi.turnCount.text = "Turn: " + currTurn;
 
         #if admin
@@ -927,6 +1065,15 @@ class Board {
         return worldGrid[x][y];
     }
 
+    public function deleteEntity(e: EntityEnt) {
+        e.onRemove();
+        entities.remove(e);
+        if (currentSelect == e) {
+            currentSelect = null;
+            select(null);
+        }
+    }
+
     var prevSelect = null;
     public function update(dt: Float) {
         debugGraphic.clear();
@@ -958,12 +1105,12 @@ class Board {
             select(null);
         if (K.isPressed(K.ENTER) || K.isPressed(K.NUMPAD_ENTER))
             nextTurn();
+        if (K.isPressed(K.A) || K.isPressed(K.NUMPAD_ENTER))
+            toggleAttack();
         #if !release
         if (K.isPressed(K.DELETE)) {
             if (currentSelect != null && entities.has(currentSelect)) {
-                currentSelect.onRemove();
-                entities.remove(currentSelect);
-                currentSelect = null;
+                deleteEntity(currentSelect);
             }
         }
         if (K.isPressed(K.F6)) {
@@ -1042,13 +1189,30 @@ class Board {
         currentSelect = e;
         if (currentSelect != null)
             currentSelect.onSelect();
+        isAttacking = false;
     }
 
-    public function onMove(e: EntityEnt) {
-        var i = sideEntities.indexOf(e);
-        if (i >= 0) {
-            sideEntities[i] = makeSide(e.kind, i);
-            entities.push(e);
+    public function toggleAttack() {
+        if (isAttacking) {
+            isAttacking = false;
+            if (currentSelect != null) {
+                currentSelect.onSelect();
+            }
+        } else {
+            if (currentSelect != null && currentSelect.canAttack()) {
+                isAttacking = true;
+                currentSelect.onSelect();
+            }
+        }
+    }
+
+    public function onMove(?e: EntityEnt) {
+        if (e != null) {
+            var i = sideEntities.indexOf(e);
+            if (i >= 0) {
+                sideEntities[i] = makeSide(e.kind, i);
+                entities.push(e);
+            }
         }
 
         refreshWorldGrid();
@@ -1058,7 +1222,8 @@ class Board {
     public function compareObj(a: h2d.Object, b: h2d.Object) {
         var oa = Std.downcast(a, SceneEntityObject);
         var ob = Std.downcast(b, SceneEntityObject);
-        if (oa != null && ob != null) {
+        // TODO the preview (e is null)
+        if (oa != null && ob != null && oa.e != null && ob.e != null) {
             var enta = oa.e;
             var entb = ob.e;
             if (enta.inf.flags.has(AlwaysBehind) && !entb.inf.flags.has(AlwaysBehind)) return -1;

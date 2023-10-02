@@ -1323,7 +1323,7 @@
 					"kind": null
 				},
 				{
-					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction,AlwaysBehind",
+					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction,AlwaysBehind,Killable,Breakable,Obstacle",
 					"name": "flags",
 					"documentation": "HasEffect: will not collide and will trigger the next level when all are stomped"
 				},
@@ -1359,7 +1359,7 @@
 					"group": 0,
 					"color": 6348381,
 					"grid": "SmallRectangle",
-					"flags": 4,
+					"flags": 36,
 					"props": {
 						"gfxOffsetx": 0,
 						"gfxOffsety": 0
@@ -1389,7 +1389,7 @@
 					"group": 0,
 					"color": 6348381,
 					"grid": "TriangleZeroes",
-					"flags": 4,
+					"flags": 36,
 					"props": {
 						"gfxOffsetx": -96,
 						"gfxOffsety": -183
@@ -1431,7 +1431,7 @@
 					"group": 0,
 					"color": 6348381,
 					"grid": "SmallLozange",
-					"flags": 4,
+					"flags": 36,
 					"props": {
 						"gfxOffsetx": -81,
 						"gfxOffsety": -131
@@ -1472,7 +1472,7 @@
 					"group": 1,
 					"color": 14572893,
 					"grid": "SmallTriangle",
-					"flags": 9,
+					"flags": 41,
 					"props": {
 						"gfxOffsetx": -53,
 						"gfxOffsety": -69
@@ -1513,7 +1513,7 @@
 					"grid": "SmallTriangle",
 					"movePerTurn": 1,
 					"attackPerTurn": 1,
-					"flags": 9,
+					"flags": 41,
 					"props": {
 						"gfxOffsetx": -53,
 						"gfxOffsety": -69
@@ -1554,7 +1554,7 @@
 					"grid": "SmallTriangle",
 					"movePerTurn": 1,
 					"attackPerTurn": 1,
-					"flags": 9,
+					"flags": 41,
 					"props": {
 						"gfxOffsetx": -53,
 						"gfxOffsety": -69
@@ -1589,7 +1589,7 @@
 					"color": 14572893,
 					"group": 1,
 					"grid": "TriangleZeroes",
-					"flags": 9,
+					"flags": 41,
 					"props": {},
 					"movePerTurn": 0,
 					"attackPerTurn": 1
@@ -1607,7 +1607,7 @@
 					"group": 2,
 					"color": 14593627,
 					"grid": "TriangleZeroes",
-					"flags": 1,
+					"flags": 65,
 					"props": {
 						"gfxOffsetx": -91,
 						"gfxOffsety": -109
@@ -1634,7 +1634,7 @@
 						}
 					],
 					"grid": "TriangleZeroes",
-					"flags": 1,
+					"flags": 65,
 					"props": {
 						"gfxOffsetx": -89,
 						"gfxOffsety": -114
@@ -1675,7 +1675,7 @@
 						}
 					],
 					"grid": "SmallRectangle",
-					"flags": 1,
+					"flags": 65,
 					"color": 14593627,
 					"group": 2,
 					"props": {
@@ -1753,7 +1753,7 @@
 					"group": 2,
 					"color": 0,
 					"grid": "None",
-					"flags": 1,
+					"flags": 129,
 					"props": {},
 					"movePerTurn": 0,
 					"attackPerTurn": 0
@@ -1777,7 +1777,7 @@
 					"group": 2,
 					"color": 0,
 					"grid": "None",
-					"flags": 1,
+					"flags": 129,
 					"props": {},
 					"movePerTurn": 0,
 					"attackPerTurn": 0
@@ -1805,7 +1805,7 @@
 						}
 					],
 					"grid": "None",
-					"flags": 1,
+					"flags": 129,
 					"props": {
 						"gfxOffsetx": -41,
 						"gfxOffsety": -34

@@ -8,6 +8,10 @@ using Extensions;
 // les points d'action/mouvement
 // collisions des déplacements
 
+// restart button
+// prev action button
+// attack by entity
+
 // game title
 
 @:publicFields class Const {
