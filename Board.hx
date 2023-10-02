@@ -633,6 +633,8 @@ class EntityEnt {
                 if (e != this && !e.inf.flags.has(HasEffect) && shape.collides(e.shape, p.x, p.y)) {
                     if (!isAttack)
                         return false;
+                    if (inf.flags.has(IsEnemy) && e.inf.flags.has(IsEnemy))
+                        return false;
                     switch (kind) {
                         case Hexachad, Slime, Slime2, Slime3:
                             if (!e.inf.flags.has(Killable))

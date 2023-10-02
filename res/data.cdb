@@ -1323,7 +1323,7 @@
 					"kind": null
 				},
 				{
-					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction,AlwaysBehind,Killable,Breakable,Obstacle",
+					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction,AlwaysBehind,Killable,Breakable,Obstacle,IsEnemy",
 					"name": "flags",
 					"documentation": "HasEffect: will not collide and will trigger the next level when all are stomped"
 				},
@@ -1472,7 +1472,7 @@
 					"group": 1,
 					"color": 14572893,
 					"grid": "SmallTriangle",
-					"flags": 40,
+					"flags": 297,
 					"props": {
 						"gfxOffsetx": -53,
 						"gfxOffsety": -69
@@ -1514,7 +1514,7 @@
 					"grid": "SmallTriangle",
 					"movePerTurn": 0,
 					"attackPerTurn": 1,
-					"flags": 41,
+					"flags": 297,
 					"props": {
 						"gfxOffsetx": -53,
 						"gfxOffsety": -69
@@ -1556,7 +1556,7 @@
 					"grid": "SmallTriangle",
 					"movePerTurn": 0,
 					"attackPerTurn": 1,
-					"flags": 41,
+					"flags": 297,
 					"props": {
 						"gfxOffsetx": -53,
 						"gfxOffsety": -69
@@ -1592,7 +1592,7 @@
 					"color": 14572893,
 					"group": 1,
 					"grid": "TriangleZeroes",
-					"flags": 41,
+					"flags": 297,
 					"props": {},
 					"movePerTurn": 0,
 					"attackPerTurn": 1
