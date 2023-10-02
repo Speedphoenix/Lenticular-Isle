@@ -139,6 +139,8 @@ class EntityEnt {
 
     public var fabLine: Data.Level_entities = null;
 
+    public var willDie = false;
+
     var hoverGraphic: h2d.Graphics;
     var previewGraphic: h2d.Graphics;
     var previewObj: SceneEntityObject;
@@ -149,6 +151,8 @@ class EntityEnt {
     var attackGraphic: h2d.Graphics;
     public var obj: SceneEntityObject;
     var possibleMovements: Array<MoveInfo> = [];
+
+    var laserTrail: Array<EntityEnt> = [];
 
     var turnMovements = 0;
     var turnAttacks = 0;
@@ -232,12 +236,22 @@ class EntityEnt {
     public function update(dt: Float) {
         var gridMousePos = Board.inst.getGridMousePos();
         if (getColor() >= 0) {
+            if (obj != null)
+                obj.bitmap.adjustColor(null);
+
             hoverGraphic.clear();
             hoverGraphic.lineStyle(5, getColor());
 
             if (canBeSelected() && shape.contains(gridMousePos)) {
-                shape.draw(hoverGraphic);
-                // shape.drawColliders(hoverGraphic);
+                if (obj != null) {
+                    obj.bitmap.adjustColor({
+                        lightness: 0.15,
+                    });
+                } else {
+                    shape.draw(hoverGraphic);
+                    shape.drawColliders(hoverGraphic);
+                }
+
                 if (K.isPressed(K.MOUSE_LEFT)) {
                     Board.inst.select(this);
                     return;
@@ -246,10 +260,22 @@ class EntityEnt {
             hoverGraphic.lineStyle();
         }
 
+        if (willDie && obj != null) {
+            obj.bitmap.adjustColor({
+                gain: { color: 0xff0000, alpha: 0.6 },
+            });
+        }
+
 
         previewGraphic.clear();
         debGraphic.clear();
         if (isSelected) {
+            for (e in Board.inst.entities)
+                e.willDie = false;
+            obj.bitmap.adjustColor({
+                lightness: 0.20,
+            });
+
             if (shapePreview == null)
                 shapePreview = new ShapeEnt(inf.shapes[0].refId, x, y);
             if (previewObj == null) {
@@ -290,12 +316,15 @@ class EntityEnt {
                             moveTo(nearest.info);
                         }
                         onSelect();
-                        // Board.inst.select(null);
                     } else if (getColor() >= 0) {
                         shapePreview.x = nearest.info.pos.x;
                         shapePreview.y = nearest.info.pos.y;
-                        hoverGraphic.lineStyle(2, getColor());
-                        shapePreview.draw(hoverGraphic);
+                        if (isAttacking) {
+                            var toKill = getAttackColliding(nearest.info);
+                            for (e in toKill) {
+                                e.willDie = true;
+                            }
+                        }
                     }
                 }
             }
@@ -340,7 +369,7 @@ class EntityEnt {
                     Board.inst.deleteEntity(e);
                 }
                 moveTo(info);
-            case Cyclope:
+            case Cyclope, CyclopeRight:
                 var toKill = getAttackColliding(info);
                 for (e in toKill) {
                     trace('entity $kind ($id) kills ${e.kind} (${e.id})');
@@ -532,17 +561,39 @@ class EntityEnt {
                             choice = p;
                         }
                     }
-                case Cyclope:
+                case Cyclope, CyclopeRight:
                     choice = possibleAttacks.find(p -> !getAttackColliding(p).isEmpty());
-                    var furthest = possibleAttacks.findMaxItem(p -> p.dist);
-                    attackGraphic.clear();
-                    if (furthest != null) {
-                        attackGraphic.lineStyle(3, 0xFF0000);
-                        var center = Const.getCenter(inf.shapes[shapeIdx].ref.firstTriangle, inf.shapes[shapeIdx].ref.firstTriangleCenter);
-                        var from = center.add(new Point(x, y));
-                        var to = center.add(furthest.pos.toPoint());
-                        Board.drawEdgeRaw(from, to, attackGraphic);
+
+                    if (possibleAttacks.length != laserTrail.length) {
+                        for (e in laserTrail) {
+                            Board.inst.deleteEntity(e);
+                        }
+                        laserTrail.clear();
+                        for (i in 0...possibleAttacks.length) {
+                            var p = possibleAttacks[i];
+                            var e = new EntityEnt(Effect_Cyclops_Laser, p.shapeIdx, p.pos.x, p.pos.y);
+                            Board.inst.entities.push(e);
+                            laserTrail.push(e);
+                        }
                     }
+                    for (i in 0...possibleAttacks.length) {
+                        var p = possibleAttacks[i];
+                        var e = laserTrail[i];
+                        e.x = p.pos.x;
+                        e.y = p.pos.y;
+                        e.setShapeIdx(p.shapeIdx);
+                    }
+
+                    // Uncomment for red line laser
+                    // var furthest = possibleAttacks.findMaxItem(p -> p.dist);
+                    // attackGraphic.clear();
+                    // if (furthest != null) {
+                    //     attackGraphic.lineStyle(3, 0xFF0000);
+                    //     var center = Const.getCenter(inf.shapes[shapeIdx].ref.firstTriangle, inf.shapes[shapeIdx].ref.firstTriangleCenter);
+                    //     var from = center.add(new Point(x, y));
+                    //     var to = center.add(furthest.pos.toPoint());
+                    //     Board.drawEdgeRaw(from, to, attackGraphic);
+                    // }
                 default:
             }
             if (choice != null)
@@ -681,7 +732,7 @@ class EntityEnt {
             if (ents == null)
                 continue;
             for (e in ents) {
-                if (e != this && !e.inf.flags.has(HasEffect) && shape.collides(e.shape, p.x, p.y)) {
+                if (e != this && !e.inf.flags.has(NoCollision) && shape.collides(e.shape, p.x, p.y)) {
                     if (!isAttack)
                         return false;
                     if (this.inf.flags.has(IsEnemy) && e.inf.flags.has(IsEnemy))
@@ -745,6 +796,9 @@ class EntityEnt {
         obj.remove();
         if (previewObj != null)
             previewObj.remove();
+        for (e in laserTrail) {
+            Board.inst.deleteEntity(e);
+        }
     }
     public function saveData(): EntityData {
         return {
@@ -1036,10 +1090,12 @@ class Board {
         boardRoot.getProperties(gridCont).paddingLeft = 10;
         // boardRoot.getProperties(gridPlatform).paddingTop = 30;
 
+
+		gridGraphics = new h2d.Graphics(gridCont);
+
         entitiesCont = new SceneObject(gridCont);
         entitiesCont.dom.addClass("entitiesCont");
 
-		gridGraphics = new h2d.Graphics(gridCont);
         selectGraphic = new h2d.Graphics(gridCont);
         entityGraphics = new h2d.Graphics(gridCont);
         debugGraphic = new h2d.Graphics(gridCont);
@@ -1180,9 +1236,12 @@ class Board {
     function makeSide(k: Data.EntityKind, i) {
         var x = Const.BOARD_WIDTH * 2 + 4;
         var y = i * 2;
-        if (i >= 9) {
-            x = (i - 9) * 3;
+        if (i >= 17) {
+            x = (i - 17) * 3;
             y = Const.BOARD_HEIGHT + (x & 1);
+        } else if (i >= 9) {
+            x = Const.BOARD_WIDTH * 2 + 7;
+            y = (i - 8) * 2 + 1;
         }
         return new EntityEnt(k, 0, x, y);
     }
@@ -1371,6 +1430,8 @@ class Board {
     }
 
     public function select(e: EntityEnt) {
+        for (e in entities)
+            e.willDie = false;
         if (currentSelect != null && !currentSelect.removed)
             currentSelect.onDeselect();
         currentSelect = e;
@@ -1439,7 +1500,13 @@ class Board {
 	function drawGrid(g: h2d.Graphics) {
 		g.clear();
 
-		g.lineStyle(2, 0x222222);
+        if (forceSelectionEdges != null)
+            g.lineStyle(2, 0x222222);
+        else if (currentSelect != null)
+            g.lineStyle(2, 0x222222);
+        else
+            g.lineStyle(0, 0x000000);
+
         drawEdgeRaw(new Point(0, 0), new Point(0, Const.BOARD_HEIGHT), g);
         drawEdgeRaw(new Point(0, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2 + 2, Const.BOARD_HEIGHT), g);
         drawEdgeRaw(new Point(Const.BOARD_WIDTH * 2 + 2, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2 + 2, 0), g);
@@ -1448,7 +1515,7 @@ class Board {
         if (forceSelectionEdges != null)
     		g.lineStyle(1, 0x000000);
         else if (currentSelect != null)
-    		g.lineStyle(2, 0xA5A5A5);
+    		g.lineStyle(1, 0x69BACE, 1);
         else
             g.lineStyle(0, 0x000000);
 
