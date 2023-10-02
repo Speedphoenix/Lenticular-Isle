@@ -1593,10 +1593,21 @@
 					"group": 1,
 					"grid": "TriangleZeroes",
 					"flags": 1833,
-					"props": {},
+					"props": {
+						"gfxOffsetx": -46,
+						"gfxOffsety": -131
+					},
 					"movePerTurn": 0,
 					"attackPerTurn": 20,
-					"attackGrid": "CyclopsAttack"
+					"attackGrid": "CyclopsAttack",
+					"gfx": {
+						"file": "tiles/foe_monolith.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 194,
+						"height": 316
+					}
 				},
 				{
 					"id": "CyclopeRight",
@@ -1618,10 +1629,21 @@
 					"movePerTurn": 0,
 					"attackPerTurn": 20,
 					"flags": 1833,
-					"props": {},
+					"props": {
+						"gfxOffsetx": -46,
+						"gfxOffsety": -131
+					},
 					"color": 14572893,
 					"attackGrid": "CyclopsAttackRight",
-					"group": 1
+					"group": 1,
+					"gfx": {
+						"file": "tiles/foe_monolith.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 194,
+						"height": 316
+					}
 				},
 				{
 					"id": "Obstacle_Hexa36",
