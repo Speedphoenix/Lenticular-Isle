@@ -1763,6 +1763,76 @@
 					"attackPerTurn": 0
 				},
 				{
+					"id": "Obstacle_Rectangle6_Short",
+					"shapes": [
+						{
+							"ref": "Rectangle6_A",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Rectangle6_B",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "None",
+					"movePerTurn": 0,
+					"attackPerTurn": 0,
+					"flags": 129,
+					"props": {
+						"gfxOffsetx": -59,
+						"gfxOffsety": -65
+					},
+					"color": 0,
+					"group": 2,
+					"gfx": {
+						"file": "tiles/immovable_rectangleSmall.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 230,
+						"height": 203
+					}
+				},
+				{
+					"id": "Obstacle_Rectangle6_Long",
+					"shapes": [
+						{
+							"ref": "Rectangle6_A",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						},
+						{
+							"ref": "Rectangle6_B",
+							"gridx": 0,
+							"gridy": 0,
+							"props": {}
+						}
+					],
+					"grid": "None",
+					"movePerTurn": 0,
+					"attackPerTurn": 0,
+					"flags": 129,
+					"props": {
+						"gfxOffsetx": -55,
+						"gfxOffsety": -120
+					},
+					"color": 0,
+					"group": 2,
+					"gfx": {
+						"file": "tiles/immovable_rectangleLong.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 358,
+						"height": 324
+					}
+				},
+				{
 					"id": "Obstacle_Triangle6_Black",
 					"shapes": [
 						{
@@ -3140,6 +3210,12 @@
 							"offsety": 2,
 							"ref": "Obstacle_Hexa12_A",
 							"shapeIdx": 2
+						},
+						{
+							"ref": "Obstacle_Rectangle6_Long",
+							"shapeIdx": 0,
+							"offsetx": 5,
+							"offsety": 5
 						}
 					],
 					"allEffectsStomped": "HexaSolo_TutoChara"
