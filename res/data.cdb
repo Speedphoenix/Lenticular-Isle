@@ -3007,6 +3007,144 @@
 			],
 			"lines": [
 				{
+					"id": "MainMenu",
+					"entities": [
+						{
+							"offsetx": -2,
+							"offsety": 6,
+							"ref": "Deco_GameTitle",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 11,
+							"offsety": 7,
+							"ref": "Hexachad",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 17,
+							"offsety": 7,
+							"ref": "Hexachad_EndPoint",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 1,
+							"offsety": 1,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 4,
+							"offsety": 2,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 8,
+							"offsety": 0,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 13,
+							"offsety": 3,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 18,
+							"offsety": 4,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 2
+						},
+						{
+							"offsetx": 3,
+							"offsety": 9,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 0,
+							"offsety": 6,
+							"ref": "Obstacle_Hexa12_A",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 2,
+							"offsety": 4,
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 3,
+							"offsety": 7,
+							"ref": "Obstacle_Triangle6_A",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 8,
+							"offsety": 8,
+							"ref": "Obstacle_Triangle6_B",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 15,
+							"offsety": 9,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 2
+						},
+						{
+							"offsetx": 4,
+							"offsety": 10,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 9,
+							"offsety": 11,
+							"ref": "Obstacle_Hexa12_C",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 17,
+							"offsety": 1,
+							"ref": "Obstacle_Hexa12_C",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 6,
+							"offsety": 6,
+							"ref": "Obstacle_Hexa12_A",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 9,
+							"offsety": 5,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 19,
+							"offsety": 7,
+							"ref": "Obstacle_Hexa12_C",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 4,
+							"offsety": 0,
+							"ref": "Slime",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 8,
+							"offsety": 2,
+							"ref": "Obstacle_Hexa12_A",
+							"shapeIdx": 2
+						}
+					],
+					"allEffectsStomped": "HexaSolo_TutoChara"
+				},
+				{
 					"id": "HexaSolo_TutoChara",
 					"entities": [
 						{
@@ -3179,144 +3317,6 @@
 						}
 					],
 					"allEffectsStomped": "HexaSolo_SlimyAmbush"
-				},
-				{
-					"id": "MainMenu",
-					"entities": [
-						{
-							"offsetx": -2,
-							"offsety": 6,
-							"ref": "Deco_GameTitle",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 11,
-							"offsety": 7,
-							"ref": "Hexachad",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 17,
-							"offsety": 7,
-							"ref": "Hexachad_EndPoint",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 1,
-							"offsety": 1,
-							"ref": "Obstacle_Rectangle12",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 4,
-							"offsety": 2,
-							"ref": "Obstacle_Hexa12_B",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 8,
-							"offsety": 0,
-							"ref": "Obstacle_Hexa12_B",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 13,
-							"offsety": 3,
-							"ref": "Obstacle_Hexa12_B",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 18,
-							"offsety": 4,
-							"ref": "Obstacle_Hexa12_B",
-							"shapeIdx": 2
-						},
-						{
-							"offsetx": 3,
-							"offsety": 9,
-							"ref": "Obstacle_Hexa12_B",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 0,
-							"offsety": 6,
-							"ref": "Obstacle_Hexa12_A",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 2,
-							"offsety": 4,
-							"ref": "Obstacle_Triangle6_B",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 3,
-							"offsety": 7,
-							"ref": "Obstacle_Triangle6_A",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 8,
-							"offsety": 8,
-							"ref": "Obstacle_Triangle6_B",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 15,
-							"offsety": 9,
-							"ref": "Obstacle_Hexa12_B",
-							"shapeIdx": 2
-						},
-						{
-							"offsetx": 4,
-							"offsety": 10,
-							"ref": "Obstacle_Rectangle12",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 9,
-							"offsety": 11,
-							"ref": "Obstacle_Hexa12_C",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 17,
-							"offsety": 1,
-							"ref": "Obstacle_Hexa12_C",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 6,
-							"offsety": 6,
-							"ref": "Obstacle_Hexa12_A",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 9,
-							"offsety": 5,
-							"ref": "Obstacle_Rectangle12",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 19,
-							"offsety": 7,
-							"ref": "Obstacle_Hexa12_C",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 4,
-							"offsety": 0,
-							"ref": "Slime",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 8,
-							"offsety": 2,
-							"ref": "Obstacle_Hexa12_A",
-							"shapeIdx": 2
-						}
-					],
-					"allEffectsStomped": "HexaSolo_TutoChara"
 				},
 				{
 					"id": "HexaSolo_SlimyAmbush",
@@ -3598,12 +3598,6 @@
 							"shapeIdx": 1
 						},
 						{
-							"offsetx": -2,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
 							"offsetx": -1,
 							"offsety": 1,
 							"ref": "Obstacle_Rectangle6",
@@ -3642,186 +3636,6 @@
 						{
 							"offsetx": -1,
 							"offsety": 7,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": -2,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": -1,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": -2,
-							"offsety": 10,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": -1,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": -1,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 1,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 1,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 3,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 3,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 5,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 5,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 7,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 7,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 9,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 9,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 11,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 11,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 13,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 13,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 15,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 15,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 17,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 17,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 19,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 19,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 0,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 0,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 2,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 2,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 4,
-							"offsety": 0,
 							"ref": "Obstacle_Rectangle6",
 							"shapeIdx": 0
 						},
@@ -3880,60 +3694,6 @@
 							"shapeIdx": 2
 						},
 						{
-							"offsetx": 0,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 0,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 2,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 2,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 4,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 4,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 6,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 6,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 8,
-							"offsety": 8,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
 							"offsetx": 8,
 							"offsety": 8,
 							"ref": "Obstacle_Rectangle6",
@@ -4012,28 +3772,10 @@
 							"shapeIdx": 1
 						},
 						{
-							"offsetx": 8,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 16,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
 							"offsetx": 17,
 							"offsety": 3,
 							"ref": "Obstacle_Rectangle6",
 							"shapeIdx": 0
-						},
-						{
-							"offsetx": 16,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
 						},
 						{
 							"offsetx": 17,
@@ -4054,12 +3796,6 @@
 							"shapeIdx": 1
 						},
 						{
-							"offsetx": 17,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
 							"offsetx": 16,
 							"offsety": 8,
 							"ref": "Obstacle_Rectangle6",
@@ -4068,84 +3804,6 @@
 						{
 							"offsetx": 17,
 							"offsety": 7,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 18,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 4,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 6,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 8,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 6,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 10,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 10,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 12,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 12,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 14,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 14,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 16,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 18,
-							"offsety": 0,
 							"ref": "Obstacle_Rectangle6",
 							"shapeIdx": 0
 						},
@@ -4196,6 +3854,192 @@
 							"offsety": 2,
 							"ref": "Obstacle_Rectangle12_Crate",
 							"shapeIdx": 1
+						},
+						{
+							"offsetx": 16,
+							"offsety": 2,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 0,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 2,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 4,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 6,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 8,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 10,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 12,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 14,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 16,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 18,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 20,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": -1,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 3,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 1,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 7,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 5,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 9,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 11,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 13,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 15,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 17,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 19,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 17,
+							"offsety": 9,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 0,
+							"offsety": 8,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 2,
+							"offsety": 8,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 4,
+							"offsety": 8,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 6,
+							"offsety": 8,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 8,
+							"offsety": 8,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": -1,
+							"offsety": 9,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 0,
+							"offsety": 10,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
 						}
 					],
 					"allEffectsStomped": "HexaWrectangle_Meeting"
@@ -4630,84 +4474,6 @@
 							"shapeIdx": 0
 						},
 						{
-							"offsetx": -2,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": -1,
-							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": -2,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 0,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 0,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 2,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 2,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 4,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 4,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 6,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 6,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 8,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 8,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
 							"offsetx": 8,
 							"offsety": 4,
 							"ref": "Obstacle_Hexa36",
@@ -4717,30 +4483,6 @@
 							"offsetx": 1,
 							"offsety": 5,
 							"ref": "Obstacle_Triangle6_A",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 2,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 4,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 0,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 0,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
 							"shapeIdx": 0
 						},
 						{
@@ -4754,12 +4496,6 @@
 							"offsety": 3,
 							"ref": "Obstacle_Triangle6_A",
 							"shapeIdx": 0
-						},
-						{
-							"offsetx": 6,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
 						},
 						{
 							"offsetx": 2,
@@ -4774,30 +4510,6 @@
 							"shapeIdx": 0
 						},
 						{
-							"offsetx": 8,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 10,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 8,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 10,
-							"offsety": 2,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
 							"offsetx": 11,
 							"offsety": 3,
 							"ref": "Obstacle_Triangle6_B",
@@ -4858,81 +4570,9 @@
 							"shapeIdx": 1
 						},
 						{
-							"offsetx": 16,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 14,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 14,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 12,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 12,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 10,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 10,
-							"offsety": 0,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 11,
-							"offsety": 5,
-							"ref": "Slime",
-							"shapeIdx": 0
-						},
-						{
 							"offsetx": 8,
 							"offsety": 6,
 							"ref": "Obstacle_Triangle6_A",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 14,
-							"offsety": 8,
-							"ref": "Slime",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 10,
-							"offsety": 8,
-							"ref": "Slime",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 13,
-							"offsety": 9,
-							"ref": "Slime",
-							"shapeIdx": 2
-						},
-						{
-							"offsetx": 12,
-							"offsety": 10,
-							"ref": "Slime",
 							"shapeIdx": 0
 						},
 						{
@@ -4975,6 +4615,138 @@
 							"offsetx": 15,
 							"offsety": 9,
 							"ref": "Wrectangle_EndPoint",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 0,
+							"offsety": 2,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 4,
+							"offsety": 2,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 8,
+							"offsety": 2,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 10,
+							"offsety": 2,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 0,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 2,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 4,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 6,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 8,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 10,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 12,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 14,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 16,
+							"offsety": 0,
+							"ref": "Obstacle_Rectangle12",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 11,
+							"offsety": 5,
+							"ref": "Slime3",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 10,
+							"offsety": 8,
+							"ref": "Slime",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 14,
+							"offsety": 8,
+							"ref": "Slime3",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 13,
+							"offsety": 9,
+							"ref": "Slime2",
+							"shapeIdx": 2
+						},
+						{
+							"offsetx": 12,
+							"offsety": 10,
+							"ref": "Slime",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 0,
+							"offsety": 10,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 0,
+							"offsety": 8,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 6,
+							"offsety": 10,
+							"ref": "Obstacle_Hexa12_B",
+							"shapeIdx": 2
+						},
+						{
+							"offsetx": 18,
+							"offsety": 10,
+							"ref": "Obstacle_Hexa12_C",
 							"shapeIdx": 1
 						}
 					],
