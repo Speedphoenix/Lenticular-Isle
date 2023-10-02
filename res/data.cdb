@@ -1402,12 +1402,12 @@
 					"shapes": [
 						{
 							"ref": "Hexagone12_A",
-							"gridx": 0,
+							"gridx": 2,
 							"gridy": 0
 						},
 						{
 							"ref": "Hexagone12_B",
-							"gridx": 0,
+							"gridx": 1,
 							"gridy": 0
 						},
 						{

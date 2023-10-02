@@ -13,7 +13,7 @@ using Extensions;
 @:publicFields class Const {
 
     static final TITLE = "Triangle assault";
- 
+
     static final SQRT_3 = 1.73205080757;
 
     static final HEX_SIDE = 50;
@@ -60,7 +60,7 @@ using Extensions;
             case SmallRectangle:
                 return p;
             case SmallTriangle:
-                var ret = new IPoint(p.x,Math.round((3*p.y-p.x)/2));
+                var ret = new IPoint(p.x,Math.round((p.y-p.x)/2));
                 return ret;
 
             case SmallLozange: // TODO
@@ -73,6 +73,15 @@ using Extensions;
                 if ((p.x & 1) != (p.y & 1))
                     return new IPoint(1, 0);
                 return new IPoint(0, 0);
+            case SmallTriangle:
+                var pointType=(p.x+2*p.y) & 3 ;
+                if(pointType==0){
+                    return new IPoint(0, 0);
+                } else if (pointType==1){
+                    return new IPoint(1, 0);
+                } else{
+                    return new IPoint(2, 0);
+                }
             case None, Base, TriangleZeroes, SmallLozange, SmallTriangle:
                 return new IPoint(0, 0);
         }
@@ -85,7 +94,9 @@ using Extensions;
                 var ret = new IPoint((p.x * 2) + (p.y & 1), p.y);
                 return ret;
             case SmallTriangle:
-                var ret = new IPoint(p.x,Math.round((2*p.y+p.x)/3));
+                var off = getGridOffset(p, g);
+                var point= p.sub(off);
+                var ret = new IPoint(point.x,(2*point.y+point.x));
                 return ret;
             case SmallRectangle:
                 var off = getGridOffset(p, g);
@@ -105,7 +116,7 @@ using Extensions;
             case SmallRectangle:
                 return p.toPoint();
             case SmallTriangle: // TODO
-                return p.toPoint();
+                return new Point(p.x,(2*p.y+p.x));
             case SmallLozange: // TODO
                 return p.toPoint();
         }
