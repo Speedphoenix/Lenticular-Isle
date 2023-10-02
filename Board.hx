@@ -396,8 +396,8 @@ class EntityEnt {
                 possibleMovements = possible.positions;
                 var choice = possibleMovements.pickRandom();
                 moveTo(choice);
-            }
         }
+    }
         turnMovements = 0;
         turnAttacks = 0;
     }
@@ -1052,6 +1052,7 @@ class Board {
         }
 
         refreshWorldGrid();
+        reorderBitmap();
     }
 
     public function compareObj(a: h2d.Object, b: h2d.Object) {
@@ -1060,9 +1061,24 @@ class Board {
         if (oa != null && ob != null) {
             var enta = oa.e;
             var entb = ob.e;
-            return enta.y - entb.y;
+            if (enta.inf.flags.has(AlwaysBehind) && !entb.inf.flags.has(AlwaysBehind)) return -1;
+            else if (entb.inf.flags.has(AlwaysBehind) && !enta.inf.flags.has(AlwaysBehind)) return 1;
+            else {
+                var centerA = Const.getCenter(enta.shape.inf.firstTriangle,enta.shape.inf.firstTriangleCenter);
+                var centerB = Const.getCenter(entb.shape.inf.firstTriangle,entb.shape.inf.firstTriangleCenter);
+                var isoCenterA = Const.toIso(centerA.add(new Point(enta.x,enta.y)));
+                var isoCenterB = Const.toIso(centerB.add(new Point(entb.x,entb.y)));
+                var res = isoCenterB.y - isoCenterA.y;
+                if (res > 0) return -1;
+                else if (res < 0) return 1;
+                else return 0;
+            }
         }
         return 0;
+    }
+
+    public function reorderBitmap(){
+         @:privateAccess entitiesCont.children.sort(compareObj);
     }
 
 	function drawGrid(g: h2d.Graphics) {

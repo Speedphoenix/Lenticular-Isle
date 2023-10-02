@@ -1323,7 +1323,7 @@
 					"kind": null
 				},
 				{
-					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction",
+					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction,AlwaysBehind",
 					"name": "flags",
 					"documentation": "HasEffect: will not collide and will trigger the next level when all are stomped"
 				},
@@ -1800,7 +1800,7 @@
 						}
 					],
 					"grid": "None",
-					"flags": 1,
+					"flags": 17,
 					"props": {
 						"gfxOffsetx": -140,
 						"gfxOffsety": -110
