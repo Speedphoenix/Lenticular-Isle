@@ -1342,7 +1342,7 @@
 					"grid": "SmallRectangle",
 					"flags": 4,
 					"props": {},
-					"actionPerTurn": 1
+					"actionPerTurn": 2
 				},
 				{
 					"id": "Hexachad",
