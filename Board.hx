@@ -272,9 +272,11 @@ class EntityEnt {
         if (isSelected) {
             for (e in Board.inst.entities)
                 e.willDie = false;
-            obj.bitmap.adjustColor({
-                lightness: 0.20,
-            });
+            if (obj != null) {
+                obj.bitmap.adjustColor({
+                    lightness: 0.20,
+                });
+            }
 
             if (shapePreview == null)
                 shapePreview = new ShapeEnt(inf.shapes[0].refId, x, y);
