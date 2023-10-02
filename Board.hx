@@ -139,6 +139,8 @@ class EntityEnt {
 
     public var fabLine: Data.Level_entities = null;
 
+    public var willDie = false;
+
     var hoverGraphic: h2d.Graphics;
     var previewGraphic: h2d.Graphics;
     var previewObj: SceneEntityObject;
@@ -234,12 +236,22 @@ class EntityEnt {
     public function update(dt: Float) {
         var gridMousePos = Board.inst.getGridMousePos();
         if (getColor() >= 0) {
+            if (obj != null)
+                obj.bitmap.adjustColor(null);
+
             hoverGraphic.clear();
             hoverGraphic.lineStyle(5, getColor());
 
             if (canBeSelected() && shape.contains(gridMousePos)) {
-                shape.draw(hoverGraphic);
-                // shape.drawColliders(hoverGraphic);
+                if (obj != null) {
+                    obj.bitmap.adjustColor({
+                        lightness: 0.15,
+                    });
+                } else {
+                    shape.draw(hoverGraphic);
+                    shape.drawColliders(hoverGraphic);
+                }
+
                 if (K.isPressed(K.MOUSE_LEFT)) {
                     Board.inst.select(this);
                     return;
@@ -248,10 +260,22 @@ class EntityEnt {
             hoverGraphic.lineStyle();
         }
 
+        if (willDie && obj != null) {
+            obj.bitmap.adjustColor({
+                gain: { color: 0xff0000, alpha: 0.6 },
+            });
+        }
+
 
         previewGraphic.clear();
         debGraphic.clear();
         if (isSelected) {
+            for (e in Board.inst.entities)
+                e.willDie = false;
+            obj.bitmap.adjustColor({
+                lightness: 0.20,
+            });
+
             if (shapePreview == null)
                 shapePreview = new ShapeEnt(inf.shapes[0].refId, x, y);
             if (previewObj == null) {
@@ -292,12 +316,15 @@ class EntityEnt {
                             moveTo(nearest.info);
                         }
                         onSelect();
-                        // Board.inst.select(null);
                     } else if (getColor() >= 0) {
                         shapePreview.x = nearest.info.pos.x;
                         shapePreview.y = nearest.info.pos.y;
-                        hoverGraphic.lineStyle(2, getColor());
-                        shapePreview.draw(hoverGraphic);
+                        if (isAttacking) {
+                            var toKill = getAttackColliding(nearest.info);
+                            for (e in toKill) {
+                                e.willDie = true;
+                            }
+                        }
                     }
                 }
             }
@@ -1063,10 +1090,12 @@ class Board {
         boardRoot.getProperties(gridCont).paddingLeft = 10;
         // boardRoot.getProperties(gridPlatform).paddingTop = 30;
 
+
+		gridGraphics = new h2d.Graphics(gridCont);
+
         entitiesCont = new SceneObject(gridCont);
         entitiesCont.dom.addClass("entitiesCont");
 
-		gridGraphics = new h2d.Graphics(gridCont);
         selectGraphic = new h2d.Graphics(gridCont);
         entityGraphics = new h2d.Graphics(gridCont);
         debugGraphic = new h2d.Graphics(gridCont);
@@ -1401,6 +1430,8 @@ class Board {
     }
 
     public function select(e: EntityEnt) {
+        for (e in entities)
+            e.willDie = false;
         if (currentSelect != null && !currentSelect.removed)
             currentSelect.onDeselect();
         currentSelect = e;
@@ -1469,7 +1500,13 @@ class Board {
 	function drawGrid(g: h2d.Graphics) {
 		g.clear();
 
-		g.lineStyle(2, 0x222222);
+        if (forceSelectionEdges != null)
+            g.lineStyle(2, 0x222222);
+        else if (currentSelect != null)
+            g.lineStyle(2, 0x222222);
+        else
+            g.lineStyle(0, 0x000000);
+
         drawEdgeRaw(new Point(0, 0), new Point(0, Const.BOARD_HEIGHT), g);
         drawEdgeRaw(new Point(0, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2 + 2, Const.BOARD_HEIGHT), g);
         drawEdgeRaw(new Point(Const.BOARD_WIDTH * 2 + 2, Const.BOARD_HEIGHT), new Point(Const.BOARD_WIDTH * 2 + 2, 0), g);
@@ -1478,7 +1515,7 @@ class Board {
         if (forceSelectionEdges != null)
     		g.lineStyle(1, 0x000000);
         else if (currentSelect != null)
-    		g.lineStyle(2, 0xA5A5A5);
+    		g.lineStyle(1, 0x69BACE, 1);
         else
             g.lineStyle(0, 0x000000);
 
