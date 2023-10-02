@@ -23,7 +23,7 @@ typedef AdjacentDesc = {
 
 @:publicFields class Const {
 
-    static final TITLE = "Triangle assault";
+    static final TITLE = "Lenticular Isle";
 
     static final SQRT_3 = 1.73205080757;
 

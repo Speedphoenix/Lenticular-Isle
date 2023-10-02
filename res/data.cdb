@@ -1323,7 +1323,7 @@
 					"kind": null
 				},
 				{
-					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction,AlwaysBehind,Killable,Breakable,Obstacle,IsEnemy",
+					"typeStr": "10:NoSelection,HasEffect,IsPlayer,AutoAction,AlwaysBehind,Killable,Breakable,Obstacle,IsEnemy,ActionOnRefresh",
 					"name": "flags",
 					"documentation": "HasEffect: will not collide and will trigger the next level when all are stomped"
 				},
@@ -1592,10 +1592,11 @@
 					"color": 14572893,
 					"group": 1,
 					"grid": "TriangleZeroes",
-					"flags": 297,
+					"flags": 809,
 					"props": {},
 					"movePerTurn": 0,
-					"attackPerTurn": 1
+					"attackPerTurn": 20,
+					"attackGrid": "CyclopsAttack"
 				},
 				{
 					"id": "Obstacle_Hexa36",
@@ -2910,6 +2911,23 @@
 							"idx": 17
 						}
 					]
+				},
+				{
+					"id": "CyclopsAttack",
+					"type": 1,
+					"adjacents": [
+						{
+							"x": -1,
+							"y": -1,
+							"flags": 1
+						},
+						{
+							"x": 0,
+							"y": -1,
+							"flags": 2
+						}
+					],
+					"selectionEdges": []
 				}
 			],
 			"separators": [],

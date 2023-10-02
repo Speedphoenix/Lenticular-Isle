@@ -88,7 +88,7 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 		>
 			<flow class="board-cont" id public/>
 			<flow id="hud" public>
-                <button("Next turn [ENTER]") id="nextTurnBtn" public/>
+                <button("Next turn [SPACE]") id="nextTurnBtn" public/>
                 <flow class="turn-count-cont">
                     <text id="turnCount" public
                         font={Main.font}
@@ -146,6 +146,7 @@ class EntityEnt {
     var debGraphic: h2d.Graphics;
     var rangeGraphic: h2d.Graphics;
     var rangeGraphic2: h2d.Graphics;
+    var attackGraphic: h2d.Graphics;
     public var obj: SceneEntityObject;
     var possibleMovements: Array<MoveInfo> = [];
 
@@ -198,6 +199,7 @@ class EntityEnt {
         debGraphic = new h2d.Graphics(Board.inst.gridCont);
         rangeGraphic = new h2d.Graphics(Board.inst.gridCont);
         rangeGraphic2 = new h2d.Graphics(Board.inst.gridCont);
+        attackGraphic = new h2d.Graphics(Board.inst.gridCont);
         if (getColor() > 0)
             rangeGraphic2.tile = h2d.Tile.fromColor(getColor());
         if (inf.gfx != null) {
@@ -214,19 +216,17 @@ class EntityEnt {
     public inline function canBeSelected() {
         if (Board.inst.currentSelect != null)
             return false;
-        #if admin
-        return true;
-        #else
-        return !inf.flags.has(NoSelection);
-        #end
+        if (Board.isAdmin)
+            return true;
+        else
+            return !inf.flags.has(NoSelection);
     }
 
     public inline function getColor() {
-        #if admin
-        return inf.color ?? 0x1FD346;
-        #else
-        return inf.color ?? -1;
-        #end
+        if (Board.isAdmin)
+            return inf.color ?? 0x1FD346;
+        else
+            return inf.color ?? -1;
     }
 
     public function update(dt: Float) {
@@ -257,12 +257,11 @@ class EntityEnt {
                 previewObj.bitmap.alpha = 0.5;
             }
 
-
-            #if admin
-            var nearest = getMouseDest(gridMousePos);
-            #else
-            var nearest = getPossibleDest(gridMousePos);
-            #end
+            var nearest;
+            if (Board.isAdmin)
+                nearest = getMouseDest(gridMousePos);
+            else
+                nearest = getPossibleDest(gridMousePos);
 
             if (nearest != null && nearest.distMouseSq <= 4) {
                 if (isAttacking) {
@@ -290,7 +289,8 @@ class EntityEnt {
                         } else {
                             moveTo(nearest.info);
                         }
-                        Board.inst.select(null);
+                        onSelect();
+                        // Board.inst.select(null);
                     } else if (getColor() >= 0) {
                         shapePreview.x = nearest.info.pos.x;
                         shapePreview.y = nearest.info.pos.y;
@@ -311,6 +311,7 @@ class EntityEnt {
         }
         Board.inst.onMove(this);
     }
+
     // TODO fxs
     public function attackTo(info: MoveInfo) {
         switch (kind) {
@@ -500,32 +501,59 @@ class EntityEnt {
         return inf.movePerTurn - turnMovements;
     }
 
-    public function nextTurn() {
-        if (inf.flags.has(AutoAction)) {
-            if (getRemainingMove() > 0 && inf.grid != null) {
-                var possible = getPossibleMovements(getRemainingMove());
-                possibleMovements = possible.positions;
-                var choice = possibleMovements.pickRandom();
-                moveTo(choice);
-            } else if (getRemainingAttacks() > 0 && inf.attackGrid != null) {
-                var possible = getPossibleMovements(getRemainingAttacks(), true);
-                var possibleAttacks = possible.positions;
-                var choice = null;
-                var min = 100;
-                for (p in possibleAttacks){
-                    var relativePoint = getGridPos(p.pos,true);
-                    var val = Board.inst.slimeAIgrid[relativePoint.x][relativePoint.y + Board.inst.OFFSET_AIGRID];
-                    if (val >= 0 && val < min){
-                        min = val;
-                        choice = p;
+    public function doAutoAction() {
+        if (!inf.flags.has(AutoAction))
+            return;
+        if (getRemainingMove() > 0 && inf.grid != null) {
+            var possible = getPossibleMovements(getRemainingMove());
+            possibleMovements = possible.positions;
+            var choice = possibleMovements.pickRandom();
+            moveTo(choice);
+        } else if (getRemainingAttacks() > 0 && inf.attackGrid != null) {
+            var possible = getPossibleMovements(getRemainingAttacks(), true);
+            var possibleAttacks = possible.positions;
+            var choice = null;
+            switch (kind) {
+                case Slime, Slime2, Slime3:
+                    var min = 100;
+                    for (p in possibleAttacks){
+                        var relativePoint = getGridPos(p.pos,true);
+                        var val = Board.inst.slimeAIgrid[relativePoint.x][relativePoint.y + Board.inst.OFFSET_AIGRID];
+                        if (val >= 0 && val < min){
+                            min = val;
+                            choice = p;
+                        }
                     }
-                }
-                if (choice != null)
-                    attackTo(choice);
+                case Cyclope:
+                    choice = possibleAttacks.find(p -> !getAttackColliding(p).isEmpty());
+                    var furthest = possibleAttacks.findMaxItem(p -> p.dist);
+                    if (furthest == null) {
+                        trace("no possible attack??");
+                        var test = getPossibleMovements(getRemainingAttacks(), true);
+                    } else {
+                        attackGraphic.clear();
+                        attackGraphic.lineStyle(3, 0xFF0000);
+                        var center = Const.getCenter(inf.shapes[shapeIdx].ref.firstTriangle, inf.shapes[shapeIdx].ref.firstTriangleCenter);
+                        var from = center.add(new Point(x, y));
+                        var to = center.add(furthest.pos.toPoint());
+                        Board.drawEdgeRaw(from, to, attackGraphic);
+                    }
+                default:
             }
+            if (choice != null)
+                attackTo(choice);
         }
+    }
+    public function nextTurn() {
+        doAutoAction();
         turnMovements = 0;
         turnAttacks = 0;
+    }
+
+    public function refreshAttack() {
+        if (!inf.flags.has(ActionOnRefresh))
+            return;
+        doAutoAction();
     }
 
     public inline function getGridPos(?p: IPoint, isAttack = false) {
@@ -709,6 +737,8 @@ class EntityEnt {
             previewGraphic.remove();
         debGraphic.remove();
         rangeGraphic.remove();
+        rangeGraphic2.remove();
+        attackGraphic.remove();
         obj.remove();
         if (previewObj != null)
             previewObj.remove();
@@ -935,6 +965,7 @@ class Triangle {
 
 class Board {
 	public static var inst: Board;
+	public static var isAdmin = #if admin true #else false #end;
 
     public var fullUi : BoardUi;
 
@@ -1048,18 +1079,19 @@ class Board {
         }
 
         nextTurn(true);
+        onMove(null);
 
-        #if admin
-        for (e in sideEntities)
-            e.onRemove();
-        sideEntities.clear();
+        if (Board.isAdmin) {
+                for (e in sideEntities)
+                e.onRemove();
+            sideEntities.clear();
 
-        var i = 0;
-        for (e in Data.entity.all) {
-            sideEntities.push(makeSide(e.id, i));
-            i++;
+            var i = 0;
+            for (e in Data.entity.all) {
+                sideEntities.push(makeSide(e.id, i));
+                i++;
+            }
         }
-        #end
         initAIgrid();
     }
 
@@ -1249,7 +1281,7 @@ class Board {
         var gridChanged = false;
         if (K.isPressed(K.ESCAPE) || K.isPressed(K.MOUSE_RIGHT))
             select(null);
-        if (K.isPressed(K.ENTER) || K.isPressed(K.NUMPAD_ENTER))
+        if (K.isPressed(K.SPACE) || K.isPressed(K.ENTER) || K.isPressed(K.NUMPAD_ENTER))
             nextTurn();
         if (K.isPressed(K.A))
             toggleAttack();
@@ -1284,6 +1316,8 @@ class Board {
             trace(haxe.Json.stringify(data));
             trace("--- END LEVEL ---");
         }
+        if (K.isPressed(K.F7))
+            isAdmin = !isAdmin;
         #end
 
         for (e in entities)
@@ -1363,6 +1397,9 @@ class Board {
                 sideEntities[i] = makeSide(e.kind, i);
                 entities.push(e);
             }
+        }
+        for (e in entities) {
+            e.refreshAttack();
         }
 
         refreshWorldGrid();
