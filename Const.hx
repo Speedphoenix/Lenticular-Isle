@@ -61,7 +61,6 @@ using Extensions;
                 return p;
             case SmallTriangle:
                 var ret = new IPoint(p.x, Math.round(((3 * p.y) - p.x) / 2));
-                trace("togrid ", p, "->", ret);
                 return ret;
 
             case SmallLozange: // TODO
@@ -98,7 +97,6 @@ using Extensions;
                 var off = getGridOffset(p, g);
                 var point= p.sub(off);
                 var ret = new IPoint(point.x,Math.round((2*point.y+point.x)/3));
-                trace("fromGrid ", p, "->", ret);
                 return ret;
             case SmallRectangle:
                 var off = getGridOffset(p, g);

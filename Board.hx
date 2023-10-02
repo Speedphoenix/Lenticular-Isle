@@ -324,7 +324,12 @@ class EntityEnt {
     }
 
     public function draw(g: h2d.Graphics) {
+        #if debug
         shape.draw(g);
+        #else
+        if (bitmap == null)
+            shape.draw(g);
+        #end
         updatePos();
     }
 
