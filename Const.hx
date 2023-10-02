@@ -177,6 +177,12 @@ using Extensions;
                     new IPoint(-3, 0),
                     new IPoint(3, 0),
 
+                    new IPoint(-4, 0),
+                    new IPoint(4, 0),
+
+                    new IPoint(-5, 0),
+                    new IPoint(5, 0),
+
                     new IPoint(-1, 1),
                     new IPoint(0, 1),
 
@@ -185,6 +191,12 @@ using Extensions;
 
                     new IPoint(-3, 3),
                     new IPoint(0, 3),
+
+                    new IPoint(-4, 4),
+                    new IPoint(0, 4),
+
+                    new IPoint(-5, 5),
+                    new IPoint(0, 5),
 
                     new IPoint(0, -1),
                     new IPoint(1, -1),
@@ -195,20 +207,32 @@ using Extensions;
                     new IPoint(0, -3),
                     new IPoint(3, -3),
 
+                    new IPoint(0, -4),
+                    new IPoint(4, -4),
+
+                    new IPoint(0,-5),
+                    new IPoint(5, -5),
+
                     new IPoint(2, -1),
                     new IPoint(4, -2),
+                    new IPoint(6, -3),
                     new IPoint(-2, 1),
                     new IPoint(-4, 2),
+                    new IPoint(-6, 3),
 
                     new IPoint(1, 1),
                     new IPoint(2, 2),
+                    new IPoint(3, 3),
                     new IPoint(-1, -1),
                     new IPoint(-2, -2),
+                    new IPoint(-3, -3),
 
                     new IPoint(-1, 2),
                     new IPoint(-2, 4),
+                    new IPoint(-3, 6),
                     new IPoint(1, -2),
                     new IPoint(2, -4),
+                    new IPoint(3, -6),
                 ];
             case SmallLozange: // TODO
                 return [
