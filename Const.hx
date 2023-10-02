@@ -4,11 +4,6 @@ using Extensions;
 
 // TODO
 // Fix les bords de la grille
-// fix le zoffset des bitmaps
-// les points d'action/mouvement
-
-// make adjacent dependencies
-// attack by entity
 
 // feedback on entities that can still attack/move
 // feedback on nextTurn & restart lv buttons
