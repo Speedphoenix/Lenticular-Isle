@@ -4392,122 +4392,86 @@
 						{
 							"offsetx": -1,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": -2,
-							"offsety": 10,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 1,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 1,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 3,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 3,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 3,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 5,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 7,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 7,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 9,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 9,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 11,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 11,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 11,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 13,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 13,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 15,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 15,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 17,
-							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 17,
 							"offsety": 11,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
+							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 0
 						},
 						{
 							"offsetx": 4,
@@ -4518,80 +4482,38 @@
 						{
 							"offsetx": -1,
 							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": -1,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 1,
 							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 1,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 3,
 							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 3,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 5,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
 							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 5,
+							"offsety": 9,
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 7,
 							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
-						},
-						{
-							"offsetx": 7,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 9,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 13,
-							"offsety": 9,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 12,
-							"offsety": 10,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
 						},
 						{
 							"offsetx": 5,
@@ -4638,145 +4560,97 @@
 						{
 							"offsetx": 11,
 							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 11,
-							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 13,
-							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 13,
 							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 13,
+							"offsety": 5,
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 15,
 							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 15,
-							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 17,
 							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 17,
-							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 19,
 							"offsety": 5,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 19,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 17,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 15,
-							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 17,
-							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 15,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 13,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 13,
-							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 11,
-							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 11,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 0
-						},
-						{
-							"offsetx": 9,
-							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 9,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 9,
+							"offsety": 1,
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 7,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
-							"shapeIdx": 1
-						},
-						{
-							"offsetx": 7,
-							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
 							"offsetx": 5,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 1
 						},
 						{
 							"offsetx": 5,
 							"offsety": 1,
-							"ref": "Obstacle_Rectangle6",
+							"ref": "Obstacle_Rectangle6_Short",
 							"shapeIdx": 0
 						},
 						{
@@ -4784,6 +4658,78 @@
 							"offsety": 3,
 							"ref": "Wrectangle_EndPoint",
 							"shapeIdx": 1
+						},
+						{
+							"offsetx": 7,
+							"offsety": 3,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 6,
+							"offsety": 4,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 9,
+							"offsety": 5,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 8,
+							"offsety": 6,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 11,
+							"offsety": 7,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 10,
+							"offsety": 8,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": -1,
+							"offsety": 9,
+							"ref": "Obstacle_Rectangle6_Long",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": -2,
+							"offsety": 10,
+							"ref": "Obstacle_Rectangle6",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": -1,
+							"offsety": 11,
+							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 13,
+							"offsety": 9,
+							"ref": "Obstacle_Rectangle6_Long",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 12,
+							"offsety": 10,
+							"ref": "Obstacle_Rectangle6",
+							"shapeIdx": 1
+						},
+						{
+							"offsetx": 9,
+							"offsety": 9,
+							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 0
 						}
 					],
 					"allEffectsStomped": "HexaWrectangle_Tunnel"
