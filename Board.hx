@@ -546,6 +546,10 @@ class EntityEnt {
         }
     }
 
+    public function blockSave() {
+        return kind == Effect_Cyclops_Laser || kind == Effect_Cyclops_Right;
+    }
+
     public function onDeselect() {
         rangeGraphic.clear();
         rangeGraphic2.clear();
@@ -1172,7 +1176,7 @@ class Board {
                 entities.push(ent);
             }
             entityHistory.clear();
-            entityHistory.push(entities.map(e -> e.saveData()));
+            entityHistory.push([for (e in entities) if (!e.blockSave()) e.saveData()]);
             currTurn = 0;
         }
 
@@ -1206,7 +1210,7 @@ class Board {
             for (e in entities) {
                 e.nextTurn();
             }
-            entityHistory.push(entities.map(e -> e.saveData()));
+            entityHistory.push([for (e in entities) if (!e.blockSave()) e.saveData()]);
         }
         fullUi.turnCount.text = "Turns: " + currTurn;
     }
