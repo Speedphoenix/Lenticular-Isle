@@ -1802,7 +1802,6 @@
 						}
 					],
 					"group": 2,
-					"color": 0,
 					"grid": "None",
 					"flags": 129,
 					"props": {},
@@ -4534,12 +4533,6 @@
 							"shapeIdx": 0
 						},
 						{
-							"offsetx": 2,
-							"offsety": 4,
-							"ref": "Obstacle_Triangle6_A",
-							"shapeIdx": 0
-						},
-						{
 							"offsetx": 3,
 							"offsety": 1,
 							"ref": "Obstacle_Triangle6_B",
@@ -4729,6 +4722,48 @@
 							"offsetx": 9,
 							"offsety": 9,
 							"ref": "Obstacle_Rectangle6_Short",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 7,
+							"offsety": 3,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 6,
+							"offsety": 4,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 9,
+							"offsety": 5,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 8,
+							"offsety": 6,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 11,
+							"offsety": 7,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 10,
+							"offsety": 8,
+							"ref": "Effect_Cyclops_Right",
+							"shapeIdx": 0
+						},
+						{
+							"offsetx": 0,
+							"offsety": 4,
+							"ref": "Obstacle_Triangle6_B",
 							"shapeIdx": 0
 						}
 					],
