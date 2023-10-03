@@ -2167,9 +2167,20 @@
 					"group": 3,
 					"grid": "TriangleZeroes",
 					"flags": 2051,
-					"props": {},
+					"props": {
+						"gfxOffsetx": -91,
+						"gfxOffsety": -54
+					},
 					"movePerTurn": 0,
-					"attackPerTurn": 0
+					"attackPerTurn": 0,
+					"gfx": {
+						"file": "tiles/objectiveHexa.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 357,
+						"height": 210
+					}
 				},
 				{
 					"id": "Wrectangle_EndPoint",
@@ -2191,9 +2202,20 @@
 					"flags": 2051,
 					"color": 152064,
 					"group": 3,
-					"props": {},
+					"props": {
+						"gfxOffsetx": -49,
+						"gfxOffsety": -44
+					},
 					"movePerTurn": 0,
-					"attackPerTurn": 0
+					"attackPerTurn": 0,
+					"gfx": {
+						"file": "tiles/objectiveSquare.png",
+						"size": 1,
+						"x": 0,
+						"y": 0,
+						"width": 238,
+						"height": 142
+					}
 				},
 				{
 					"id": "Lozecannon_Endpoint",
@@ -2285,17 +2307,17 @@
 					"grid": "None",
 					"flags": 2065,
 					"props": {
-						"gfxOffsetx": -140,
-						"gfxOffsety": -110
+						"gfxOffsetx": -180,
+						"gfxOffsety": -140
 					},
 					"group": 4,
 					"gfx": {
-						"file": "tiles/title_tile.png",
+						"file": "tiles/logo.png",
 						"size": 1,
 						"x": 0,
 						"y": 0,
-						"width": 568,
-						"height": 369
+						"width": 616,
+						"height": 419
 					},
 					"movePerTurn": 0,
 					"attackPerTurn": 0

@@ -97,6 +97,40 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
                 <button("Attack [A]") id="attackBtn" public/>
                 <button("Restart level [R]") id="restartBtn" public/>
                 <button("Previous turn [P]") id="revertBtn" public/>
+                <flow id="endBox" public>
+                    <text class="title"
+                        font={Main.font}
+                        text={"Thank you for playing Lenticular Isle"}
+                    />
+                    <text class="job"
+                        font={Main.font}
+                        text={"Game Design"}
+                    />
+                    <text class="name"
+                        font={Main.font}
+                        text={"Sylvain Legay"}
+                    />
+                    <text class="job"
+                        font={Main.font}
+                        text={"Programming"}
+                    />
+                    <text class="name"
+                        font={Main.font}
+                        text={"Leonardo Jeanteur"}
+                    />
+                    <text class="job"
+                        font={Main.font}
+                        text={"Art"}
+                    />
+                    <text class="name"
+                        font={Main.font}
+                        text={"Loïc Jaffré"}
+                    />
+                    <text class="name"
+                        font={Main.font}
+                        text={"Pierre Armal"}
+                    />
+                </flow>
             </flow>
 		</flow>
 	</board-ui>
@@ -116,6 +150,8 @@ class BoardUi extends h2d.Flow implements h2d.domkit.Object {
 		var pad = 20;
 
 		initComponent();
+
+        endBox.visible = false;
 	}
 }
 
@@ -1155,6 +1191,10 @@ class Board {
             }
         }
         initAIgrid();
+
+        if (level == Finale) {
+            fullUi.endBox.visible = true;
+        }
     }
 
     function nextTurn(isFirst = false) {

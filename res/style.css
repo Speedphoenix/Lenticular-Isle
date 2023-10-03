@@ -40,3 +40,23 @@ board-ui #hud .turn-count-cont {
 board-ui #hud .turn-count-cont text {
   scale: 2;
 }
+board-ui #hud #endBox {
+  background: hgrid("button_bg.png", 3) 4 4;
+  background-tile-pos-x: 2;
+  layout: vertical;
+  padding: 40;
+  content-align: middle middle;
+  spacing: 20;
+  max-width: 650;
+}
+board-ui #hud #endBox .title {
+  scale: 4;
+  text-align: center;
+}
+board-ui #hud #endBox .job {
+  scale: 2;
+  alpha: 0.5;
+}
+board-ui #hud #endBox .name {
+  scale: 2;
+}
