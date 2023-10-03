@@ -573,7 +573,8 @@ class EntityEnt {
                         laserTrail.clear();
                         for (i in 0...possibleAttacks.length) {
                             var p = possibleAttacks[i];
-                            var e = new EntityEnt(Effect_Cyclops_Laser, p.shapeIdx, p.pos.x, p.pos.y);
+                            var k: Data.EntityKind = kind == Cyclope ? Effect_Cyclops_Laser : Effect_Cyclops_Right;
+                            var e = new EntityEnt(k, p.shapeIdx, p.pos.x, p.pos.y);
                             Board.inst.entities.push(e);
                             laserTrail.push(e);
                         }
@@ -587,15 +588,15 @@ class EntityEnt {
                     }
 
                     // Uncomment for red line laser
-                    // var furthest = possibleAttacks.findMaxItem(p -> p.dist);
-                    // attackGraphic.clear();
-                    // if (furthest != null) {
-                    //     attackGraphic.lineStyle(3, 0xFF0000);
-                    //     var center = Const.getCenter(inf.shapes[shapeIdx].ref.firstTriangle, inf.shapes[shapeIdx].ref.firstTriangleCenter);
-                    //     var from = center.add(new Point(x, y));
-                    //     var to = center.add(furthest.pos.toPoint());
-                    //     Board.drawEdgeRaw(from, to, attackGraphic);
-                    // }
+                    var furthest = possibleAttacks.findMaxItem(p -> p.dist);
+                    attackGraphic.clear();
+                    if (furthest != null) {
+                        attackGraphic.lineStyle(3, 0xFFF280);
+                        var center = Const.getCenter(inf.shapes[shapeIdx].ref.firstTriangle, inf.shapes[shapeIdx].ref.firstTriangleCenter);
+                        var from = center.add(new Point(x, y));
+                        var to = center.add(furthest.pos.toPoint());
+                        Board.drawEdgeRaw(from, to, attackGraphic);
+                    }
                 default:
             }
             if (choice != null)

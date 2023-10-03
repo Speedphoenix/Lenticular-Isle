@@ -8,8 +8,6 @@ using Extensions;
 // feedback on entities that can still attack/move
 // feedback on nextTurn & restart lv buttons
 
-// game title
-
 typedef AdjacentDesc = {
     pos: IPoint,
     ?id: Data.Grid_adjacentsKind,
