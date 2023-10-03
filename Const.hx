@@ -4,6 +4,7 @@ using Extensions;
 
 // TODO
 // Fix les bords de la grille
+// Fix les flames qui disparaissent pas, ça a l'air de venir du undo/restart
 
 // feedback on entities that can still attack/move
 // feedback on nextTurn & restart lv buttons
