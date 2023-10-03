@@ -2189,23 +2189,26 @@
 							"ref": "Rectangle12_A",
 							"gridx": 0,
 							"gridy": 0,
-							"props": {}
+							"props": {
+								"gfxOffsetx": -49,
+								"gfxOffsety": -44
+							}
 						},
 						{
 							"ref": "Rectangle12_B",
 							"gridx": 1,
 							"gridy": 0,
-							"props": {}
+							"props": {
+								"gfxOffsetx": -68,
+								"gfxOffsety": -32
+							}
 						}
 					],
 					"grid": "SmallRectangle",
 					"flags": 2051,
 					"color": 152064,
 					"group": 3,
-					"props": {
-						"gfxOffsetx": -49,
-						"gfxOffsety": -44
-					},
+					"props": {},
 					"movePerTurn": 0,
 					"attackPerTurn": 0,
 					"gfx": {
