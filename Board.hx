@@ -353,6 +353,7 @@ class EntityEnt {
                         } else {
                             moveTo(nearest.info);
                         }
+                        Board.inst.isAttacking = false;
                         onSelect();
                     } else if (getColor() >= 0) {
                         shapePreview.x = nearest.info.pos.x;
